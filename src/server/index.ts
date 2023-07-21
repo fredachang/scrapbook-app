@@ -1,69 +1,71 @@
 import express from "express";
 import cors from "cors";
 import { pool } from "./db.ts";
-import passport from "passport";
-import session from "express-session";
-import { Request, Response, NextFunction } from "express";
+// import passport from "passport";
+// import session from "express-session";
 
-import { initialisePassport } from "./passportConfig.ts";
+// import { initialisePassport } from "./passportConfig.ts";
+import { DatabaseService } from "./services/database.service.ts";
+import { UserService } from "./services/user.service.ts";
+import { createJwt } from "./utils.ts";
+import { config } from "dotenv";
+import { authMiddleware } from "./middleware/auth.middleware.ts";
+
+config();
 
 const app = express();
+
+const databaseService = new DatabaseService(pool);
+const userService = new UserService(databaseService);
 
 //middleware
 app.use(cors());
 app.use(express.json());
-initialisePassport(passport);
-
-app.use(
-  session({
-    secret: "keyboard-cat",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
-//custom middleware to check authentication
-const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.status(401).json({ message: "Unauthorized" });
-};
-
-//Routes
-
-app.post(
-  "/auth/signup",
-  passport.authenticate("local-signup", { session: false }),
-  (req, res, next) => {
-    res.json({
-      user: req.user,
-    });
-  }
-);
-
-app.post(
-  "/auth/login",
-  passport.authenticate("local-login", { session: false }),
-  (req, res, next) => {
-    res.json({ user: req.user });
-  }
-);
-
-//ROUTES
-
-app.get("/blocks", isAuthenticated, async (req, res) => {
-  try {
-    const allBlocks = await pool.query("SELECT * FROM blocks");
-    res.json(allBlocks.rows);
-    console.log(allBlocks.rows);
-  } catch (error) {
-    console.log(error);
-  }
-});
 
 app.listen(4000, () => {
   console.log("server has started on port 4000");
+});
+
+app.get("/blocks", authMiddleware, async (req, res) => {
+  const { rows } = await pool.query("SELECT * from blocks");
+
+  if (rows.length > 0) {
+    res.status(200).json(rows);
+  }
+
+  res.status(400).json("Something went wrong");
+});
+
+app.post("/auth/register", async (req, res) => {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+
+    await userService.registerUser({
+      email,
+      password,
+      firstName,
+      lastName,
+    });
+
+    res.status(200).json("Sign up successful");
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json(`Error registering, ${error.message}`);
+    }
+  }
+});
+
+app.post("/auth/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await userService.verifyUserCredentials(email, password);
+    const jwt = createJwt({ user }, process.env.AUTH_SECRET!);
+
+    return res.status(200).json(jwt);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json(`Error registering, ${error.message}`);
+    }
+  }
 });
