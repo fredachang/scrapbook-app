@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
 import { Login } from "./components/LogIn";
 import { SignUp } from "./components/Signup";
-import { UserBlocks } from "./components/UserBlocks";
+import { Route, Routes } from "react-router-dom";
+import { Home } from "./components/Home";
 
 function App() {
   return (
     <>
-      <div className="bg-red-100">
-        <Login />
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<SignUp />} />
+      </Routes>
 
-      <div className="bg-yellow-100">
-        <SignUp />
-      </div>
       {/* <UserBlocks /> */}
     </>
   );
