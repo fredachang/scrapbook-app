@@ -1,10 +1,10 @@
-import { Login } from "./components/LogIn";
-import { SignUp } from "./components/Signup";
 import { Route, Routes } from "react-router-dom";
-import { Home } from "./components/Home";
 import { GuardedRoute } from "./components/GuardedRoute";
 import { Nav } from "./components/Nav";
-import { Blocks } from "./components/Blocks";
+import { Home } from "./pages/Home";
+import { Blocks } from "./pages/Blocks";
+import { Login } from "./pages/LogIn";
+import { SignUp } from "./pages/Signup";
 
 function App() {
   return (
