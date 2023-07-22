@@ -1,10 +1,6 @@
 import express from "express";
 import cors from "cors";
 import { pool } from "./db.ts";
-// import passport from "passport";
-// import session from "express-session";
-
-// import { initialisePassport } from "./passportConfig.ts";
 import { DatabaseService } from "./services/database.service.ts";
 import { UserService } from "./services/user.service.ts";
 import { createJwt } from "./utils.ts";
@@ -29,11 +25,11 @@ app.listen(4000, () => {
 app.get("/blocks", authMiddleware, async (req, res) => {
   const { rows } = await pool.query("SELECT * from blocks");
 
-  if (rows.length > 0) {
-    res.status(200).json(rows);
+  if (rows.length === 0) {
+    return res.status(400).json("Something went wrong");
   }
 
-  res.status(400).json("Something went wrong");
+  return res.status(200).json(rows);
 });
 
 app.post("/auth/register", async (req, res) => {
