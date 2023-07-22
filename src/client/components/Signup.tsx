@@ -1,7 +1,10 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 export const SignUp = () => {
+  const { signup } = useAuthContext();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -10,35 +13,20 @@ export const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data = {
+    const variables = {
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: password,
     };
 
-    try {
-      const response = await fetch("http://localhost:4000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.status === 401) {
-        setMessage(`${response.statusText}: User already exists`);
-      }
-      const responseData = await response.json();
-      navigate("/login");
-
-      setMessage("User created successfully!");
-    } catch (error) {
-      console.log("Error parsing JSON:", error);
-    }
+    signup.mutateAsync(variables).then(() => {
+      setMessage("Signed up successfully");
+      navigate("/login", { replace: true });
+    });
   };
 
   const outerContainer = "w-full h-screen flex justify-center items-center";

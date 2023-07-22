@@ -1,11 +1,13 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 export const Login = () => {
+  const { login } = useAuthContext();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [canFetchAuth, setCanFetchAuth] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,36 +21,15 @@ export const Login = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const variables = {
+      email: email,
+      password: password,
+    };
 
-    try {
-      const response = await fetch("http://localhost:4000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        // Handle successful login, e.g., store user data in state or localStorage
-        console.log(data);
-        navigate("/");
-      } else {
-        // Handle failed login, e.g., display error message
-        setMessage("Log in failed!");
-      }
-    } catch (error) {
-      // Handle error
-      console.error("Error:", error);
-    }
-
-    // Reset the form
-    setEmail("");
-    setPassword("");
+    login.loginAsync(variables).then(() => {
+      setMessage("Logged in successfully");
+      navigate("/", { replace: true });
+    });
   };
 
   const outerContainer = "w-full h-screen flex justify-center items-center";
