@@ -1,5 +1,6 @@
 import { DatabaseService, DbUser, User } from "./database.service";
 import { hashAndSaltUserPassword, verifyPassword } from "../utils";
+import { Block } from "../../common/types";
 
 export class UserService {
   databaseService: DatabaseService;
@@ -30,6 +31,7 @@ export class UserService {
       created: createdAt,
     });
   }
+
   async verifyUserCredentials(email: string, password: string): Promise<User> {
     const userExists = await this.databaseService.emailExists(email);
 
@@ -61,18 +63,18 @@ export class UserService {
     throw new Error("Invalid user credentials");
   }
 
-  // async verifyUserCredentials(username: string, password: string): Promise<boolean> {
-  //     const userExists = await this.DatabaseService.userExists(username);
+  async getUserBlocks(userId: string): Promise<Block[]> {
+    const connections = await this.databaseService.getConnectionsByUserId(
+      userId
+    );
 
-  //     if (!userExists) {
-  //       return false;
-  //     }
+    if (connections.length === 0) {
+      throw new Error("No connection found by userID");
+    }
 
-  //     const user = await this.DatabaseService.getUser(username);
-  //     if (!user) {
-  //       return false;
-  //     }
+    const blockIds = connections.map((connection) => connection.block_id);
 
-  //     return verifyPassword(password, user.salt, user.password);
-  //   }
+    const blocks = await this.databaseService.getBlocksByBlockIds(blockIds);
+    return blocks;
+  }
 }

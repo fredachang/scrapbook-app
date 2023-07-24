@@ -22,14 +22,120 @@ app.listen(4000, () => {
   console.log("server has started on port 4000");
 });
 
-app.get("/blocks", authMiddleware, async (req, res) => {
-  const { rows } = await pool.query("SELECT * from blocks");
+//Routes
 
-  if (rows.length === 0) {
-    return res.status(400).json("Something went wrong");
+app.get("/user/blocks", authMiddleware, async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const blocks = await userService.getUserBlocks(id);
+
+    return res.status(200).json(blocks);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json({ error: "Error retrieving blocks." });
+    }
   }
+  res.status(200).json("blocks retrieved successfully");
+});
 
-  return res.status(200).json(rows);
+app.get("/user/channels", authMiddleware, async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const channels = await databaseService.getChannelsByUserId(id);
+
+    return res.status(200).json(channels);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json({ error: "Error retrieving channels." });
+    }
+  }
+  res.status(200).json("channels retrieved successfully");
+});
+
+app.get("/user/channels/connections", authMiddleware, async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const connectionsWithImagePath =
+      await databaseService.getConnectionsWithImagePath(id);
+
+    return res.status(200).json(connectionsWithImagePath);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ error: "Error retrieving connections with image path." });
+  }
+});
+
+app.post("/channels/create", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user?.id;
+    const { title, is_private } = req.body;
+
+    const created = new Date();
+
+    await databaseService.createChannel({
+      title,
+      created,
+      is_private,
+      user_id: userId,
+    });
+
+    res.status(200).json("channel added successfully");
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json(`Error creating channel, ${error.message}`);
+    }
+  }
+});
+
+app.post("/blocks/create", authMiddleware, async (req, res) => {
+  try {
+    const { image_path, channelId } = req.body;
+    const userId = req.user?.id;
+
+    const created = new Date();
+
+    const block = await databaseService.createBlock({
+      image_path,
+      created,
+    });
+
+    await databaseService.createConnection({
+      block_id: block.id,
+      channel_id: channelId,
+      user_id: userId,
+    });
+
+    res.status(200).json("block added successfully");
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json(`Error adding block, ${error.message}`);
+    }
+  }
+});
+
+app.post("/connections/create", authMiddleware, async (req, res) => {
+  try {
+    const { block_id, channel_id, user_id } = req.body;
+
+    const created = new Date();
+
+    await databaseService.createConnection({
+      block_id,
+      channel_id,
+      user_id,
+      created,
+    });
+
+    res.status(200).json("connection established successfully");
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json(`Error establishing connection, ${error.message}`);
+    }
+  }
 });
 
 app.post("/auth/register", async (req, res) => {
