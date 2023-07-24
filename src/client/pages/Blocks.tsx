@@ -1,7 +1,8 @@
-import { useGetBlocks } from "../hooks/useGetBlocks";
+import { Block } from "../components/Block";
+import { useGetUserBlocks } from "../hooks/useGetUserBlocks";
 
 export const Blocks = () => {
-  const { data: blocks, isLoading, isError } = useGetBlocks();
+  const { data: blocks, isLoading, isError } = useGetUserBlocks();
 
   return (
     <>
@@ -9,14 +10,13 @@ export const Blocks = () => {
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error occurred while fetching data.</p>}
       {blocks && (
-        <ul>
+        <div className="flex flex-wrap">
           {blocks.map((block) => (
-            <div key={block.block_id}>
-              <p>{block.block_id}</p>
-              <img src={block.image_path} />
+            <div key={block.id}>
+              <Block id={block.id} imagePath={block.image_path} />
             </div>
           ))}
-        </ul>
+        </div>
       )}
     </>
   );

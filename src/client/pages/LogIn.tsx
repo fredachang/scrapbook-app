@@ -39,7 +39,7 @@ export const Login = () => {
   const formStyle =
     "flex flex-col justify-between items-center w-full h-3/5 mt-5";
 
-  const formEntries = "flex justify-between pb-3";
+  const formEntry = "flex justify-between pb-3";
 
   const input = "w-3/5 border-b border-black";
 
@@ -54,7 +54,7 @@ export const Login = () => {
           <h1 className="text-4xl text-center">Login</h1>
           <form onSubmit={handleSubmit} className={formStyle}>
             <div className="w-full">
-              <div className={formEntries}>
+              <div className={formEntry}>
                 <label className="text-xl" htmlFor="email">
                   Email
                 </label>
@@ -67,7 +67,7 @@ export const Login = () => {
                   required
                 />
               </div>
-              <div className={formEntries}>
+              <div className={formEntry}>
                 <label className="text-xl" htmlFor="password">
                   Password
                 </label>

@@ -4,6 +4,8 @@ import { useAuthContext } from "../context/AuthContext";
 
 export const Nav = () => {
   const { isAuthenticated } = useAuthContext();
+  const { profile } = useAuthContext();
+  const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   if (!isAuthenticated()) {
     return null;
@@ -12,15 +14,9 @@ export const Nav = () => {
   return (
     <>
       <div className="flex justify-between">
-        <Link to="/">
-          <button>Home</button>
-        </Link>
-        <Link to="/blocks">
-          <button>Blocks</button>
-        </Link>
-        <Link to="/channels">
-          <button>Channels</button>
-        </Link>
+        <Link to="/">Home</Link>
+        <Link to={`/blocks/${userName}`}>Blocks</Link>
+        <Link to={`/channels/${userName}`}>Channels</Link>
         <Profile />
       </div>
     </>

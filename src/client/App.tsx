@@ -5,6 +5,7 @@ import { Home } from "./pages/Home";
 import { Blocks } from "./pages/Blocks";
 import { Login } from "./pages/LogIn";
 import { SignUp } from "./pages/Signup";
+import { Channels } from "./pages/Channels";
 
 function App() {
   return (
@@ -20,10 +21,18 @@ function App() {
           }
         />
         <Route
-          path="/blocks"
+          path="/blocks/:username"
           element={
             <GuardedRoute>
               <Blocks />
+            </GuardedRoute>
+          }
+        />
+        <Route
+          path="/channels/:username"
+          element={
+            <GuardedRoute>
+              <Channels />
             </GuardedRoute>
           }
         />

@@ -1,15 +1,9 @@
 import { useQuery } from "react-query";
 import { useAuthContext } from "../context/AuthContext";
+import { Block } from "../../common/types";
 
-type Block = {
-  block_id: string;
-  image_path: string;
-};
-
-type Blocks = Block[];
-
-const getBlocks = async (token?: string): Promise<Blocks> => {
-  const data = await fetch("http://localhost:4000/blocks", {
+const getBlocks = async (token?: string): Promise<Block[]> => {
+  const data = await fetch("http://localhost:4000/user/blocks", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +15,7 @@ const getBlocks = async (token?: string): Promise<Blocks> => {
   return res;
 };
 
-export const useGetBlocks = () => {
+export const useGetUserBlocks = () => {
   const { authToken } = useAuthContext();
-  return useQuery<Blocks, Error>("blocks", () => getBlocks(authToken));
+  return useQuery<Block[], Error>("blocks", () => getBlocks(authToken));
 };
