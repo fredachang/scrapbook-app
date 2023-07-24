@@ -15,8 +15,7 @@ export const ImageUploader = (props: Props) => {
   const [dragActive, setDragActive] = useState(false);
   const [imagePath, setImagePath] = useState("");
 
-  const newBlockMutation = useCreateBlock();
-  // const newConnectionMutation = useCreateConnection();
+  const createBlockMutation = useCreateBlock();
 
   const navigate = useNavigate();
 
@@ -36,8 +35,6 @@ export const ImageUploader = (props: Props) => {
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       console.log(e.dataTransfer.files[0]);
-      // at least one file has been dropped so do something
-      // handleFiles(e.dataTransfer.files);
     }
   };
 
@@ -61,7 +58,7 @@ export const ImageUploader = (props: Props) => {
       channelId,
     };
 
-    newBlockMutation.mutateAsync(blockVariables).then(() => {
+    createBlockMutation.mutateAsync(blockVariables).then(() => {
       navigate(`/channels/${userName}`, { replace: true });
       setImagePath("");
     });

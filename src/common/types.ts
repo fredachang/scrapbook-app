@@ -11,6 +11,7 @@ export interface Block {
   id: string;
   image_path: string;
   created: Date;
+  image_data: any;
 }
 
 export interface DbConnection {
