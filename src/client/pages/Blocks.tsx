@@ -13,7 +13,11 @@ export const Blocks = () => {
         <div className="flex flex-wrap">
           {blocks.map((block) => (
             <div key={block.id}>
-              <Block id={block.id} imagePath={block.image_path} />
+              <Block
+                id={block.id}
+                imagePath={block.image_path ? block.image_path : ""}
+                imageData={block.image_data ? block.image_data : ""}
+              />
             </div>
           ))}
         </div>

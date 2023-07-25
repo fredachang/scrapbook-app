@@ -16,7 +16,7 @@ const userService = new UserService(databaseService);
 
 //middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 
 app.listen(4000, () => {
   console.log("server has started on port 4000");
@@ -70,8 +70,8 @@ app.get("/user/channels/connections", authMiddleware, async (req, res) => {
 });
 
 app.post("/channels/create", authMiddleware, async (req, res) => {
+  const userId = req.user?.id;
   try {
-    const userId = req.user?.id;
     const { title, is_private } = req.body;
 
     const created = new Date();
@@ -100,6 +100,32 @@ app.post("/blocks/create", authMiddleware, async (req, res) => {
 
     const block = await databaseService.createBlock({
       image_path,
+      created,
+    });
+
+    await databaseService.createConnection({
+      block_id: block.id,
+      channel_id: channelId,
+      user_id: userId,
+    });
+
+    res.status(200).json("block added successfully");
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json(`Error adding block, ${error.message}`);
+    }
+  }
+});
+
+app.post("/blocks/upload", authMiddleware, async (req, res) => {
+  try {
+    const { image_data, channelId } = req.body;
+    const userId = req.user?.id;
+
+    const created = new Date();
+
+    const block = await databaseService.createBlockByUpload({
+      image_data,
       created,
     });
 
@@ -168,6 +194,34 @@ app.post("/auth/login", async (req, res) => {
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json(`Error registering, ${error.message}`);
+    }
+  }
+});
+
+app.delete("/user/block/delete", authMiddleware, async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const { blockId } = req.body;
+    const deletedBlock = await userService.deleteUserBlock(blockId, id);
+
+    return res.status(200).json(deletedBlock);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json(`Error deleting block, ${error.message}`);
+    }
+  }
+});
+
+app.delete("/user/channel/delete", authMiddleware, async (req, res) => {
+  try {
+    const { channelId } = req.body;
+    const deletedChannel = await userService.deleteChannel(channelId);
+
+    return res.status(200).json(deletedChannel);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json(`Error deleting channel, ${error.message}`);
     }
   }
 });
