@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { useCreateBlock } from "../hooks/UseCreateBlock";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import { useCreateBlockByUpload } from "../hooks/useCreateBlockByUpload";
 
 interface Props {
   channelId: string;
@@ -16,6 +17,7 @@ export const ImageUploader = (props: Props) => {
   const [imagePath, setImagePath] = useState("");
 
   const createBlockMutation = useCreateBlock();
+  const uploadblockMutation = useCreateBlockByUpload();
 
   const navigate = useNavigate();
 
@@ -34,7 +36,25 @@ export const ImageUploader = (props: Props) => {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      console.log(e.dataTransfer.files[0]);
+      const imageFile = e.dataTransfer.files[0];
+
+      console.log(imageFile);
+
+      const reader = new FileReader();
+
+      reader.readAsDataURL(imageFile);
+
+      reader.onload = function () {
+        const base64Url = reader.result;
+        const blockVariables = {
+          image_data: base64Url,
+          channelId,
+        };
+
+        uploadblockMutation.mutateAsync(blockVariables).then(() => {
+          navigate(`/channels/${userName}`, { replace: true });
+        });
+      };
     }
   };
 
@@ -81,6 +101,7 @@ export const ImageUploader = (props: Props) => {
             type="text"
             placeholder="Drag & Drop or paste path"
             onChange={handleImagePath}
+            value={imagePath}
           />
           <button type="submit">Add Path</button>
         </div>

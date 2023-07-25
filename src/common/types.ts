@@ -14,19 +14,12 @@ export interface Block {
   image_data: any;
 }
 
-export interface DbConnection {
-  id: string;
-  block_id: string;
-  channel_id: string;
-  user_id: string;
-  created: Date;
-}
-
 export interface Connection {
   id: string;
   block_id: string;
   channel_id: string;
   user_id: string;
   created: Date;
-  image_path: string;
+  image_path: string | null;
+  image_data: string | null;
 }
