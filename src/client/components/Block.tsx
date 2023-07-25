@@ -1,4 +1,7 @@
+import { useState } from "react";
+import { GenericButton } from "./GenericButton";
 import { PopUpMenu } from "./PopUpMenu";
+import { ConnectionModal } from "./ConnectionModal";
 
 interface Props {
   id: string;
@@ -8,6 +11,8 @@ interface Props {
 
 export const Block = (props: Props) => {
   const { id, imagePath, imageData } = props;
+  const [showConnectButton, setShowConnectButton] = useState(false);
+  const [showConnectModal, setShowConnectModal] = useState(false);
 
   function shortenBlockId(id: string) {
     return id.split("-")[0];
@@ -21,14 +26,61 @@ export const Block = (props: Props) => {
 
   const imageSrc = imagePath ? imagePath : convertBase64ToUrl(imageData || "");
 
+  const handleOnMouseOver = () => {
+    setShowConnectButton(true);
+  };
+
+  const handleOnMouseLeave = () => {
+    setShowConnectButton(false);
+  };
+
+  const handleClickConnectButton = () => {
+    setShowConnectModal(true);
+  };
+
+  const handleCloseConnectButton = () => {
+    setShowConnectModal(false);
+  };
+
+  const blockContainer =
+    "w-56 h-56 border m-3 border-black flex flex-col relative";
+  const popUpMenuContainer = "bg-purple-100 flex justify-end z-10";
+
+  const connectModalContainer = "w-full h-full absolute z-20";
+  const imageContainer =
+    "bg-yellow-100 w-full h-full flex flex-col items-center";
+
   // console.log(imageSrc);
   return (
     <>
-      <div key={id} className="w-56 h-56 border m-3 border-black flex flex-col">
-        <div className="bg-purple-100 flex justify-end z-10">
+      <div
+        key={id}
+        className={blockContainer}
+        onMouseEnter={handleOnMouseOver}
+        onMouseLeave={handleOnMouseLeave}
+      >
+        <div className={popUpMenuContainer}>
           <PopUpMenu blockId={id} />
         </div>
-        <div className="bg-yellow-100 w-full h-full flex flex-col items-center">
+
+        {showConnectModal && (
+          <div className={connectModalContainer}>
+            <ConnectionModal
+              handleCloseConnectButton={handleCloseConnectButton}
+            />
+          </div>
+        )}
+
+        {showConnectButton && (
+          <div className=" flex">
+            <GenericButton
+              buttonText="Connect"
+              handleOnClick={handleClickConnectButton}
+            />
+          </div>
+        )}
+
+        <div className={imageContainer}>
           <img
             src={imageSrc}
             alt="block-image"
