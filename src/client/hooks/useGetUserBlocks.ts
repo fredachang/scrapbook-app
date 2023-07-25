@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { useAuthContext } from "../context/AuthContext";
 import { Block } from "../../common/types";
+import { queryKeys } from "./queryKeys";
 
 const getBlocks = async (token?: string): Promise<Block[]> => {
   const data = await fetch("http://localhost:4000/user/blocks", {
@@ -17,5 +18,7 @@ const getBlocks = async (token?: string): Promise<Block[]> => {
 
 export const useGetUserBlocks = () => {
   const { authToken } = useAuthContext();
-  return useQuery<Block[], Error>("blocks", () => getBlocks(authToken));
+  return useQuery<Block[], Error>(queryKeys.blocks.getBlocks, () =>
+    getBlocks(authToken)
+  );
 };

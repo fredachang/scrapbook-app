@@ -14,7 +14,8 @@ export const Blocks = () => {
           {blocks.map((block) => (
             <div key={block.id}>
               <Block
-                id={block.id}
+                blockId={block.id}
+                channelId={""}
                 imagePath={block.image_path ? block.image_path : ""}
                 imageData={block.image_data ? block.image_data : ""}
               />

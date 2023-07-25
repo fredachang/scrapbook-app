@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useAuthContext } from "../context/AuthContext";
+import { queryKeys } from "./queryKeys";
 
 interface Variables {
   image_path: string;
@@ -31,7 +32,9 @@ export const useCreateBlock = () => {
     (variables) => createBlock(variables, authToken),
     {
       onSuccess: async () => {
-        await queryClient.invalidateQueries("connections");
+        await queryClient.invalidateQueries(
+          queryKeys.connections.getConnections
+        );
       },
     }
   );

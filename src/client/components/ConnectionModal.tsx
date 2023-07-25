@@ -1,16 +1,24 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useGetChannels } from "../hooks/useGetChannels";
+import { useCreateConnection } from "../hooks/useCreateConnection";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 interface Props {
-  handleCloseConnectButton: (e: React.MouseEvent<HTMLElement>) => void;
+  blockId: string;
+  handleCloseConnect: () => void;
 }
 
 export const ConnectionModal = (props: Props) => {
+  const { handleCloseConnect, blockId } = props;
   const { data: channels, isLoading, isError } = useGetChannels();
-
-  const { handleCloseConnectButton } = props;
   const [filteredChannels, setFilteredChannels] = useState(channels);
   const [input, setInput] = useState("");
+
+  const createConnectionMutation = useCreateConnection();
+  const navigate = useNavigate();
+  const { profile } = useAuthContext();
+  const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   const handleFilterList = (e: React.ChangeEvent<HTMLInputElement>) => {
     const filterText = e.target.value;
@@ -23,6 +31,19 @@ export const ConnectionModal = (props: Props) => {
       channel.title.toLowerCase().includes(filterText.toLowerCase())
     );
     setFilteredChannels(filteredList);
+  };
+
+  const handleClickChannel = (channelId: string) => {
+    const variables = {
+      block_id: blockId,
+      channel_id: channelId,
+    };
+
+    createConnectionMutation.mutateAsync(variables).then(() => {
+      navigate(`/channels/${userName}`, { replace: true });
+      setInput("");
+      handleCloseConnect();
+    });
   };
 
   return (
@@ -43,13 +64,15 @@ export const ConnectionModal = (props: Props) => {
           <ul>
             {filteredChannels.map((channel) => (
               <div key={channel.id}>
-                <button>{channel.title}</button>
+                <button onClick={() => handleClickChannel(channel.id)}>
+                  {channel.title}
+                </button>
               </div>
             ))}
           </ul>
         )}
 
-        <button className="text-center" onClick={handleCloseConnectButton}>
+        <button className="text-center" onClick={handleCloseConnect}>
           Close
         </button>
       </div>

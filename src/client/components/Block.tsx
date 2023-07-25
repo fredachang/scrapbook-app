@@ -4,18 +4,22 @@ import { PopUpMenu } from "./PopUpMenu";
 import { ConnectionModal } from "./ConnectionModal";
 
 interface Props {
-  id: string;
+  blockId: string;
+  channelId: string;
   imagePath: string | null;
   imageData: string | null;
 }
 
 export const Block = (props: Props) => {
-  const { id, imagePath, imageData } = props;
+  const { blockId, imagePath, imageData, channelId } = props;
   const [showConnectButton, setShowConnectButton] = useState(false);
   const [showConnectModal, setShowConnectModal] = useState(false);
 
-  function shortenBlockId(id: string) {
-    return id.split("-")[0];
+  function shortenUUID(id: string) {
+    if (channelId) {
+      return id.split("-")[0];
+    }
+    return "";
   }
 
   function convertBase64ToUrl(base64string: string) {
@@ -34,11 +38,11 @@ export const Block = (props: Props) => {
     setShowConnectButton(false);
   };
 
-  const handleClickConnectButton = () => {
+  const handleClickConnect = () => {
     setShowConnectModal(true);
   };
 
-  const handleCloseConnectButton = () => {
+  const handleCloseConnect = () => {
     setShowConnectModal(false);
   };
 
@@ -54,19 +58,20 @@ export const Block = (props: Props) => {
   return (
     <>
       <div
-        key={id}
+        key={blockId}
         className={blockContainer}
         onMouseEnter={handleOnMouseOver}
         onMouseLeave={handleOnMouseLeave}
       >
         <div className={popUpMenuContainer}>
-          <PopUpMenu blockId={id} />
+          <PopUpMenu blockId={blockId} />
         </div>
 
         {showConnectModal && (
           <div className={connectModalContainer}>
             <ConnectionModal
-              handleCloseConnectButton={handleCloseConnectButton}
+              handleCloseConnect={handleCloseConnect}
+              blockId={blockId}
             />
           </div>
         )}
@@ -75,7 +80,7 @@ export const Block = (props: Props) => {
           <div className=" flex">
             <GenericButton
               buttonText="Connect"
-              handleOnClick={handleClickConnectButton}
+              handleOnClick={handleClickConnect}
             />
           </div>
         )}
@@ -86,7 +91,8 @@ export const Block = (props: Props) => {
             alt="block-image"
             className="w-full h-4/5 object-contain"
           />
-          <p className="text-xs">{shortenBlockId(id)}</p>
+          <p className="text-xs">{shortenUUID(blockId)}</p>
+          <p className="text-xs">{shortenUUID(channelId)}</p>
         </div>
       </div>
     </>

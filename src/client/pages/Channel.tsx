@@ -19,9 +19,14 @@ export const Channel = (props: Props) => {
   });
 
   const { profile } = useAuthContext();
+  const userName = `${profile?.firstName}-${profile?.lastName}`;
+
   const navigate = useNavigate();
   const deleteMutation = useDeleteChannel();
-  const userName = `${profile?.firstName}-${profile?.lastName}`;
+
+  function shortenUUID(id: string) {
+    return id.split("-")[0];
+  }
 
   const handleDeleteChannel = () => {
     const variables = {
@@ -38,6 +43,7 @@ export const Channel = (props: Props) => {
       <div className="bg-slate-100 flex m-4">
         <div>
           <h1>{title}</h1>
+          <p className="text-xs">{shortenUUID(id)}</p>
           <button onClick={handleDeleteChannel} className="text-xs">
             Delete Channel
           </button>
@@ -54,7 +60,8 @@ export const Channel = (props: Props) => {
             return (
               <Block
                 key={connection?.block_id}
-                id={connection?.block_id}
+                blockId={connection?.block_id}
+                channelId={id}
                 imagePath={connection.image_path}
                 imageData={connection.image_data}
               />

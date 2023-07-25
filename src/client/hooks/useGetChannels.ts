@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { useAuthContext } from "../context/AuthContext";
 import { Channel } from "../../common/types";
+import { queryKeys } from "./queryKeys";
 
 type Channels = Channel[];
 
@@ -19,5 +20,7 @@ const getChannels = async (token?: string): Promise<Channels> => {
 
 export const useGetChannels = () => {
   const { authToken } = useAuthContext();
-  return useQuery<Channels, Error>("channels", () => getChannels(authToken));
+  return useQuery<Channels, Error>(queryKeys.channels.getChannels, () =>
+    getChannels(authToken)
+  );
 };

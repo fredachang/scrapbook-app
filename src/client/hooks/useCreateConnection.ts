@@ -1,8 +1,10 @@
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useAuthContext } from "../context/AuthContext";
+import { queryKeys } from "./queryKeys";
 
 interface Variables {
-  image_path: string;
+  block_id: string;
+  channel_id: string;
 }
 
 const createConnection = async (
@@ -24,7 +26,16 @@ const createConnection = async (
 
 export const useCreateConnection = () => {
   const { authToken } = useAuthContext();
-  return useMutation<string, Error, Variables>((variables) =>
-    createConnection(variables, authToken)
+  const queryClient = useQueryClient();
+
+  return useMutation<string, Error, Variables>(
+    (variables) => createConnection(variables, authToken),
+    {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(
+          queryKeys.connections.getConnections
+        );
+      },
+    }
   );
 };

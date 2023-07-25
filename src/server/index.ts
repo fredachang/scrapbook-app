@@ -144,15 +144,17 @@ app.post("/blocks/upload", authMiddleware, async (req, res) => {
 });
 
 app.post("/connections/create", authMiddleware, async (req, res) => {
+  const { id } = req.user;
+
   try {
-    const { block_id, channel_id, user_id } = req.body;
+    const { block_id, channel_id } = req.body;
 
     const created = new Date();
 
     await databaseService.createConnection({
       block_id,
       channel_id,
-      user_id,
+      user_id: id,
       created,
     });
 

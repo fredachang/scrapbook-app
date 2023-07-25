@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useAuthContext } from "../context/AuthContext";
+import { queryKeys } from "./queryKeys";
 
 interface Variables {
   blockId: string;
@@ -30,7 +31,9 @@ export const useDeleteUserBlock = () => {
     (variables) => deleteUserBlock(variables, authToken),
     {
       onSuccess: async () => {
-        await queryClient.invalidateQueries("connections");
+        await queryClient.invalidateQueries(
+          queryKeys.connections.getConnections
+        );
       },
     }
   );

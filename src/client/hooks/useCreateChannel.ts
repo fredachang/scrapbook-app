@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useAuthContext } from "../context/AuthContext";
+import { queryKeys } from "./queryKeys";
 
 interface Variables {
   title: string;
@@ -31,7 +32,7 @@ export const useCreateChannel = () => {
     (variables) => createChannel(variables, authToken),
     {
       onSuccess: async () => {
-        await queryClient.invalidateQueries("channels");
+        await queryClient.invalidateQueries(queryKeys.channels.getChannels);
       },
     }
   );
