@@ -1,11 +1,7 @@
-import {
-  DatabaseService,
-  DbConnection,
-  DbUser,
-  User,
-} from "./database.service";
+import { DatabaseService } from "./database.service";
 import { hashAndSaltUserPassword, verifyPassword } from "../utils";
-import { Block } from "../../common/types";
+import { Block, Channel, Connection } from "../../common/types";
+import { DbConnection, DbUser, User } from "../types";
 
 export class UserService {
   databaseService: DatabaseService;
@@ -77,10 +73,28 @@ export class UserService {
       throw new Error("No connection found by userID");
     }
 
-    const blockIds = connections.map((connection) => connection.block_id);
+    const blockIds = connections.map((connection) => connection.blockId);
 
     const blocks = await this.databaseService.getBlocksByBlockIds(blockIds);
     return blocks;
+  }
+
+  async getBlockChannels(blockId: string, userId: string): Promise<Channel[]> {
+    const channelsIds =
+      await this.databaseService.getChannelIdsByBlockIdAndUserId(
+        blockId,
+        userId
+      );
+
+    if (channelsIds.length === 0) {
+      throw new Error("Error retrieving channels for blocks");
+    }
+
+    const channels = await this.databaseService.getChannelsByChannelId(
+      channelsIds
+    );
+
+    return channels;
   }
 
   async deleteUserBlock(
@@ -106,15 +120,38 @@ export class UserService {
       await this.databaseService.deleteConnectionsByBlockId(blockId);
 
     if (!deletedConnection) {
-      throw new Error("connection deletion failed");
+      throw new Error("connections deletion failed");
     }
 
-    const deletedBlock = this.databaseService.deleteBlock(blockId);
+    const deletedBlock = await this.databaseService.deleteBlock(blockId);
 
     if (!deletedBlock) {
       throw new Error("block deletion failed");
     }
     return deletedBlock;
+  }
+
+  async deleteConnection(
+    connectionId: string,
+    blockId: string
+  ): Promise<DbConnection | Block | null> {
+    const deletedConnection =
+      await this.databaseService.deleteConnectionByConnectionId(connectionId);
+
+    if (!deletedConnection) {
+      throw new Error("error deleting connection");
+    }
+
+    //check if its the only connection, if so, delete the block
+
+    const duplicateBlockIds =
+      await this.databaseService.getDuplicateBlocksAcrossChanels();
+
+    if (duplicateBlockIds.length === 0) {
+      const deletedBlock = await this.databaseService.deleteBlock(blockId);
+      return deletedBlock;
+    }
+    return deletedConnection;
   }
 
   async deleteChannel(channelId: string): Promise<any | null> {
@@ -137,7 +174,8 @@ export class UserService {
     );
 
     //check if the blocks are connected to other channels
-    const duplicateBlockIds = await this.databaseService.getDuplicateBlockIds();
+    const duplicateBlockIds =
+      await this.databaseService.getDuplicateBlocksAcrossChanels();
 
     //if the blocks arent connected to other channels, delete the blocks
     if (duplicateBlockIds.length === 0) {

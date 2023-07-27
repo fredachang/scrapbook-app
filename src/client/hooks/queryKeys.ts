@@ -4,8 +4,10 @@ export const queryKeys = {
   },
   blocks: {
     getBlocks: ["blocks"],
+    getChannels: ["block-channels"],
   },
   connections: {
     getConnections: ["connections"],
+    getConnectionId: ["connectionId"],
   },
 };

@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { useCreateBlockByUpload } from "../hooks/useCreateBlockByUpload";
-import { useCreateBlock } from "../hooks/useCreateBlock";
+import { useCreateBlock } from "../hooks/blocks/useCreateBlock";
+import { useCreateBlockByUpload } from "../hooks/blocks/useCreateBlockByUpload";
 
 interface Props {
   channelId: string;
@@ -46,7 +46,7 @@ export const ImageUploader = (props: Props) => {
       reader.onload = function () {
         const base64Url = reader.result;
         const blockVariables = {
-          image_data: base64Url,
+          imageData: base64Url,
           channelId,
         };
 
@@ -73,7 +73,7 @@ export const ImageUploader = (props: Props) => {
     e.preventDefault();
 
     const blockVariables = {
-      image_path: imagePath,
+      imagePath: imagePath,
       channelId,
     };
 

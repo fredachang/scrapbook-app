@@ -1,8 +1,8 @@
 import { useMutation } from "react-query";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 
 interface Variables {
-  image_data: string | ArrayBuffer | null;
+  imageData: string | ArrayBuffer | null;
   channelId: string;
 }
 

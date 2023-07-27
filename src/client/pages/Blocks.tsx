@@ -1,5 +1,5 @@
-import { Block } from "../components/Block";
-import { useGetUserBlocks } from "../hooks/useGetUserBlocks";
+import { Block2 } from "../components/Block2";
+import { useGetUserBlocks } from "../hooks/blocks/useGetUserBlocks";
 
 export const Blocks = () => {
   const { data: blocks, isLoading, isError } = useGetUserBlocks();
@@ -13,11 +13,10 @@ export const Blocks = () => {
         <div className="flex flex-wrap">
           {blocks.map((block) => (
             <div key={block.id}>
-              <Block
+              <Block2
                 blockId={block.id}
-                channelId={""}
-                imagePath={block.image_path ? block.image_path : ""}
-                imageData={block.image_data ? block.image_data : ""}
+                imagePath={block.imagePath ? block.imagePath : ""}
+                imageData={block.imageData ? block.imageData : ""}
               />
             </div>
           ))}

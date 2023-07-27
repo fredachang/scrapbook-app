@@ -1,17 +1,17 @@
 import { useMutation, useQueryClient } from "react-query";
-import { useAuthContext } from "../context/AuthContext";
-import { queryKeys } from "./queryKeys";
+import { useAuthContext } from "../../context/AuthContext";
+import { queryKeys } from "../queryKeys";
 
 interface Variables {
-  title: string;
-  is_private: boolean;
+  channelId: string;
+  blockId: string;
 }
 
-const createChannel = async (
+const createConnection = async (
   variables: Variables,
   token?: string
 ): Promise<string> => {
-  const data = await fetch("http://localhost:4000/channels/create", {
+  const data = await fetch("http://localhost:4000/connections/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,15 +24,17 @@ const createChannel = async (
   return res;
 };
 
-export const useCreateChannel = () => {
+export const useCreateConnection = () => {
   const { authToken } = useAuthContext();
   const queryClient = useQueryClient();
 
   return useMutation<string, Error, Variables>(
-    (variables) => createChannel(variables, authToken),
+    (variables) => createConnection(variables, authToken),
     {
       onSuccess: async () => {
-        await queryClient.invalidateQueries(queryKeys.channels.getChannels);
+        await queryClient.invalidateQueries(
+          queryKeys.connections.getConnections
+        );
       },
     }
   );

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useGetChannels } from "../hooks/useGetChannels";
-import { useCreateConnection } from "../hooks/useCreateConnection";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import { useCreateConnection } from "../hooks/connections/useCreateConnection";
+import { useGetChannels } from "../hooks/channels/useGetChannels";
 
 interface Props {
   blockId: string;
@@ -35,8 +35,8 @@ export const ConnectionModal = (props: Props) => {
 
   const handleClickChannel = (channelId: string) => {
     const variables = {
-      block_id: blockId,
-      channel_id: channelId,
+      channelId: channelId,
+      blockId: blockId,
     };
 
     createConnectionMutation.mutateAsync(variables).then(() => {

@@ -3,23 +3,31 @@ export interface Channel {
   title: string;
   created: Date;
   updated: Date;
-  is_private: boolean;
-  user_id: string;
+  isPrivate: boolean;
+  userId: string;
 }
 
 export interface Block {
   id: string;
-  image_path: string;
+  imagePath: string;
   created: Date;
-  image_data: any;
+  imageData: any;
 }
 
 export interface Connection {
   id: string;
-  block_id: string;
-  channel_id: string;
-  user_id: string;
+  blockId: string;
+  channelId: string;
+  userId: string;
   created: Date;
-  image_path: string | null;
-  image_data: string | null;
+}
+
+export interface ConnectionWithImage {
+  id: string;
+  blockId: string;
+  channelId: string;
+  userId: string;
+  created: Date;
+  imagePath: string | null;
+  imageData: string | null;
 }

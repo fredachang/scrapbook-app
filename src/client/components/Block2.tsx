@@ -1,22 +1,20 @@
 import { useState } from "react";
 import { GenericButton } from "./GenericButton";
 import { ConnectionModal } from "./ConnectionModal";
-import { BlockActionsModal } from "./BlockActionsModal";
-import { useGetConnectionId } from "../hooks/blocks/useGetConnectionId";
+import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
 
 interface Props {
   blockId: string;
-  channelId: string;
   imagePath: string | null;
   imageData: string | null;
 }
 
-export const Block = (props: Props) => {
-  const { blockId, imagePath, imageData, channelId } = props;
+export const Block2 = (props: Props) => {
+  const { blockId, imagePath, imageData } = props;
   const [showConnectButton, setShowConnectButton] = useState(false);
   const [showConnectModal, setShowConnectModal] = useState(false);
 
-  const { data: connectionId } = useGetConnectionId({ blockId, channelId });
+  const { data: channels, isLoading, isError } = useGetBlockChannels(blockId);
 
   function shortenUUID(id: string | undefined) {
     if (id) {
@@ -66,13 +64,6 @@ export const Block = (props: Props) => {
         onMouseEnter={handleOnMouseOver}
         onMouseLeave={handleOnMouseLeave}
       >
-        <div className={popUpMenuContainer}>
-          <BlockActionsModal
-            blockId={blockId}
-            connectionId={connectionId || ""}
-          />
-        </div>
-
         {showConnectModal && (
           <div className={connectModalContainer}>
             <ConnectionModal
@@ -97,8 +88,16 @@ export const Block = (props: Props) => {
             alt="block-image"
             className="w-full h-4/5 object-contain"
           />
-          <p className="text-xs">ConnectionId: {shortenUUID(connectionId)}</p>
           <p className="text-xs">BlockId: {shortenUUID(blockId)}</p>
+          <div>
+            {channels?.map((channel) => {
+              return (
+                <p className="text-xs" key={channel.id}>
+                  {channel.title}
+                </p>
+              );
+            })}
+          </div>
         </div>
       </div>
     </>

@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { Block } from "../components/Block";
 import { ImageUploader } from "../components/ImageUploader";
 import { useAuthContext } from "../context/AuthContext";
-import { useGetConnections } from "../hooks/UseGetConnections";
-import { useDeleteChannel } from "../hooks/useDeleteChannel";
+import { useGetConnections } from "../hooks/connections/useGetConnections";
+import { useDeleteChannel } from "../hooks/channels/useDeleteChannel";
 
 interface Props {
   id: string;
@@ -15,7 +15,7 @@ export const Channel = (props: Props) => {
   const { data, isLoading, isError } = useGetConnections();
 
   const connectionsByChannel = data?.filter((connection) => {
-    return connection.channel_id === id;
+    return connection.channelId === id;
   });
 
   const { profile } = useAuthContext();
@@ -59,11 +59,11 @@ export const Channel = (props: Props) => {
           {connectionsByChannel?.map((connection) => {
             return (
               <Block
-                key={connection?.block_id}
-                blockId={connection?.block_id}
+                key={connection?.blockId}
+                blockId={connection?.blockId}
                 channelId={id}
-                imagePath={connection.image_path}
-                imageData={connection.image_data}
+                imagePath={connection.imagePath}
+                imageData={connection.imageData}
               />
             );
           })}

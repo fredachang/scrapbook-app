@@ -1,10 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import { NewChannelModal } from "../components/NewChannelModal";
 import { useNavigate } from "react-router-dom";
-import { useCreateChannel } from "../hooks/useCreateChannel";
-import { useGetChannels } from "../hooks/useGetChannels";
+
 import { Channel } from "./Channel";
 import { useAuthContext } from "../context/AuthContext";
+import { useGetChannels } from "../hooks/channels/useGetChannels";
+import { useCreateChannel } from "../hooks/channels/useCreateChannel";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
@@ -31,7 +32,7 @@ export const Channels = () => {
 
     const variables = {
       title: title,
-      is_private: isPrivate,
+      isPrivate: isPrivate,
     };
 
     newChannelMutation.mutateAsync(variables).then(() => {

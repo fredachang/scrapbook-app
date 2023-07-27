@@ -1,34 +1,11 @@
-import { Pool } from "pg";
-import { Block, Channel, Connection } from "../../common/types";
-
-export interface DbUser {
-  id: string;
-  email: string;
-  salt: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  created: Date;
-  updated: Date;
-}
-
-export interface DbConnection {
-  id: string;
-  block_id: string;
-  channel_id: string;
-  user_id: string;
-  created: Date;
-  image_path: string | null;
-  image_data: ArrayBuffer | null;
-}
-
-export interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  created: Date;
-}
+import { Pool, QueryResult } from "pg";
+import {
+  Block,
+  Channel,
+  Connection,
+  ConnectionWithImage,
+} from "../../common/types";
+import { DbChannel, DbConnection, DbUser } from "../types";
 
 export class DatabaseService {
   pool: Pool;
@@ -59,84 +36,179 @@ export class DatabaseService {
   }
 
   async createChannel(channel: Partial<Channel>): Promise<Channel> {
-    const { rows } = await this.pool.query(
+    const { rows } = await this.pool.query<DbChannel>(
       "INSERT INTO channels(title,is_private,created, user_id) VALUES ($1, $2, $3, $4) RETURNING *",
-      [channel.title, channel.is_private, channel.created, channel.user_id]
+      [channel.title, channel.isPrivate, channel.created, channel.userId]
     );
 
     if (rows.length === 0) {
       throw new Error("Error inserting channel into database");
     }
 
-    return rows[0];
+    const dbChannel = rows[0];
+
+    return {
+      ...dbChannel,
+      isPrivate: dbChannel.is_private,
+      userId: dbChannel.user_id,
+    };
   }
 
   async createBlock(block: Partial<Block>): Promise<Block> {
     const { rows } = await this.pool.query(
       "INSERT INTO blocks(image_path,created) VALUES ($1, $2) RETURNING *",
-      [block.image_path, block.created]
+      [block.imagePath, block.created]
     );
 
     if (rows.length === 0) {
       throw new Error("Error uploading block");
     }
 
-    return rows[0];
+    const dbBlock = rows[0];
+
+    return {
+      ...dbBlock,
+      imagePath: dbBlock.image_path,
+      imageData: dbBlock.image_data,
+    };
   }
 
-  async createBlockByUpload(block: Partial<Block>): Promise<Block> {
-    const { rows } = await this.pool.query(
-      "INSERT INTO blocks(created, image_data) VALUES ($1, $2) RETURNING *",
-      [block.created, block.image_data]
-    );
+  // async createBlockByUpload(block: Partial<Block>): Promise<DbBlock> {
+  //   const { rows } = await this.pool.query(
+  //     "INSERT INTO blocks(created, image_data) VALUES ($1, $2) RETURNING *",
+  //     [block.created, block.imageData]
+  //   );
 
-    if (rows.length === 0) {
-      throw new Error("Error uploading image into block");
-    }
+  //   if (rows.length === 0) {
+  //     throw new Error("Error uploading image into block");
+  //   }
 
-    return rows[0];
-  }
+  //   return rows[0];
+  // }
 
   async createConnection(connection: Partial<Connection>): Promise<Connection> {
     const { rows } = await this.pool.query(
       "INSERT INTO connections(block_id,channel_id, user_id) VALUES ($1, $2, $3) RETURNING *",
-      [connection.block_id, connection.channel_id, connection.user_id]
+      [connection.blockId, connection.channelId, connection.userId]
     );
 
     if (rows.length === 0) {
       throw new Error("Error establishing a connection");
     }
 
-    return rows[0];
+    const dbConnection = rows[0];
+
+    return {
+      ...dbConnection,
+      blockId: dbConnection.block_id,
+      channelId: dbConnection.channel.id,
+      userId: dbConnection.user_id,
+    };
   }
 
-  async getConnectionsByUserId(id: string): Promise<Connection[]> {
-    const { rows: connections } = await this.pool.query(
+  async getConnectionId(blockId: string, channelId: string): Promise<string> {
+    const query = `
+        SELECT id
+        FROM connections
+        WHERE block_id = $1
+          AND channel_id = $2;
+      `;
+
+    const { rows } = await this.pool.query<{ id: string }>(query, [
+      blockId,
+      channelId,
+    ]);
+
+    if (rows.length === 0) {
+      throw new Error("Connection not found.");
+    }
+
+    const foundConnection = rows[0];
+
+    return foundConnection.id;
+  }
+
+  async getConnectionsByUserId(userId: string): Promise<ConnectionWithImage[]> {
+    const { rows: connections } = await this.pool.query<DbConnection>(
       "SELECT * FROM connections WHERE user_id = $1",
-      [id]
+      [userId]
     );
 
     if (connections.length === 0) {
       throw new Error("Error retrieving connection");
     }
 
-    return connections;
+    const mappedConnections = connections.map((connection) => ({
+      ...connection,
+      blockId: connection.block_id,
+      channelId: connection.channel_id,
+      userId: connection.user_id,
+      imagePath: connection.image_path,
+      imageData: connection.image_data,
+    }));
+
+    return mappedConnections;
   }
 
-  async getChannelsByUserId(id: string): Promise<Channel[]> {
+  async getChannelsByUserId(userId: string): Promise<Channel[]> {
     const { rows: channels } = await this.pool.query(
       "SELECT * FROM channels WHERE user_id = $1",
-      [id]
+      [userId]
     );
 
     if (channels.length === 0) {
       throw new Error("Error retrieving connection");
     }
 
-    return channels;
+    return channels.map((channel) => ({
+      ...channel,
+      isPrivate: channel.is_private,
+      userId: channel.user_id,
+    }));
   }
 
-  async getConnectionsWithImagePath(id: string): Promise<Connection[]> {
+  async getChannelIdsByBlockIdAndUserId(
+    blockId: string,
+    userId: string
+  ): Promise<string[]> {
+    const { rows } = await this.pool.query(
+      "SELECT channel_id FROM connections WHERE block_id = $1 AND user_id = $2",
+      [blockId, userId]
+    );
+
+    if (rows.length === 0) {
+      return [];
+    }
+
+    const channelIds = rows.map((row) => row.channel_id);
+
+    return channelIds;
+  }
+
+  async getChannelsByChannelId(channelIds: string[]): Promise<Channel[]> {
+    const { rows } = await this.pool.query(
+      "SELECT * FROM channels WHERE id = ANY($1)",
+      [channelIds]
+    );
+
+    if (rows.length === 0) {
+      throw new Error("Error retrieving channels for block");
+    }
+
+    const channels = rows;
+
+    const mappedChannels = channels.map((channel) => ({
+      ...channel,
+      isPrivate: channel.is_private,
+      userId: channel.user_id,
+    }));
+
+    return mappedChannels;
+  }
+
+  async getConnectionsWithImagePath(
+    userId: string
+  ): Promise<ConnectionWithImage[]> {
     const query = `
       SELECT 
         c.*,
@@ -151,7 +223,7 @@ export class DatabaseService {
     `;
 
     const { rows: connections } = await this.pool.query<DbConnection>(query, [
-      id,
+      userId,
     ]);
 
     if (connections.length === 0) {
@@ -167,7 +239,11 @@ export class DatabaseService {
 
       return {
         ...connection,
-        image_data: base64Image,
+        imageData: base64Image,
+        blockId: connection.block_id,
+        channelId: connection.channel_id,
+        userId: connection.user_id,
+        imagePath: connection.image_path,
       };
     });
 
@@ -184,7 +260,51 @@ export class DatabaseService {
       throw new Error("Error retrieving block");
     }
 
-    return blocks;
+    const mappedBlocks = blocks.map((block) => ({
+      ...block,
+      imagePath: block.image_path,
+      ImageData: block.image_data,
+    }));
+
+    return mappedBlocks;
+  }
+
+  //check if the same block is duplicated in a chanel
+  async getExistingBlockIdInChanel(
+    channelId: string,
+    blockId: string
+  ): Promise<string | null> {
+    const query =
+      "SELECT block_id FROM connections WHERE channel_id = $1 AND block_id = $2";
+
+    const { rows } = await this.pool.query(query, [channelId, blockId]);
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    const existingBlockId = rows[0];
+
+    return existingBlockId;
+  }
+
+  //this essentially checks if blocks are connected to any other channel, and return an array of blockids that are
+  async getDuplicateBlocksAcrossChanels(): Promise<string[] | []> {
+    const { rows: duplicateBlocks } = await this.pool.query(
+      "SELECT ARRAY_AGG(block_id) AS unique_block_ids, COUNT(*) AS duplication_count FROM connections GROUP BY block_id HAVING COUNT(*) > 1 "
+    );
+
+    if (duplicateBlocks.length === 0) {
+      return [];
+    }
+
+    //this returns the blocks that are also connected to other channels
+
+    const duplicateBlockIds = duplicateBlocks.map(
+      (row) => row.unique_block_ids
+    );
+
+    return duplicateBlockIds;
   }
 
   async getUserById(userId: number): Promise<DbUser | null> {
@@ -201,7 +321,7 @@ export class DatabaseService {
 
   async deleteConnectionsByBlockId(
     blockId: string
-  ): Promise<DbConnection | null> {
+  ): Promise<Connection | null> {
     const { rows } = await this.pool.query(
       "DELETE FROM connections WHERE block_id=$1",
       [blockId]
@@ -214,16 +334,21 @@ export class DatabaseService {
     return rows[0];
   }
 
-  async getDuplicateBlockIds(): Promise<string[] | []> {
-    const { rows: duplicateBlocks } = await this.pool.query(
-      "SELECT ARRAY_AGG(block_id) AS unique_block_ids, COUNT(*) AS duplication_count FROM connections GROUP BY block_id HAVING COUNT(*) > 1 "
+  async deleteConnectionByConnectionId(
+    connectionId: string
+  ): Promise<DbConnection | null> {
+    const { rows } = await this.pool.query(
+      "DELETE FROM connections WHERE id=$1",
+      [connectionId]
     );
 
-    if (duplicateBlocks.length === 0) {
-      return [];
+    if (rows.length === 0) {
+      return null;
     }
 
-    return duplicateBlocks.map((row) => row.unique_block_ids);
+    const deletedConnection = rows[0];
+
+    return deletedConnection;
   }
 
   async deleteConnectionsByChannelId(

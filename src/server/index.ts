@@ -39,6 +39,30 @@ app.get("/user/blocks", authMiddleware, async (req, res) => {
   res.status(200).json("blocks retrieved successfully");
 });
 
+app.get(
+  "/user/block/connectionid/:blockId/:channelId",
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const { blockId, channelId } = req.params;
+
+      const connectionId = await databaseService.getConnectionId(
+        blockId,
+        channelId
+      );
+
+      return res.status(200).json(connectionId);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res
+          .status(500)
+          .json({ error: "Error retrieving connectionId." });
+      }
+    }
+    res.status(200).json("connectionid retrieved successfully");
+  }
+);
+
 app.get("/user/channels", authMiddleware, async (req, res) => {
   const { id } = req.user;
 
@@ -49,6 +73,24 @@ app.get("/user/channels", authMiddleware, async (req, res) => {
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ error: "Error retrieving channels." });
+    }
+  }
+  res.status(200).json("channels retrieved successfully");
+});
+
+app.get("/user/:blockId/channels", authMiddleware, async (req, res) => {
+  const { id } = req.user;
+  try {
+    const { blockId } = req.params;
+
+    const channelTitles = await userService.getBlockChannels(blockId, id);
+
+    return res.status(200).json(channelTitles);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res
+        .status(500)
+        .json({ error: "EXPRESS: Error retrieving channel titles." });
     }
   }
   res.status(200).json("channels retrieved successfully");
@@ -72,15 +114,15 @@ app.get("/user/channels/connections", authMiddleware, async (req, res) => {
 app.post("/channels/create", authMiddleware, async (req, res) => {
   const userId = req.user?.id;
   try {
-    const { title, is_private } = req.body;
+    const { title, isPrivate } = req.body;
 
     const created = new Date();
 
     await databaseService.createChannel({
       title,
       created,
-      is_private,
-      user_id: userId,
+      isPrivate,
+      userId: userId,
     });
 
     res.status(200).json("channel added successfully");
@@ -92,21 +134,21 @@ app.post("/channels/create", authMiddleware, async (req, res) => {
 });
 
 app.post("/blocks/create", authMiddleware, async (req, res) => {
+  const userId = req.user?.id;
   try {
-    const { image_path, channelId } = req.body;
-    const userId = req.user?.id;
+    const { imagePath, channelId } = req.body;
 
     const created = new Date();
 
     const block = await databaseService.createBlock({
-      image_path,
+      imagePath,
       created,
     });
 
     await databaseService.createConnection({
-      block_id: block.id,
-      channel_id: channelId,
-      user_id: userId,
+      blockId: block.id,
+      channelId: channelId,
+      userId: userId,
     });
 
     res.status(200).json("block added successfully");
@@ -119,20 +161,20 @@ app.post("/blocks/create", authMiddleware, async (req, res) => {
 
 app.post("/blocks/upload", authMiddleware, async (req, res) => {
   try {
-    const { image_data, channelId } = req.body;
+    const { imageData, channelId } = req.body;
     const userId = req.user?.id;
 
     const created = new Date();
 
     const block = await databaseService.createBlockByUpload({
-      image_data,
+      imageData,
       created,
     });
 
     await databaseService.createConnection({
-      block_id: block.id,
-      channel_id: channelId,
-      user_id: userId,
+      blockId: block.id,
+      channelId: channelId,
+      userId: userId,
     });
 
     res.status(200).json("block added successfully");
@@ -147,18 +189,27 @@ app.post("/connections/create", authMiddleware, async (req, res) => {
   const { id } = req.user;
 
   try {
-    const { block_id, channel_id } = req.body;
+    const { blockId, channelId } = req.body;
 
-    const created = new Date();
+    const duplicateBlockId = await databaseService.getExistingBlockIdInChanel(
+      channelId,
+      blockId
+    );
 
-    await databaseService.createConnection({
-      block_id,
-      channel_id,
-      user_id: id,
-      created,
-    });
+    if (!duplicateBlockId) {
+      const created = new Date();
 
-    res.status(200).json("connection established successfully");
+      const connectionVariables = {
+        blockId,
+        channelId,
+        userId: id,
+        created,
+      };
+
+      await databaseService.createConnection(connectionVariables);
+
+      res.status(200).json("connection established successfully");
+    }
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json(`Error establishing connection, ${error.message}`);
@@ -227,3 +278,21 @@ app.delete("/user/channel/delete", authMiddleware, async (req, res) => {
     }
   }
 });
+
+app.delete(
+  "/user/connection/delete/:connectionId/:blockId",
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const { connectionId, blockId } = req.params;
+
+      const deleted = await userService.deleteConnection(connectionId, blockId);
+
+      return res.status(200).json(deleted);
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(400).json(`Error deleting connection, ${error.message}`);
+      }
+    }
+  }
+);

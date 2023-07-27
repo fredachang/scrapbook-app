@@ -1,9 +1,11 @@
 import { useQuery } from "react-query";
-import { useAuthContext } from "../context/AuthContext";
-import { Connection } from "../../common/types";
-import { queryKeys } from "./queryKeys";
+import { ConnectionWithImage } from "../../../common/types";
+import { useAuthContext } from "../../context/AuthContext";
+import { queryKeys } from "../queryKeys";
 
-const getConnections = async (token?: string): Promise<Connection[]> => {
+const getConnections = async (
+  token?: string
+): Promise<ConnectionWithImage[]> => {
   const data = await fetch("http://localhost:4000/user/channels/connections", {
     method: "GET",
     headers: {
@@ -18,7 +20,7 @@ const getConnections = async (token?: string): Promise<Connection[]> => {
 
 export const useGetConnections = () => {
   const { authToken } = useAuthContext();
-  return useQuery<Connection[], Error>(
+  return useQuery<ConnectionWithImage[], Error>(
     queryKeys.connections.getConnections,
     () => getConnections(authToken)
   );

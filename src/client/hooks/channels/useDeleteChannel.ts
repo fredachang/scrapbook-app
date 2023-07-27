@@ -1,18 +1,17 @@
 import { useMutation, useQueryClient } from "react-query";
-import { useAuthContext } from "../context/AuthContext";
-import { queryKeys } from "./queryKeys";
+import { queryKeys } from "../queryKeys";
+import { useAuthContext } from "../../context/AuthContext";
 
 interface Variables {
-  image_path: string;
   channelId: string;
 }
 
-const createBlock = async (
+const deleteChannel = async (
   variables: Variables,
   token?: string
 ): Promise<string> => {
-  const data = await fetch("http://localhost:4000/blocks/create", {
-    method: "POST",
+  const data = await fetch("http://localhost:4000/user/channel/delete", {
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token ?? ""}`,
@@ -24,17 +23,15 @@ const createBlock = async (
   return res;
 };
 
-export const useCreateBlock = () => {
+export const useDeleteChannel = () => {
   const { authToken } = useAuthContext();
   const queryClient = useQueryClient();
 
   return useMutation<string, Error, Variables>(
-    (variables) => createBlock(variables, authToken),
+    (variables) => deleteChannel(variables, authToken),
     {
       onSuccess: async () => {
-        await queryClient.invalidateQueries(
-          queryKeys.connections.getConnections
-        );
+        await queryClient.invalidateQueries(queryKeys.channels.getChannels);
       },
     }
   );

@@ -21,7 +21,7 @@ export const NewChannelModal = (props: Props) => {
   const outerContainer =
     "w-full h-full flex absolute justify-center items-center";
   const innerContainer =
-    "p-4 w-96 h-2/5 flex flex-col justify-center items-center border border-black rounded-3xl";
+    "p-4 w-96 h-2/5 bg-slate-100 flex flex-col justify-center items-center border border-black rounded-3xl z-10";
   const formStyle =
     "flex flex-col justify-between items-center w-full h-3/5 mt-5";
 
