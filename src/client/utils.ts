@@ -12,3 +12,10 @@ export const convertToBYTEA = (imageFile: File) => {
     };
   });
 };
+
+export function shortenUUID(id: string | undefined) {
+  if (id) {
+    return id.split("-")[0];
+  }
+  return "";
+}

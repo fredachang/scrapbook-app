@@ -1,5 +1,5 @@
 import { DatabaseService } from "./database.service";
-import { hashAndSaltUserPassword, verifyPassword } from "../utils";
+import { hashAndSaltUserPassword, mapUser, verifyPassword } from "../utils";
 import { Block, Channel, Connection } from "../../common/types";
 import { DbConnection, DbUser, User } from "../types";
 
@@ -19,7 +19,7 @@ export class UserService {
     const userExists = await this.databaseService.emailExists(data.email);
 
     if (userExists) {
-      throw new Error("User already exists");
+      throw new Error("USER SERVICE: User already exists");
     }
 
     const { salt, hashedPassword } = hashAndSaltUserPassword(data.password);
@@ -37,40 +37,34 @@ export class UserService {
     const userExists = await this.databaseService.emailExists(email);
 
     if (!userExists) {
-      throw new Error("User already exists");
+      throw new Error("USER SERVICE: User already exists");
     }
 
-    const user = await this.databaseService.getUserByEmail(email);
+    const dbUser = await this.databaseService.getUserByEmail(email);
 
-    if (!user) {
-      throw new Error("User not found");
+    if (!dbUser) {
+      throw new Error("USER SERVICE: User not found");
     }
 
-    const salt = user.salt;
-    const hashedUserPassword = user.password;
+    const salt = dbUser.salt;
+    const hashedUserPassword = dbUser.password;
 
     const isValidPassword = verifyPassword(password, salt, hashedUserPassword);
 
     if (isValidPassword) {
-      return {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        created: user.created,
-      };
+      return mapUser(dbUser);
     }
 
-    throw new Error("Invalid user credentials");
+    throw new Error("USER SERVICE: Invalid user credentials");
   }
 
-  async getUserBlocks(userId: string): Promise<Block[]> {
+  async getUserBlocks(userId: string): Promise<Block[] | []> {
     const connections = await this.databaseService.getConnectionsByUserId(
       userId
     );
 
     if (connections.length === 0) {
-      throw new Error("No connection found by userID");
+      return [];
     }
 
     const blockIds = connections.map((connection) => connection.blockId);
@@ -87,7 +81,7 @@ export class UserService {
       );
 
     if (channelsIds.length === 0) {
-      throw new Error("Error retrieving channels for blocks");
+      return [];
     }
 
     const channels = await this.databaseService.getChannelsByChannelId(
@@ -104,13 +98,13 @@ export class UserService {
     const blockUserId = await this.databaseService.getUserIdForBlock(blockId);
 
     if (!blockUserId) {
-      throw new Error("getBlockUserId failed");
+      throw new Error("USER SERVICE: getBlockUserId failed");
     }
 
     //check if block to be deleted belongs to the user
     if (userId !== blockUserId) {
       throw new Error(
-        "No permission to delete block as you are not the user that created it"
+        "USER SERVICE: No permission to delete block as you are not the user that created it"
       );
     }
 
@@ -120,13 +114,13 @@ export class UserService {
       await this.databaseService.deleteConnectionsByBlockId(blockId);
 
     if (!deletedConnection) {
-      throw new Error("connections deletion failed");
+      throw new Error("USER SERVICE: connections deletion failed");
     }
 
     const deletedBlock = await this.databaseService.deleteBlock(blockId);
 
     if (!deletedBlock) {
-      throw new Error("block deletion failed");
+      throw new Error("USER SERVICE: block deletion failed");
     }
     return deletedBlock;
   }
@@ -139,7 +133,7 @@ export class UserService {
       await this.databaseService.deleteConnectionByConnectionId(connectionId);
 
     if (!deletedConnection) {
-      throw new Error("error deleting connection");
+      throw new Error("USER SERVICE: error deleting connection");
     }
 
     //check if its the only connection, if so, delete the block

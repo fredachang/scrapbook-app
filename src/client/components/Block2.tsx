@@ -2,6 +2,9 @@ import { useState } from "react";
 import { GenericButton } from "./GenericButton";
 import { ConnectionModal } from "./ConnectionModal";
 import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
+import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { BlockExpanded } from "./BlockExpanded";
 
 interface Props {
   blockId: string;
@@ -9,19 +12,21 @@ interface Props {
   imageData: string | null;
 }
 
+function shortenUUID(id: string | undefined) {
+  return id ? id.split("-")[0] : "";
+}
+
 export const Block2 = (props: Props) => {
   const { blockId, imagePath, imageData } = props;
   const [showConnectButton, setShowConnectButton] = useState(false);
   const [showConnectModal, setShowConnectModal] = useState(false);
+  const [expandBlock, setExpandBlock] = useState(false);
 
   const { data: channels, isLoading, isError } = useGetBlockChannels(blockId);
+  const { profile } = useAuthContext();
+  const userName = `${profile?.firstName}-${profile?.lastName}`;
 
-  function shortenUUID(id: string | undefined) {
-    if (id) {
-      return id.split("-")[0];
-    }
-    return "";
-  }
+  const navigate = useNavigate();
 
   function convertBase64ToUrl(base64string: string) {
     const imageFormat = "jpeg";
@@ -47,9 +52,17 @@ export const Block2 = (props: Props) => {
     setShowConnectModal(false);
   };
 
+  const handleExpandBlock = () => {
+    setExpandBlock(true);
+  };
+
+  const handleCloseBlock = () => {
+    setExpandBlock(false);
+    navigate(`/blocks/${userName}`, { replace: true });
+  };
+
   const blockContainer =
     "w-56 h-56 border m-3 border-black flex flex-col relative";
-  const popUpMenuContainer = "bg-purple-100 flex justify-end z-10";
 
   const connectModalContainer = "w-full h-full absolute z-20";
   const imageContainer =
@@ -87,6 +100,7 @@ export const Block2 = (props: Props) => {
             src={imageSrc}
             alt="block-image"
             className="w-full h-4/5 object-contain"
+            onClick={handleExpandBlock}
           />
           <p className="text-xs">BlockId: {shortenUUID(blockId)}</p>
           <div>
@@ -100,6 +114,14 @@ export const Block2 = (props: Props) => {
           </div>
         </div>
       </div>
+
+      {expandBlock && (
+        <BlockExpanded
+          imageSrc={imageSrc}
+          handleCloseBlock={handleCloseBlock}
+          blockId={blockId}
+        />
+      )}
     </>
   );
 };

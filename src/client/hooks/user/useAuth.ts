@@ -3,6 +3,7 @@ import { useLocalStorage } from "react-use";
 import { useLoginUser } from "./useLoginUser";
 import { useSignupUser } from "./useSignupUser";
 import decode from "jwt-decode";
+import { User } from "../../../common/types";
 
 interface SignupRequest {
   email: string;
@@ -14,13 +15,7 @@ interface SignupRequest {
 type LoginRequest = Pick<SignupRequest, "email" | "password">;
 
 interface JwtBody {
-  user: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    created: Date;
-  };
+  user: User;
   exp: number;
 }
 

@@ -10,4 +10,7 @@ export const queryKeys = {
     getConnections: ["connections"],
     getConnectionId: ["connectionId"],
   },
+  social: {
+    getFeed: ["feed"],
+  },
 };

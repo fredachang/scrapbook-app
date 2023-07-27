@@ -1,3 +1,11 @@
+export interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  created: Date;
+}
+
 export interface Channel {
   id: string;
   title: string;
@@ -19,7 +27,14 @@ export interface Connection {
   blockId: string;
   channelId: string;
   userId: string;
-  created: Date;
+  created: Date | undefined;
+}
+
+export interface Feed {
+  date: Date;
+  userId: string;
+  channelId: string;
+  blocks: string[];
 }
 
 export interface ConnectionWithImage {
@@ -29,5 +44,5 @@ export interface ConnectionWithImage {
   userId: string;
   created: Date;
   imagePath: string | null;
-  imageData: string | null;
+  imageData: ArrayBuffer | string | null;
 }

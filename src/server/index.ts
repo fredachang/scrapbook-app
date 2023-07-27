@@ -6,12 +6,15 @@ import { UserService } from "./services/user.service.ts";
 import { createJwt } from "./utils.ts";
 import { config } from "dotenv";
 import { authMiddleware } from "./middleware/auth.middleware.ts";
+import { SocialService } from "./services/social.service.ts";
 
 config();
 
 const app = express();
 
 const databaseService = new DatabaseService(pool);
+const socialService = new SocialService(pool);
+
 const userService = new UserService(databaseService);
 
 //middleware
@@ -19,7 +22,7 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
 app.listen(4000, () => {
-  console.log("server has started on port 4000");
+  console.log("EXPRESS: server has started on port 4000");
 });
 
 //Routes
@@ -33,10 +36,12 @@ app.get("/user/blocks", authMiddleware, async (req, res) => {
     return res.status(200).json(blocks);
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ error: "Error retrieving blocks." });
+      return res
+        .status(500)
+        .json({ error: "EXPRESS: Error retrieving blocks." });
     }
   }
-  res.status(200).json("blocks retrieved successfully");
+  res.status(200).json("EXPRESS: blocks retrieved successfully");
 });
 
 app.get(
@@ -56,10 +61,10 @@ app.get(
       if (error instanceof Error) {
         return res
           .status(500)
-          .json({ error: "Error retrieving connectionId." });
+          .json({ error: "EXPRESS: Error retrieving connectionId." });
       }
     }
-    res.status(200).json("connectionid retrieved successfully");
+    res.status(200).json("EXPRESS: connectionid retrieved successfully");
   }
 );
 
@@ -72,10 +77,12 @@ app.get("/user/channels", authMiddleware, async (req, res) => {
     return res.status(200).json(channels);
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ error: "Error retrieving channels." });
+      return res
+        .status(500)
+        .json({ error: "EXPRESS: Error retrieving channels." });
     }
   }
-  res.status(200).json("channels retrieved successfully");
+  res.status(200).json("EXPRESS: channels retrieved successfully");
 });
 
 app.get("/user/:blockId/channels", authMiddleware, async (req, res) => {
@@ -93,7 +100,7 @@ app.get("/user/:blockId/channels", authMiddleware, async (req, res) => {
         .json({ error: "EXPRESS: Error retrieving channel titles." });
     }
   }
-  res.status(200).json("channels retrieved successfully");
+  res.status(200).json("EXPRESS: channels retrieved successfully");
 });
 
 app.get("/user/channels/connections", authMiddleware, async (req, res) => {
@@ -105,9 +112,24 @@ app.get("/user/channels/connections", authMiddleware, async (req, res) => {
 
     return res.status(200).json(connectionsWithImagePath);
   } catch (err) {
-    return res
-      .status(500)
-      .json({ error: "Error retrieving connections with image path." });
+    return res.status(500).json({
+      error: "EXPRESS: Error retrieving connections with image path.",
+    });
+  }
+});
+
+app.get("/feed/connections", authMiddleware, async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const socialConnections = await socialService.getSocialConnections(id);
+    console.log(socialConnections);
+
+    return res.status(200).json(socialConnections);
+  } catch (err) {
+    return res.status(500).json({
+      error: "EXPRESS: Error retrieving social connections.",
+    });
   }
 });
 
@@ -128,7 +150,7 @@ app.post("/channels/create", authMiddleware, async (req, res) => {
     res.status(200).json("channel added successfully");
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json(`Error creating channel, ${error.message}`);
+      res.status(400).json(`EXPRESS: Error creating channel, ${error.message}`);
     }
   }
 });
@@ -151,10 +173,10 @@ app.post("/blocks/create", authMiddleware, async (req, res) => {
       userId: userId,
     });
 
-    res.status(200).json("block added successfully");
+    res.status(200).json("EXPRESS: block added successfully");
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json(`Error adding block, ${error.message}`);
+      res.status(400).json(`EXPRESS: Error adding block, ${error.message}`);
     }
   }
 });
@@ -177,10 +199,10 @@ app.post("/blocks/upload", authMiddleware, async (req, res) => {
       userId: userId,
     });
 
-    res.status(200).json("block added successfully");
+    res.status(200).json("EXPRESS: block added successfully");
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json(`Error adding block, ${error.message}`);
+      res.status(400).json(`EXPRESS: Error adding block, ${error.message}`);
     }
   }
 });
@@ -208,11 +230,13 @@ app.post("/connections/create", authMiddleware, async (req, res) => {
 
       await databaseService.createConnection(connectionVariables);
 
-      res.status(200).json("connection established successfully");
+      res.status(200).json("EXPRESS: connection established successfully");
     }
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json(`Error establishing connection, ${error.message}`);
+      res
+        .status(400)
+        .json(`EXPRESS: Error establishing connection, ${error.message}`);
     }
   }
 });
@@ -228,10 +252,10 @@ app.post("/auth/register", async (req, res) => {
       lastName,
     });
 
-    res.status(200).json("Sign up successful");
+    res.status(200).json("EXPRESS: Sign up successful");
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json(`Error registering, ${error.message}`);
+      res.status(400).json(`EXPRESS: Error registering, ${error.message}`);
     }
   }
 });
@@ -246,7 +270,7 @@ app.post("/auth/login", async (req, res) => {
     return res.status(200).json(jwt);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json(`Error registering, ${error.message}`);
+      res.status(400).json(`EXPRESS: Error registering, ${error.message}`);
     }
   }
 });
@@ -261,7 +285,7 @@ app.delete("/user/block/delete", authMiddleware, async (req, res) => {
     return res.status(200).json(deletedBlock);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json(`Error deleting block, ${error.message}`);
+      res.status(400).json(`EXPRESS: Error deleting block, ${error.message}`);
     }
   }
 });
@@ -274,7 +298,7 @@ app.delete("/user/channel/delete", authMiddleware, async (req, res) => {
     return res.status(200).json(deletedChannel);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json(`Error deleting channel, ${error.message}`);
+      res.status(400).json(`EXPRESS: Error deleting channel, ${error.message}`);
     }
   }
 });
@@ -291,7 +315,9 @@ app.delete(
       return res.status(200).json(deleted);
     } catch (error) {
       if (error instanceof Error) {
-        res.status(400).json(`Error deleting connection, ${error.message}`);
+        res
+          .status(400)
+          .json(`EXPRESS: Error deleting connection, ${error.message}`);
       }
     }
   }

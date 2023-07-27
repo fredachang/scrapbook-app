@@ -3,6 +3,17 @@ export interface DbUser {
   email: string;
   salt: string;
   password: string;
+  first_name: string;
+  last_name: string;
+  created: Date;
+  updated: Date;
+}
+
+export interface DbUserTemp {
+  id: string;
+  email: string;
+  salt: string;
+  password: string;
   firstName: string;
   lastName: string;
   created: Date;
@@ -31,8 +42,16 @@ export interface DbConnection {
   channel_id: string;
   user_id: string;
   created: Date;
+}
+
+export interface DbConnectionWithImage {
+  id: string;
+  block_id: string;
+  channel_id: string;
+  user_id: string;
+  created: Date;
   image_path: string | null;
-  image_data: ArrayBuffer | null;
+  image_data: string | ArrayBuffer | null;
 }
 
 export interface User {
