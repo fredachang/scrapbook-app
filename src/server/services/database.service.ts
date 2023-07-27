@@ -15,6 +15,8 @@ export class DatabaseService {
     this.pool = pool;
   }
 
+  //USERS TABLE
+
   async writeUser(user: Partial<DbUserTemp>): Promise<DbUser> {
     const { rows } = await this.pool.query<DbUser>(
       "INSERT INTO users(email, salt, password, first_name, last_name, created, updated) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING email, salt, password, first_name as firstName, last_name as lastName, created, updated",
@@ -36,19 +38,17 @@ export class DatabaseService {
     return rows[0];
   }
 
-  async getUserIdForBlock(blockId: string): Promise<string | null> {
-    const { rows } = await this.pool.query<Pick<DbConnection, "user_id">>(
-      "SELECT user_id FROM connections WHERE block_id=$1",
-      [blockId]
+  async getUserById(userId: number): Promise<DbUser | null> {
+    const { rows } = await this.pool.query<DbUser>(
+      "SELECT * FROM users WHERE id=$1",
+      [userId]
     );
 
     if (rows.length === 0) {
       return null;
     }
 
-    const blockUserId = rows[0].user_id;
-
-    return blockUserId;
+    return rows[0];
   }
 
   async getUserByEmail(email: string): Promise<DbUser | null> {
@@ -84,58 +84,7 @@ export class DatabaseService {
     return rows.length > 0;
   }
 
-  async createChannel(channel: Partial<Channel>): Promise<Channel> {
-    const { rows } = await this.pool.query<DbChannel>(
-      "INSERT INTO channels(title,is_private,created, user_id) VALUES ($1, $2, $3, $4) RETURNING *",
-      [channel.title, channel.isPrivate, channel.created, channel.userId]
-    );
-
-    if (rows.length === 0) {
-      throw new Error(
-        "DATABASE SERVICE: Error inserting channel into database"
-      );
-    }
-
-    const dbChannel = rows[0];
-
-    return {
-      ...dbChannel,
-      isPrivate: dbChannel.is_private,
-      userId: dbChannel.user_id,
-    };
-  }
-
-  async createBlock(block: Partial<Block>): Promise<Block> {
-    const { rows } = await this.pool.query<DbBlock>(
-      "INSERT INTO blocks(image_path,created) VALUES ($1, $2) RETURNING *",
-      [block.imagePath, block.created]
-    );
-
-    if (rows.length === 0) {
-      throw new Error("DATABASE SERVICE: Error uploading block");
-    }
-
-    const dbBlock = rows[0];
-
-    return {
-      ...dbBlock,
-      imagePath: dbBlock.image_path,
-      imageData: dbBlock.image_data,
-    };
-  }
-
-  async createBlockByUpload(block: Partial<Block>): Promise<DbBlock> {
-    const { rows } = await this.pool.query<DbBlock>(
-      "INSERT INTO blocks(created, image_data) VALUES ($1, $2) RETURNING *",
-      [block.created, block.imageData]
-    );
-
-    if (rows.length === 0) {
-      throw new Error("Error uploading image into block");
-    }
-
-    return rows[0];
-  }
+  //CONNECTIONS TABLE
 
   async createConnection(connection: Partial<Connection>): Promise<Connection> {
     const { rows } = await this.pool.query<DbConnection>(
@@ -158,6 +107,21 @@ export class DatabaseService {
     };
   }
 
+  async getUserIdForBlock(blockId: string): Promise<string | null> {
+    const { rows } = await this.pool.query<Pick<DbConnection, "user_id">>(
+      "SELECT user_id FROM connections WHERE block_id=$1",
+      [blockId]
+    );
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    const blockUserId = rows[0].user_id;
+
+    return blockUserId;
+  }
+
   async getConnectionId(blockId: string, channelId: string): Promise<string> {
     const query = `
         SELECT id
@@ -178,6 +142,80 @@ export class DatabaseService {
     const foundConnection = rows[0];
 
     return foundConnection.id;
+  }
+
+  async getChannelIdsByBlockIdAndUserId(
+    blockId: string,
+    userId: string
+  ): Promise<string[]> {
+    const { rows } = await this.pool.query<Pick<DbConnection, "channel_id">>(
+      "SELECT channel_id FROM connections WHERE block_id = $1 AND user_id = $2",
+      [blockId, userId]
+    );
+
+    if (rows.length === 0) {
+      return [];
+    }
+
+    const channelIds = rows.map((row) => row.channel_id);
+    return channelIds;
+  }
+
+  //check if the same block is duplicated in a chanel
+  async getExistingBlockIdInChanel(
+    channelId: string,
+    blockId: string
+  ): Promise<string | null> {
+    const query =
+      "SELECT block_id FROM connections WHERE channel_id = $1 AND block_id = $2";
+
+    const { rows } = await this.pool.query<Pick<DbConnection, "block_id">>(
+      query,
+      [channelId, blockId]
+    );
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    const existingBlockId = rows[0].block_id;
+    return existingBlockId;
+  }
+
+  async getConnectionsBySingleBlockId(
+    blockId: string
+  ): Promise<Connection[] | []> {
+    const query = "SELECT * FROM connections WHERE block_id = $1";
+
+    const { rows: connections } = await this.pool.query<DbConnection>(query, [
+      blockId,
+    ]);
+
+    if (connections.length === 0) {
+      return [];
+    }
+
+    const userConnections = mapConnections(connections);
+
+    return userConnections;
+  }
+
+  async getConnectionsByGroupBlockIds(
+    blockIds: string[]
+  ): Promise<Connection[] | []> {
+    const query = "SELECT * FROM connections WHERE block_id = ANY($1)";
+
+    const { rows: connections } = await this.pool.query<DbConnection>(query, [
+      blockIds,
+    ]);
+
+    if (connections.length === 0) {
+      return [];
+    }
+
+    const userConnections = mapConnections(connections);
+
+    return userConnections;
   }
 
   async getConnectionsByUserId(userId: string): Promise<Connection[]> {
@@ -237,121 +275,6 @@ export class DatabaseService {
     return mappedConnections;
   }
 
-  async getChannelsByUserId(userId: string): Promise<Channel[]> {
-    const { rows: channels } = await this.pool.query<DbChannel>(
-      "SELECT * FROM channels WHERE user_id = $1",
-      [userId]
-    );
-
-    if (channels.length === 0) {
-      return [];
-    }
-
-    const userChannels = mapChannels(channels);
-
-    return userChannels;
-  }
-
-  async getChannelIdsByBlockIdAndUserId(
-    blockId: string,
-    userId: string
-  ): Promise<string[]> {
-    const { rows } = await this.pool.query<Pick<DbConnection, "channel_id">>(
-      "SELECT channel_id FROM connections WHERE block_id = $1 AND user_id = $2",
-      [blockId, userId]
-    );
-
-    if (rows.length === 0) {
-      return [];
-    }
-
-    const channelIds = rows.map((row) => row.channel_id);
-    return channelIds;
-  }
-
-  async getChannelsByChannelId(channelIds: string[]): Promise<Channel[]> {
-    const { rows: channels } = await this.pool.query<DbChannel>(
-      "SELECT * FROM channels WHERE id = ANY($1)",
-      [channelIds]
-    );
-
-    if (channels.length === 0) {
-      throw new Error("DATABASE SERVICE: Error retrieving channels for block");
-    }
-
-    const userChannels = mapChannels(channels);
-
-    return userChannels;
-  }
-
-  async getBlocksByBlockIds(blockIds: string[]): Promise<Block[]> {
-    const { rows: blocks } = await this.pool.query<DbBlock>(
-      "SELECT * FROM blocks WHERE id = ANY($1)",
-      [blockIds]
-    );
-
-    if (blocks.length === 0) {
-      throw new Error("DATABASE SERVICE: Error retrieving block");
-    }
-
-    const userBlocks = mapBlocks(blocks);
-
-    return userBlocks;
-  }
-
-  //check if the same block is duplicated in a chanel
-  async getExistingBlockIdInChanel(
-    channelId: string,
-    blockId: string
-  ): Promise<string | null> {
-    const query =
-      "SELECT block_id FROM connections WHERE channel_id = $1 AND block_id = $2";
-
-    const { rows } = await this.pool.query<Pick<DbConnection, "block_id">>(
-      query,
-      [channelId, blockId]
-    );
-
-    if (rows.length === 0) {
-      return null;
-    }
-
-    const existingBlockId = rows[0].block_id;
-    return existingBlockId;
-  }
-
-  //this essentially checks if blocks are connected to any other channel, and return an array of blockids that are
-  async getDuplicateBlocksAcrossChanels(): Promise<string[] | []> {
-    const { rows: duplicateBlocks } = await this.pool.query(
-      "SELECT ARRAY_AGG(block_id) AS unique_block_ids, COUNT(*) AS duplication_count FROM connections GROUP BY block_id HAVING COUNT(*) > 1 "
-    );
-
-    if (duplicateBlocks.length === 0) {
-      return [];
-    }
-
-    //this returns the blocks that are also connected to other channels
-
-    const duplicateBlockIds = duplicateBlocks.map(
-      (row) => row.unique_block_ids
-    );
-
-    return duplicateBlockIds;
-  }
-
-  async getUserById(userId: number): Promise<DbUser | null> {
-    const { rows } = await this.pool.query<DbUser>(
-      "SELECT * FROM users WHERE id=$1",
-      [userId]
-    );
-
-    if (rows.length === 0) {
-      return null;
-    }
-
-    return rows[0];
-  }
-
   async deleteConnectionsByBlockId(
     blockId: string
   ): Promise<Connection | null> {
@@ -371,7 +294,7 @@ export class DatabaseService {
     connectionId: string
   ): Promise<DbConnection | null> {
     const { rows } = await this.pool.query(
-      "DELETE FROM connections WHERE id=$1",
+      "DELETE FROM connections WHERE id=$1 RETURNING *",
       [connectionId]
     );
 
@@ -387,9 +310,70 @@ export class DatabaseService {
   async deleteConnectionsByChannelId(
     channelId: string
   ): Promise<DbConnection[] | null> {
-    const { rows } = await this.pool.query(
-      "DELETE FROM connections WHERE channel_id=$1",
+    const { rows: deletedConnections } = await this.pool.query<DbConnection>(
+      "DELETE FROM connections WHERE channel_id=$1 RETURNING *",
       [channelId]
+    );
+
+    if (deletedConnections.length === 0) {
+      return null;
+    }
+
+    return deletedConnections;
+  }
+
+  //BLOCKS TABLE
+  async createBlock(block: Partial<Block>): Promise<Block> {
+    const { rows } = await this.pool.query<DbBlock>(
+      "INSERT INTO blocks(image_path,created) VALUES ($1, $2) RETURNING *",
+      [block.imagePath, block.created]
+    );
+
+    if (rows.length === 0) {
+      throw new Error("DATABASE SERVICE: Error uploading block");
+    }
+
+    const dbBlock = rows[0];
+
+    return {
+      ...dbBlock,
+      imagePath: dbBlock.image_path,
+      imageData: dbBlock.image_data,
+    };
+  }
+
+  async createBlockByUpload(block: Partial<Block>): Promise<DbBlock> {
+    const { rows } = await this.pool.query<DbBlock>(
+      "INSERT INTO blocks(created, image_data) VALUES ($1, $2) RETURNING *",
+      [block.created, block.imageData]
+    );
+
+    if (rows.length === 0) {
+      throw new Error("Error uploading image into block");
+    }
+
+    return rows[0];
+  }
+
+  async getBlocksByBlockIds(blockIds: string[]): Promise<Block[]> {
+    const { rows: blocks } = await this.pool.query<DbBlock>(
+      "SELECT * FROM blocks WHERE id = ANY($1)",
+      [blockIds]
+    );
+
+    if (blocks.length === 0) {
+      throw new Error("DATABASE SERVICE: Error retrieving block");
+    }
+
+    const userBlocks = mapBlocks(blocks);
+
+    return userBlocks;
+  }
+
+  async deleteBlock(blockId: string): Promise<Block | null> {
+    const { rows } = await this.pool.query(
+      "DELETE FROM blocks WHERE id=$1 RETURNING *",
+      [blockId]
     );
 
     if (rows.length === 0) {
@@ -399,33 +383,9 @@ export class DatabaseService {
     return rows[0];
   }
 
-  async deleteChannel(channelId: string): Promise<Channel | null> {
-    const { rows } = await this.pool.query("DELETE FROM channels WHERE id=$1", [
-      channelId,
-    ]);
-
-    if (rows.length === 0) {
-      return null;
-    }
-
-    return rows[0];
-  }
-
-  async deleteBlock(blockId: string): Promise<Block | null> {
-    const { rows } = await this.pool.query("DELETE FROM blocks WHERE id=$1", [
-      blockId,
-    ]);
-
-    if (rows.length === 0) {
-      return null;
-    }
-
-    return rows[0];
-  }
-
-  async deleteMultipleBlocks(blockIds: string[]): Promise<Block[] | null> {
-    const { rows } = await this.pool.query(
-      "DELETE FROM blocks WHERE id IN ($1:csv) RETURNING *",
+  async deleteMultipleBlocks(blockIds: string[]): Promise<DbBlock[] | null> {
+    const { rows } = await this.pool.query<DbBlock>(
+      "DELETE FROM blocks WHERE id = ANY($1) RETURNING *",
       [blockIds]
     );
 
@@ -433,6 +393,76 @@ export class DatabaseService {
       return null;
     }
 
-    return rows;
+    const deletedBlocks = rows;
+
+    return deletedBlocks;
+  }
+
+  //CHANNELS TABLE
+
+  async createChannel(channel: Partial<Channel>): Promise<Channel> {
+    const { rows } = await this.pool.query<DbChannel>(
+      "INSERT INTO channels(title,is_private,created, user_id) VALUES ($1, $2, $3, $4) RETURNING *",
+      [channel.title, channel.isPrivate, channel.created, channel.userId]
+    );
+
+    if (rows.length === 0) {
+      throw new Error(
+        "DATABASE SERVICE: Error inserting channel into database"
+      );
+    }
+
+    const dbChannel = rows[0];
+
+    return {
+      ...dbChannel,
+      isPrivate: dbChannel.is_private,
+      userId: dbChannel.user_id,
+    };
+  }
+
+  async getChannelsByUserId(userId: string): Promise<Channel[]> {
+    const { rows: channels } = await this.pool.query<DbChannel>(
+      "SELECT * FROM channels WHERE user_id = $1",
+      [userId]
+    );
+
+    if (channels.length === 0) {
+      return [];
+    }
+
+    const userChannels = mapChannels(channels);
+
+    return userChannels;
+  }
+
+  async getChannelsByChannelId(channelIds: string[]): Promise<Channel[]> {
+    const { rows: channels } = await this.pool.query<DbChannel>(
+      "SELECT * FROM channels WHERE id = ANY($1)",
+      [channelIds]
+    );
+
+    if (channels.length === 0) {
+      throw new Error("DATABASE SERVICE: Error retrieving channels for block");
+    }
+
+    const userChannels = mapChannels(channels);
+
+    return userChannels;
+  }
+
+  async deleteChannel(channelId: string): Promise<DbChannel | null> {
+    const { rows } = await this.pool.query<DbChannel>(
+      "DELETE FROM channels WHERE id=$1 RETURNING *",
+      [channelId]
+    );
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    const deletedChannel = rows[0];
+
+    return deletedChannel;
   }
 }

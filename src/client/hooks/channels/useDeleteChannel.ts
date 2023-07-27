@@ -10,14 +10,18 @@ const deleteChannel = async (
   variables: Variables,
   token?: string
 ): Promise<string> => {
-  const data = await fetch("http://localhost:4000/user/channel/delete", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token ?? ""}`,
-    },
-    body: JSON.stringify(variables),
-  });
+  const { channelId } = variables;
+  const data = await fetch(
+    `http://localhost:4000/user/channel/delete/${channelId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token ?? ""}`,
+      },
+      body: JSON.stringify(variables),
+    }
+  );
   const res = await data.json();
 
   return res;

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { useDeleteUserBlock } from "../hooks/blocks/useDeleteUserBlock";
 import { useDeleteConnection } from "../hooks/connections/useDeleteConnection";
 
 interface Props {
@@ -16,7 +15,6 @@ export const BlockActionsModal = (props: Props) => {
   const { profile } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
-  const deleteBlockMutation = useDeleteUserBlock();
   const deleteConnectionMutation = useDeleteConnection();
 
   const userName = `${profile?.firstName}-${profile?.lastName}`;
@@ -69,7 +67,6 @@ export const BlockActionsModal = (props: Props) => {
             onMouseOver={handleMouseOver}
             onMouseLeave={handleMouseLeave}
           >
-            {/* <button onClick={handleDeleteBlock}>Delete</button> */}
             {connectionId && (
               <button onClick={handleRemoveConnection}>
                 Remove Connection

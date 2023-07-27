@@ -123,7 +123,7 @@ app.get("/feed/connections", authMiddleware, async (req, res) => {
 
   try {
     const socialConnections = await socialService.getSocialConnections(id);
-    console.log(socialConnections);
+    // console.log(socialConnections);
 
     return res.status(200).json(socialConnections);
   } catch (err) {
@@ -275,33 +275,24 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 
-app.delete("/user/block/delete", authMiddleware, async (req, res) => {
-  const { id } = req.user;
+app.delete(
+  "/user/channel/delete/:channelId",
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const { channelId } = req.params;
+      await userService.deleteChannel(channelId);
 
-  try {
-    const { blockId } = req.body;
-    const deletedBlock = await userService.deleteUserBlock(blockId, id);
-
-    return res.status(200).json(deletedBlock);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json(`EXPRESS: Error deleting block, ${error.message}`);
+      return res.status(200).json("channel deleted");
+    } catch (error) {
+      if (error instanceof Error) {
+        res
+          .status(400)
+          .json(`EXPRESS: Error deleting channel, ${error.message}`);
+      }
     }
   }
-});
-
-app.delete("/user/channel/delete", authMiddleware, async (req, res) => {
-  try {
-    const { channelId } = req.body;
-    const deletedChannel = await userService.deleteChannel(channelId);
-
-    return res.status(200).json(deletedChannel);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json(`EXPRESS: Error deleting channel, ${error.message}`);
-    }
-  }
-});
+);
 
 app.delete(
   "/user/connection/delete/:connectionId/:blockId",

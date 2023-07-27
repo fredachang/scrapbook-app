@@ -138,12 +138,12 @@ export class UserService {
 
     //check if its the only connection, if so, delete the block
 
-    const duplicateBlockIds =
-      await this.databaseService.getDuplicateBlocksAcrossChanels();
+    const duplicateBlocks =
+      await this.databaseService.getConnectionsBySingleBlockId(blockId);
 
-    if (duplicateBlockIds.length === 0) {
+    if (duplicateBlocks.length === 0) {
       const deletedBlock = await this.databaseService.deleteBlock(blockId);
-      return deletedBlock;
+      console.log(deletedBlock);
     }
     return deletedConnection;
   }
@@ -161,27 +161,38 @@ export class UserService {
     }
     //if the channel has connections
 
-    const blockIdsToDelete = deletedConnections.map(
-      (connection: DbConnection) => {
+    const blockIdsOfDeletedConnections = deletedConnections.map(
+      (connection) => {
         return connection.block_id;
       }
     );
 
-    //check if the blocks are connected to other channels
-    const duplicateBlockIds =
-      await this.databaseService.getDuplicateBlocksAcrossChanels();
+    //find if there are connections in other channels with the same block id
 
-    //if the blocks arent connected to other channels, delete the blocks
-    if (duplicateBlockIds.length === 0) {
+    const duplicateConnections =
+      await this.databaseService.getConnectionsByGroupBlockIds(
+        blockIdsOfDeletedConnections
+      );
+
+    //if not, these blocks are deleted (the blocks in this channel are unique)
+    if (duplicateConnections.length === 0) {
       const deletedBlocks = await this.databaseService.deleteMultipleBlocks(
-        blockIdsToDelete
+        blockIdsOfDeletedConnections
       );
       return deletedBlocks;
     }
-    //if there are duplicate block ids (ie connected to other channels)
-    const uniqueBlockIdsToDelete = blockIdsToDelete.filter(
+
+    //if yes, compare
+
+    const duplicateBlockIds = duplicateConnections.map((connection) => {
+      return connection.blockId;
+    });
+
+    const uniqueBlockIdsToDelete = blockIdsOfDeletedConnections.filter(
       (blockId) => !duplicateBlockIds.includes(blockId)
     );
+
+    //FINE HERE
 
     const uniqueDeletedBlocks = await this.databaseService.deleteMultipleBlocks(
       uniqueBlockIdsToDelete
