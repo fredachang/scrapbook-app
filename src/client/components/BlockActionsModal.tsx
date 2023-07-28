@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useDeleteConnection } from "../hooks/connections/useDeleteConnection";
 
@@ -14,7 +14,7 @@ export const BlockActionsModal = (props: Props) => {
 
   const { profile } = useAuthContext();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   const deleteConnectionMutation = useDeleteConnection();
 
   const userName = `${profile?.firstName}-${profile?.lastName}`;

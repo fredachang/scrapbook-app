@@ -1,6 +1,6 @@
 import { DatabaseService } from "./database.service";
 import { hashAndSaltUserPassword, mapUser, verifyPassword } from "../utils";
-import { Block, Channel, Connection } from "../../common/types";
+import { Block, Channel } from "../../common/types";
 import { DbConnection, DbUser, User } from "../types";
 
 export class UserService {
@@ -182,7 +182,7 @@ export class UserService {
       return deletedBlocks;
     }
 
-    //if yes, compare
+    //if yes, compare the blockIds of the duplicate with the connections and delete blocks that exist independently
 
     const duplicateBlockIds = duplicateConnections.map((connection) => {
       return connection.blockId;
@@ -191,8 +191,6 @@ export class UserService {
     const uniqueBlockIdsToDelete = blockIdsOfDeletedConnections.filter(
       (blockId) => !duplicateBlockIds.includes(blockId)
     );
-
-    //FINE HERE
 
     const uniqueDeletedBlocks = await this.databaseService.deleteMultipleBlocks(
       uniqueBlockIdsToDelete

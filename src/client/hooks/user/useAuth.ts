@@ -27,6 +27,7 @@ export const useAuth = () => {
 
   const loginAsync = (request: LoginRequest) => {
     return loginUserMutation.mutateAsync(request).then((jwt) => {
+      console.log(jwt);
       setToken(jwt);
     });
   };

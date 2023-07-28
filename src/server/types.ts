@@ -44,6 +44,19 @@ export interface DbConnection {
   created: Date;
 }
 
+export interface DbFeed {
+  id: string;
+  block_id: string;
+  channel_id: string;
+  user_id: string;
+  created: Date;
+  first_name: string;
+  last_name: string;
+  channel_title: string;
+  image_path: string | null;
+  image_data: any;
+}
+
 export interface DbConnectionWithImage {
   id: string;
   block_id: string;

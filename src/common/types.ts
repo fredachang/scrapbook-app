@@ -17,8 +17,14 @@ export interface Channel {
 
 export interface Block {
   id: string;
-  imagePath: string;
+  imagePath: string | null;
   created: Date;
+  imageData: any;
+}
+
+export interface BlockForFeed {
+  id: string;
+  imagePath: string | null;
   imageData: any;
 }
 
@@ -27,14 +33,44 @@ export interface Connection {
   blockId: string;
   channelId: string;
   userId: string;
-  created: Date | undefined;
+  created: Date;
 }
 
 export interface Feed {
-  date: Date;
-  userId: string;
+  id: string;
+  blockId: string;
   channelId: string;
-  blocks: string[];
+  userId: string;
+  created: Date;
+  firstName: string;
+  lastName: string;
+  channelTitle: string;
+  imagePath: string | null;
+  imageData: any;
+}
+
+export interface FeedWithDateString {
+  id: string;
+  blockId: string;
+  channelId: string;
+  userId: string;
+  created: string;
+  firstName: string;
+  lastName: string;
+  channelTitle: string;
+  imagePath: string | null;
+  imageData: any;
+}
+
+export interface FeedFolded {
+  key: string;
+  blocks: BlockForFeed[];
+  channelId: string;
+  userId: string;
+  created: string;
+  firstName: string;
+  lastName: string;
+  channelTitle: string;
 }
 
 export interface ConnectionWithImage {

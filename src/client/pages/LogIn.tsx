@@ -26,10 +26,15 @@ export const Login = () => {
       password: password,
     };
 
-    login.loginAsync(variables).then(() => {
-      setMessage("Logged in successfully");
-      navigate("/", { replace: true });
-    });
+    login
+      .loginAsync(variables)
+      .then(() => {
+        setMessage("Logged in successfully");
+        navigate("/", { replace: true });
+      })
+      .catch(() => {
+        setMessage("Invalid username or login");
+      });
   };
 
   const outerContainer = "w-full h-screen flex justify-center items-center";

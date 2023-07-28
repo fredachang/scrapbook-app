@@ -6,7 +6,6 @@ import { Channel } from "./Channel";
 import { useAuthContext } from "../context/AuthContext";
 import { useGetChannels } from "../hooks/channels/useGetChannels";
 import { useCreateChannel } from "../hooks/channels/useCreateChannel";
-import { BlockExpanded } from "../components/BlockExpanded";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();

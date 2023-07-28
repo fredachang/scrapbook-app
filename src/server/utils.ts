@@ -5,15 +5,21 @@ import {
   DbChannel,
   DbConnection,
   DbConnectionWithImage,
+  DbFeed,
   DbUser,
   User,
 } from "./types";
 import {
   Block,
+  BlockForFeed,
   Channel,
   Connection,
   ConnectionWithImage,
+  Feed,
+  FeedFolded,
+  FeedWithDateString,
 } from "../common/types";
+import { format, parseISO } from "date-fns";
 
 interface Password {
   salt: string;
@@ -101,4 +107,56 @@ export const mapConnectionsWithImage = (
     imagePath: connection.image_path,
     imageData: connection.image_data,
   }));
+};
+
+export const convertTime = (created: Date) => {
+  const dateString = created.toISOString();
+  const dateObj = parseISO(dateString);
+  const formattedDate = format(dateObj, "yyyy-MM-dd");
+  return formattedDate;
+};
+
+export const mapFeeds = (feeds: DbFeed[]): Feed[] => {
+  return feeds.map((feed) => ({
+    id: feed.id,
+    blockId: feed.block_id,
+    channelId: feed.channel_id,
+    userId: feed.user_id,
+    created: feed.created,
+    firstName: feed.first_name,
+    lastName: feed.last_name,
+    channelTitle: feed.channel_title,
+    imagePath: feed.image_path,
+    imageData: feed.image_data,
+  }));
+};
+
+export const restructureFeeds = (feeds: FeedWithDateString[]): FeedFolded[] => {
+  return feeds.reduce<FeedFolded[]>((accumulator, currentValue) => {
+    const key = `${currentValue.created}_${currentValue.channelId}_${currentValue.userId}`;
+
+    const existingItem = accumulator.find((item) => item.key === key);
+    const block: BlockForFeed = {
+      id: currentValue.blockId,
+      imagePath: currentValue.imagePath,
+      imageData: currentValue.imageData,
+    };
+
+    if (existingItem) {
+      existingItem.blocks.push(block);
+    } else {
+      accumulator.push({
+        key,
+        blocks: [block],
+        channelId: currentValue.channelId,
+        userId: currentValue.userId,
+        created: currentValue.created,
+        firstName: currentValue.firstName || "",
+        lastName: currentValue.lastName || "",
+        channelTitle: currentValue.channelTitle,
+      });
+    }
+
+    return accumulator;
+  }, []);
 };

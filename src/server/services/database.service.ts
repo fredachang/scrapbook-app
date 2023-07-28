@@ -1,4 +1,4 @@
-import { Pool, QueryResult } from "pg";
+import { Pool } from "pg";
 import {
   Block,
   Channel,
@@ -103,7 +103,7 @@ export class DatabaseService {
       blockId: dbConnection.block_id,
       channelId: dbConnection.channel_id,
       userId: dbConnection.user_id,
-      created: connection.created,
+      created: dbConnection.created,
     };
   }
 

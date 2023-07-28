@@ -22,7 +22,7 @@ export const Block2 = (props: Props) => {
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [expandBlock, setExpandBlock] = useState(false);
 
-  const { data: channels, isLoading, isError } = useGetBlockChannels(blockId);
+  const { data: channels } = useGetBlockChannels(blockId);
   const { profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 

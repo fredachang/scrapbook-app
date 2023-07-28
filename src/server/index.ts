@@ -3,7 +3,7 @@ import cors from "cors";
 import { pool } from "./db.ts";
 import { DatabaseService } from "./services/database.service.ts";
 import { UserService } from "./services/user.service.ts";
-import { createJwt } from "./utils.ts";
+import { convertTime, createJwt, restructureFeeds } from "./utils.ts";
 import { config } from "dotenv";
 import { authMiddleware } from "./middleware/auth.middleware.ts";
 import { SocialService } from "./services/social.service.ts";
@@ -118,14 +118,20 @@ app.get("/user/channels/connections", authMiddleware, async (req, res) => {
   }
 });
 
-app.get("/feed/connections", authMiddleware, async (req, res) => {
+app.get("/user/feed", authMiddleware, async (req, res) => {
   const { id } = req.user;
 
   try {
     const socialConnections = await socialService.getSocialConnections(id);
-    // console.log(socialConnections);
 
-    return res.status(200).json(socialConnections);
+    const socialConnectionsByDay = socialConnections.map((connection) => ({
+      ...connection,
+      created: convertTime(connection.created),
+    }));
+
+    const mappedFeeds = restructureFeeds(socialConnectionsByDay);
+
+    return res.status(200).json(mappedFeeds);
   } catch (err) {
     return res.status(500).json({
       error: "EXPRESS: Error retrieving social connections.",
@@ -270,8 +276,9 @@ app.post("/auth/login", async (req, res) => {
     return res.status(200).json(jwt);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json(`EXPRESS: Error registering, ${error.message}`);
+      return res.status(400);
     }
+    return res.status(400);
   }
 });
 
