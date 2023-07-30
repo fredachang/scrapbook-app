@@ -4,7 +4,6 @@ import {
   DbBlock,
   DbChannel,
   DbConnection,
-  DbConnectionWithImage,
   DbFeed,
   DbUser,
   User,
@@ -14,7 +13,6 @@ import {
   BlockForFeed,
   Channel,
   Connection,
-  ConnectionWithImage,
   Feed,
   FeedFolded,
   FeedWithDateString,
@@ -95,19 +93,19 @@ export const mapConnections = (connections: DbConnection[]): Connection[] => {
   }));
 };
 
-export const mapConnectionsWithImage = (
-  connections: DbConnectionWithImage[]
-): ConnectionWithImage[] => {
-  return connections.map((connection) => ({
-    id: connection.id,
-    blockId: connection.block_id,
-    channelId: connection.channel_id,
-    userId: connection.user_id,
-    created: connection.created,
-    imagePath: connection.image_path,
-    imageData: connection.image_data,
-  }));
-};
+// export const mapConnectionsWithImage = (
+//   connections: DbConnectionWithImage[]
+// ): ConnectionWithImage[] => {
+//   return connections.map((connection) => ({
+//     id: connection.id,
+//     blockId: connection.block_id,
+//     channelId: connection.channel_id,
+//     userId: connection.user_id,
+//     created: connection.created,
+//     imagePath: connection.image_path,
+//     imageData: connection.image_data,
+//   }));
+// };
 
 export const convertTime = (created: Date) => {
   const dateString = created.toISOString();

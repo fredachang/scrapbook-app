@@ -1,8 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
+import { User } from "../../common/types";
 
 config();
+
+const emptyUser = {
+  id: "",
+  email: "",
+  firstName: "",
+  lastName: "",
+  created: new Date(),
+};
 
 export const authMiddleware = (
   req: Request,
@@ -23,7 +32,12 @@ export const authMiddleware = (
       return res.status(403).json("Unauthorized");
     }
 
-    req.user = jwtPayload.user;
+    console.log({ jwtPayload });
+
+    req.user =
+      typeof jwtPayload !== "string"
+        ? (jwtPayload?.user as unknown as User)
+        : emptyUser;
     next();
   });
 };

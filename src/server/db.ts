@@ -1,12 +1,11 @@
 import pg from "pg";
+import { config } from "dotenv";
+
+config();
 
 const { Pool } = pg;
 
 //connects to server
 export const pool = new Pool({
-  user: "postgres",
-  password: "winter",
-  host: "localhost",
-  database: "Arena",
-  port: 5432,
+  connectionString: process.env.POSTGRES_URL,
 });

@@ -4,9 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "clean": "rimraf -rf ./dist",
     "client:dev": "vite",
-    "client:build": "tsc && vite build",
+    "client:build": "vite build",
     "server:dev": "npx tsx watch src/server/index.ts",
+    "server:build": "tsc",
+    "build": "run-s clean server:build client:build",
+    "start": "node dist/src/server/main.js",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -48,6 +52,8 @@
     "eslint": "^8.44.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.1",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^5.0.1",
     "tsx": "^3.12.7",
     "typescript": "^5.0.2",
     "vite": "^4.4.0"

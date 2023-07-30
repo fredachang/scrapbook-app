@@ -1,12 +1,13 @@
 import express from "express";
 import cors from "cors";
-import { pool } from "./db.ts";
-import { DatabaseService } from "./services/database.service.ts";
-import { UserService } from "./services/user.service.ts";
-import { convertTime, createJwt, restructureFeeds } from "./utils.ts";
+import { pool } from "./db";
+import { DatabaseService } from "./services/database.service";
+import { UserService } from "./services/user.service";
+import { convertTime, createJwt, restructureFeeds } from "./utils";
 import { config } from "dotenv";
-import { authMiddleware } from "./middleware/auth.middleware.ts";
-import { SocialService } from "./services/social.service.ts";
+import { authMiddleware } from "./middleware/auth.middleware";
+import { SocialService } from "./services/social.service";
+import path from "path";
 
 config();
 
@@ -20,10 +21,6 @@ const userService = new UserService(databaseService);
 //middleware
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
-
-app.listen(4000, () => {
-  console.log("EXPRESS: server has started on port 4000");
-});
 
 //Routes
 
@@ -320,3 +317,11 @@ app.delete(
     }
   }
 );
+
+app.listen(4000, () => {
+  console.log("EXPRESS: server has started on port 4000");
+});
+
+if (process.env.NODE_ENV === "PRODUCTION") {
+  app.use(express.static(path.join(__dirname, "../client")));
+}

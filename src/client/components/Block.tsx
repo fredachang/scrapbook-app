@@ -26,6 +26,7 @@ export const Block = (props: Props) => {
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   const navigate = useNavigate();
+
   function convertBase64ToUrl(base64string: string) {
     const imageFormat = "jpeg";
     const dataURL = `data:image/${imageFormat};base64,${base64string}`;
