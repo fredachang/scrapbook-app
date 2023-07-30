@@ -7,8 +7,8 @@ import { convertTime, createJwt, restructureFeeds } from "./utils";
 import { config } from "dotenv";
 import { authMiddleware } from "./middleware/auth.middleware";
 import { SocialService } from "./services/social.service";
-import path from "path";
-import history from "connect-history-api-fallback";
+// import path from "path";
+// import history from "connect-history-api-fallback";
 
 config();
 
@@ -19,310 +19,319 @@ const socialService = new SocialService(pool);
 
 const userService = new UserService(databaseService);
 
-//middleware
-app.use(cors());
-app.use(express.json({ limit: "50mb" }));
-app.use(history());
+const run = () => {
+  //middleware
+  app.use(cors());
+  app.use(express.json({ limit: "50mb" }));
+  // app.use(history());
 
-//Routes
-app.get("/user/blocks", authMiddleware, async (req, res) => {
-  const { id } = req.user;
+  //Routes
+  app.get("/user/blocks", authMiddleware, async (req, res) => {
+    const { id } = req.user;
 
-  try {
-    const blocks = await userService.getUserBlocks(id);
-
-    return res.status(200).json(blocks);
-  } catch (error) {
-    if (error instanceof Error) {
-      return res
-        .status(500)
-        .json({ error: "EXPRESS: Error retrieving blocks." });
-    }
-  }
-  res.status(200).json("EXPRESS: blocks retrieved successfully");
-});
-
-app.get(
-  "/user/block/connectionid/:blockId/:channelId",
-  authMiddleware,
-  async (req, res) => {
     try {
-      const { blockId, channelId } = req.params;
+      const blocks = await userService.getUserBlocks(id);
 
-      const connectionId = await databaseService.getConnectionId(
-        blockId,
-        channelId
-      );
-
-      return res.status(200).json(connectionId);
+      return res.status(200).json(blocks);
     } catch (error) {
       if (error instanceof Error) {
         return res
           .status(500)
-          .json({ error: "EXPRESS: Error retrieving connectionId." });
+          .json({ error: "EXPRESS: Error retrieving blocks." });
       }
     }
-    res.status(200).json("EXPRESS: connectionid retrieved successfully");
-  }
-);
+    res.status(200).json("EXPRESS: blocks retrieved successfully");
+  });
 
-app.get("/user/channels", authMiddleware, async (req, res) => {
-  const { id } = req.user;
+  app.get(
+    "/user/block/connectionid/:blockId/:channelId",
+    authMiddleware,
+    async (req, res) => {
+      try {
+        const { blockId, channelId } = req.params;
 
-  try {
-    const channels = await databaseService.getChannelsByUserId(id);
+        const connectionId = await databaseService.getConnectionId(
+          blockId,
+          channelId
+        );
 
-    return res.status(200).json(channels);
-  } catch (error) {
-    if (error instanceof Error) {
-      return res
-        .status(500)
-        .json({ error: "EXPRESS: Error retrieving channels." });
+        return res.status(200).json(connectionId);
+      } catch (error) {
+        if (error instanceof Error) {
+          return res
+            .status(500)
+            .json({ error: "EXPRESS: Error retrieving connectionId." });
+        }
+      }
+      res.status(200).json("EXPRESS: connectionid retrieved successfully");
     }
-  }
-  res.status(200).json("EXPRESS: channels retrieved successfully");
-});
+  );
 
-app.get("/user/:blockId/channels", authMiddleware, async (req, res) => {
-  const { id } = req.user;
-  try {
-    const { blockId } = req.params;
+  app.get("/user/channels", authMiddleware, async (req, res) => {
+    const { id } = req.user;
 
-    const channelTitles = await userService.getBlockChannels(blockId, id);
+    try {
+      const channels = await databaseService.getChannelsByUserId(id);
 
-    return res.status(200).json(channelTitles);
-  } catch (error) {
-    if (error instanceof Error) {
-      return res
-        .status(500)
-        .json({ error: "EXPRESS: Error retrieving channel titles." });
+      return res.status(200).json(channels);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res
+          .status(500)
+          .json({ error: "EXPRESS: Error retrieving channels." });
+      }
     }
-  }
-  res.status(200).json("EXPRESS: channels retrieved successfully");
-});
+    res.status(200).json("EXPRESS: channels retrieved successfully");
+  });
 
-app.get("/user/channels/connections", authMiddleware, async (req, res) => {
-  const { id } = req.user;
+  app.get("/user/:blockId/channels", authMiddleware, async (req, res) => {
+    const { id } = req.user;
+    try {
+      const { blockId } = req.params;
 
-  try {
-    const connectionsWithImagePath =
-      await databaseService.getConnectionsWithImagePath(id);
+      const channelTitles = await userService.getBlockChannels(blockId, id);
 
-    return res.status(200).json(connectionsWithImagePath);
-  } catch (err) {
-    return res.status(500).json({
-      error: "EXPRESS: Error retrieving connections with image path.",
-    });
-  }
-});
-
-app.get("/user/feed", authMiddleware, async (req, res) => {
-  const { id } = req.user;
-
-  try {
-    const socialConnections = await socialService.getSocialConnections(id);
-
-    const socialConnectionsByDay = socialConnections.map((connection) => ({
-      ...connection,
-      created: convertTime(connection.created),
-    }));
-
-    const mappedFeeds = restructureFeeds(socialConnectionsByDay);
-
-    return res.status(200).json(mappedFeeds);
-  } catch (err) {
-    return res.status(500).json({
-      error: "EXPRESS: Error retrieving social connections.",
-    });
-  }
-});
-
-app.post("/channels/create", authMiddleware, async (req, res) => {
-  const userId = req.user?.id;
-  try {
-    const { title, isPrivate } = req.body;
-
-    const created = new Date();
-
-    await databaseService.createChannel({
-      title,
-      created,
-      isPrivate,
-      userId: userId,
-    });
-
-    res.status(200).json("channel added successfully");
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json(`EXPRESS: Error creating channel, ${error.message}`);
+      return res.status(200).json(channelTitles);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res
+          .status(500)
+          .json({ error: "EXPRESS: Error retrieving channel titles." });
+      }
     }
-  }
-});
+    res.status(200).json("EXPRESS: channels retrieved successfully");
+  });
 
-app.post("/blocks/create", authMiddleware, async (req, res) => {
-  const userId = req.user?.id;
-  try {
-    const { imagePath, channelId } = req.body;
+  app.get("/user/channels/connections", authMiddleware, async (req, res) => {
+    const { id } = req.user;
 
-    const created = new Date();
+    try {
+      const connectionsWithImagePath =
+        await databaseService.getConnectionsWithImagePath(id);
 
-    const block = await databaseService.createBlock({
-      imagePath,
-      created,
-    });
-
-    await databaseService.createConnection({
-      blockId: block.id,
-      channelId: channelId,
-      userId: userId,
-    });
-
-    res.status(200).json("EXPRESS: block added successfully");
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json(`EXPRESS: Error adding block, ${error.message}`);
+      return res.status(200).json(connectionsWithImagePath);
+    } catch (err) {
+      return res.status(500).json({
+        error: "EXPRESS: Error retrieving connections with image path.",
+      });
     }
-  }
-});
+  });
 
-app.post("/blocks/upload", authMiddleware, async (req, res) => {
-  try {
-    const { imageData, channelId } = req.body;
+  app.get("/user/feed", authMiddleware, async (req, res) => {
+    const { id } = req.user;
+
+    try {
+      const socialConnections = await socialService.getSocialConnections(id);
+
+      const socialConnectionsByDay = socialConnections.map((connection) => ({
+        ...connection,
+        created: convertTime(connection.created),
+      }));
+
+      const mappedFeeds = restructureFeeds(socialConnectionsByDay);
+
+      return res.status(200).json(mappedFeeds);
+    } catch (err) {
+      return res.status(500).json({
+        error: "EXPRESS: Error retrieving social connections.",
+      });
+    }
+  });
+
+  app.post("/channels/create", authMiddleware, async (req, res) => {
     const userId = req.user?.id;
+    try {
+      const { title, isPrivate } = req.body;
 
-    const created = new Date();
-
-    const block = await databaseService.createBlockByUpload({
-      imageData,
-      created,
-    });
-
-    await databaseService.createConnection({
-      blockId: block.id,
-      channelId: channelId,
-      userId: userId,
-    });
-
-    res.status(200).json("EXPRESS: block added successfully");
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json(`EXPRESS: Error adding block, ${error.message}`);
-    }
-  }
-});
-
-app.post("/connections/create", authMiddleware, async (req, res) => {
-  const { id } = req.user;
-
-  try {
-    const { blockId, channelId } = req.body;
-
-    const duplicateBlockId = await databaseService.getExistingBlockIdInChanel(
-      channelId,
-      blockId
-    );
-
-    if (!duplicateBlockId) {
       const created = new Date();
 
-      const connectionVariables = {
-        blockId,
-        channelId,
-        userId: id,
+      await databaseService.createChannel({
+        title,
         created,
-      };
+        isPrivate,
+        userId: userId,
+      });
 
-      await databaseService.createConnection(connectionVariables);
-
-      res.status(200).json("EXPRESS: connection established successfully");
+      res.status(200).json("channel added successfully");
+    } catch (error) {
+      if (error instanceof Error) {
+        res
+          .status(400)
+          .json(`EXPRESS: Error creating channel, ${error.message}`);
+      }
     }
-  } catch (error) {
-    if (error instanceof Error) {
-      res
-        .status(400)
-        .json(`EXPRESS: Error establishing connection, ${error.message}`);
+  });
+
+  app.post("/blocks/create", authMiddleware, async (req, res) => {
+    const userId = req.user?.id;
+    try {
+      const { imagePath, channelId } = req.body;
+
+      const created = new Date();
+
+      const block = await databaseService.createBlock({
+        imagePath,
+        created,
+      });
+
+      await databaseService.createConnection({
+        blockId: block.id,
+        channelId: channelId,
+        userId: userId,
+      });
+
+      res.status(200).json("EXPRESS: block added successfully");
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(400).json(`EXPRESS: Error adding block, ${error.message}`);
+      }
     }
-  }
-});
+  });
 
-app.post("/auth/register", async (req, res) => {
-  try {
-    const { firstName, lastName, email, password } = req.body;
+  app.post("/blocks/upload", authMiddleware, async (req, res) => {
+    try {
+      const { imageData, channelId } = req.body;
+      const userId = req.user?.id;
 
-    await userService.registerUser({
-      email,
-      password,
-      firstName,
-      lastName,
-    });
+      const created = new Date();
 
-    res.status(200).json("EXPRESS: Sign up successful");
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json(`EXPRESS: Error registering, ${error.message}`);
+      const block = await databaseService.createBlockByUpload({
+        imageData,
+        created,
+      });
+
+      await databaseService.createConnection({
+        blockId: block.id,
+        channelId: channelId,
+        userId: userId,
+      });
+
+      res.status(200).json("EXPRESS: block added successfully");
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(400).json(`EXPRESS: Error adding block, ${error.message}`);
+      }
     }
-  }
-});
+  });
 
-app.post("/auth/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  app.post("/connections/create", authMiddleware, async (req, res) => {
+    const { id } = req.user;
 
-    const user = await userService.verifyUserCredentials(email, password);
-    const jwt = createJwt({ user }, process.env.AUTH_SECRET!);
+    try {
+      const { blockId, channelId } = req.body;
 
-    return res.status(200).json(jwt);
-  } catch (error) {
-    if (error instanceof Error) {
+      const duplicateBlockId = await databaseService.getExistingBlockIdInChanel(
+        channelId,
+        blockId
+      );
+
+      if (!duplicateBlockId) {
+        const created = new Date();
+
+        const connectionVariables = {
+          blockId,
+          channelId,
+          userId: id,
+          created,
+        };
+
+        await databaseService.createConnection(connectionVariables);
+
+        res.status(200).json("EXPRESS: connection established successfully");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        res
+          .status(400)
+          .json(`EXPRESS: Error establishing connection, ${error.message}`);
+      }
+    }
+  });
+
+  app.post("/auth/register", async (req, res) => {
+    try {
+      const { firstName, lastName, email, password } = req.body;
+
+      await userService.registerUser({
+        email,
+        password,
+        firstName,
+        lastName,
+      });
+
+      res.status(200).json("EXPRESS: Sign up successful");
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(400).json(`EXPRESS: Error registering, ${error.message}`);
+      }
+    }
+  });
+
+  app.post("/auth/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      const user = await userService.verifyUserCredentials(email, password);
+      const jwt = createJwt({ user }, process.env.AUTH_SECRET!);
+
+      return res.status(200).json(jwt);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400);
+      }
       return res.status(400);
     }
-    return res.status(400);
-  }
-});
+  });
 
-app.delete(
-  "/user/channel/delete/:channelId",
-  authMiddleware,
-  async (req, res) => {
-    try {
-      const { channelId } = req.params;
-      await userService.deleteChannel(channelId);
+  app.delete(
+    "/user/channel/delete/:channelId",
+    authMiddleware,
+    async (req, res) => {
+      try {
+        const { channelId } = req.params;
+        await userService.deleteChannel(channelId);
 
-      return res.status(200).json("channel deleted");
-    } catch (error) {
-      if (error instanceof Error) {
-        res
-          .status(400)
-          .json(`EXPRESS: Error deleting channel, ${error.message}`);
+        return res.status(200).json("channel deleted");
+      } catch (error) {
+        if (error instanceof Error) {
+          res
+            .status(400)
+            .json(`EXPRESS: Error deleting channel, ${error.message}`);
+        }
       }
     }
-  }
-);
+  );
 
-app.delete(
-  "/user/connection/delete/:connectionId/:blockId",
-  authMiddleware,
-  async (req, res) => {
-    try {
-      const { connectionId, blockId } = req.params;
+  app.delete(
+    "/user/connection/delete/:connectionId/:blockId",
+    authMiddleware,
+    async (req, res) => {
+      try {
+        const { connectionId, blockId } = req.params;
 
-      const deleted = await userService.deleteConnection(connectionId, blockId);
+        const deleted = await userService.deleteConnection(
+          connectionId,
+          blockId
+        );
 
-      return res.status(200).json(deleted);
-    } catch (error) {
-      if (error instanceof Error) {
-        res
-          .status(400)
-          .json(`EXPRESS: Error deleting connection, ${error.message}`);
+        return res.status(200).json(deleted);
+      } catch (error) {
+        if (error instanceof Error) {
+          res
+            .status(400)
+            .json(`EXPRESS: Error deleting connection, ${error.message}`);
+        }
       }
     }
-  }
-);
+  );
 
-app.listen(4000, () => {
-  console.log("EXPRESS: server has started on port 4000");
-});
+  app.listen(4000, () => {
+    console.log("EXPRESS: server has started on port 4000");
+  });
 
-if (process.env.NODE_ENV === "PRODUCTION") {
-  app.use(express.static(path.join(__dirname, "../client")));
-}
+  // if (process.env.NODE_ENV === "PRODUCTION") {
+  //   app.use(express.static(path.join(__dirname, "../client")));
+  // }
+};
+
+run();
