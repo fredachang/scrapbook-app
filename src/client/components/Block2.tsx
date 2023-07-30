@@ -2,8 +2,6 @@ import { useState } from "react";
 import { GenericButton } from "./GenericButton";
 import { ConnectionModal } from "./ConnectionModal";
 import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
-import { useAuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import { BlockExpanded } from "./BlockExpanded";
 
 interface Props {
@@ -22,11 +20,7 @@ export const Block2 = (props: Props) => {
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [expandBlock, setExpandBlock] = useState(false);
 
-  const { data: channels } = useGetBlockChannels(blockId);
-  const { profile } = useAuthContext();
-  const userName = `${profile?.firstName}-${profile?.lastName}`;
-
-  const navigate = useNavigate();
+  const { data: blockChannels } = useGetBlockChannels(blockId);
 
   function convertBase64ToUrl(base64string: string) {
     const imageFormat = "jpeg";
@@ -103,10 +97,10 @@ export const Block2 = (props: Props) => {
           />
           <p className="text-xs">BlockId: {shortenUUID(blockId)}</p>
           <div>
-            {channels?.map((channel) => {
+            {blockChannels?.map((blockChannel) => {
               return (
-                <p className="text-xs" key={channel.id}>
-                  {channel.title}
+                <p className="text-xs" key={blockChannel.id}>
+                  {blockChannel.title}
                 </p>
               );
             })}

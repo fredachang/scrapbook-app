@@ -11,9 +11,10 @@ interface Props {
 
 export const ConnectionModal = (props: Props) => {
   const { handleCloseConnect, blockId } = props;
-  const { data: channels, isLoading, isError } = useGetChannels();
-  const [filteredChannels, setFilteredChannels] = useState(channels);
   const [input, setInput] = useState("");
+
+  const { data: channels, isLoading } = useGetChannels();
+  const [filteredChannels, setFilteredChannels] = useState(channels);
 
   const createConnectionMutation = useCreateConnection();
   const navigate = useNavigate();
@@ -76,11 +77,9 @@ export const ConnectionModal = (props: Props) => {
           onChange={handleFilterList}
         />
 
-        {isLoading && <p>Loading...</p>}
-        {isError && <p>Error occurred while fetching data.</p>}
-
         {filteredChannels && (
           <ul>
+            {isLoading && "Loading..."}
             {filteredChannels.map((channel) => (
               <div key={channel.id}>
                 <button onClick={() => handleClickChannel(channel.id)}>
