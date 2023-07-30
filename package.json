@@ -10,7 +10,7 @@
     "server:dev": "npx tsx watch src/server/index.ts",
     "server:build": "tsc",
     "build": "run-s clean server:build client:build",
-    "start": "node dist/src/server/main.js",
+    "start": "node dist/src/server/index.js",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -19,6 +19,7 @@
     "@types/express-session": "^1.17.7",
     "@types/react-router-dom": "^5.3.3",
     "bcryptjs": "^2.4.3",
+    "connect-history-api-fallback": "^2.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "date-fns": "^2.30.0",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/connect-history-api-fallback": "^1.5.0",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",

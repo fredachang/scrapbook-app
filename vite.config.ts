@@ -6,4 +6,7 @@ export default defineConfig({
   root: "./src/client",
   build: { outDir: "../../dist/client" },
   plugins: [react()],
+  server: {
+    port: process.env.NODE_ENV === "production" ? 3000 : 3001,
+  },
 });

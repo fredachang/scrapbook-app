@@ -8,6 +8,7 @@ import { config } from "dotenv";
 import { authMiddleware } from "./middleware/auth.middleware";
 import { SocialService } from "./services/social.service";
 import path from "path";
+import history from "connect-history-api-fallback";
 
 config();
 
@@ -21,9 +22,9 @@ const userService = new UserService(databaseService);
 //middleware
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
+app.use(history());
 
 //Routes
-
 app.get("/user/blocks", authMiddleware, async (req, res) => {
   const { id } = req.user;
 
