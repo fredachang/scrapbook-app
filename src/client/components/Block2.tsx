@@ -58,7 +58,6 @@ export const Block2 = (props: Props) => {
 
   const handleCloseBlock = () => {
     setExpandBlock(false);
-    navigate(`/blocks/${userName}`, { replace: true });
   };
 
   const blockContainer =

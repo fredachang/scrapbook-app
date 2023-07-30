@@ -16,11 +16,9 @@ const app = express();
 
 const databaseService = new DatabaseService(pool);
 const socialService = new SocialService(pool);
-
 const userService = new UserService(databaseService);
 
 const run = () => {
-  //middleware
   app.use(cors());
   app.use(express.json({ limit: "50mb" }));
   // app.use(history());

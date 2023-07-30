@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useCreateConnection } from "../hooks/connections/useCreateConnection";
 import { useGetChannels } from "../hooks/channels/useGetChannels";
@@ -17,6 +17,7 @@ export const ConnectionModal = (props: Props) => {
 
   const createConnectionMutation = useCreateConnection();
   const navigate = useNavigate();
+  const location = useLocation();
   const { profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
@@ -40,7 +41,25 @@ export const ConnectionModal = (props: Props) => {
     };
 
     createConnectionMutation.mutateAsync(variables).then(() => {
-      navigate(`/channels/${userName}`, { replace: true });
+      const currentPath = location.pathname;
+
+      let targetUrl;
+
+      switch (currentPath) {
+        case `/channels/${userName}`:
+          targetUrl = `/channels/${userName}`;
+          break;
+        case `/blocks/${userName}`:
+          targetUrl = `/blocks/${userName}`;
+          break;
+        case `/`:
+          targetUrl = `/`;
+          break;
+        default:
+          targetUrl = "/";
+      }
+
+      navigate(targetUrl, { replace: true });
       setInput("");
       handleCloseConnect();
     });

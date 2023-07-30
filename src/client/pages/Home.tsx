@@ -4,8 +4,6 @@ import { useGetFeed } from "../hooks/feed/useGetFeed";
 export const Home = () => {
   const { data: feeds, isLoading, isError } = useGetFeed();
 
-  console.log(feeds);
-
   return (
     <>
       <h1 className="text-4xl text-center">Home</h1>
