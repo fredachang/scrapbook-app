@@ -15,7 +15,7 @@ export class SocialService {
   //joins user and channel names as well as block data
   async getSocialConnections(userId: string): Promise<Feed[]> {
     const query =
-      "SELECT c.*, u.first_name,u.last_name, ch.title as channel_title, b.image_path, b.image_data FROM connections c JOIN users u ON c.user_id = u.id JOIN channels ch ON c.channel_id = ch.id LEFT JOIN blocks b ON c.block_id = b.id WHERE c.user_id NOT IN (SELECT user_id FROM connections WHERE user_id = $1) AND c.created >= NOW() - INTERVAL '10 days' ORDER BY c.created DESC, c.user_id, c.channel_id, c.block_id";
+      "SELECT c.*, u.first_name,u.last_name, ch.title as channel_title, b.image_path, b.image_data FROM connections c JOIN users u ON c.user_id = u.id JOIN channels ch ON c.channel_id = ch.id LEFT JOIN blocks b ON c.block_id = b.id WHERE c.user_id NOT IN (SELECT user_id FROM connections WHERE user_id = $1) AND c.created >= NOW() - INTERVAL '10 days' AND NOT ch.is_private ORDER BY c.created DESC, c.user_id, c.channel_id, c.block_id";
 
     const { rows: feeds } = await this.pool.query<DbFeed>(query, [userId]);
 
