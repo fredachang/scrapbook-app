@@ -7,7 +7,7 @@ import { convertTime, createJwt, restructureFeeds } from "./utils";
 import { config } from "dotenv";
 import { authMiddleware } from "./middleware/auth.middleware";
 import { SocialService } from "./services/social.service";
-// import path from "path";
+import path from "path";
 // import history from "connect-history-api-fallback";
 
 config();
@@ -329,9 +329,9 @@ const run = () => {
     console.log("EXPRESS: server has started on port 4000");
   });
 
-  // if (process.env.NODE_ENV === "PRODUCTION") {
-  //   app.use(express.static(path.join(__dirname, "../client")));
-  // }
+  if (process.env.NODE_ENV === "PRODUCTION") {
+    app.use(express.static(path.join(__dirname, "../client")));
+  }
 };
 
 run();
