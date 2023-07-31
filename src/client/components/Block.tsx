@@ -11,12 +11,15 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   blockId: string;
   channelId: string;
+  isPrivate: boolean;
+  channelTitle: string;
   imagePath: string | null;
   imageData: string | null;
 }
 
 export const Block = (props: Props) => {
-  const { blockId, imagePath, imageData, channelId } = props;
+  const { blockId, imagePath, imageData, channelId, channelTitle, isPrivate } =
+    props;
   const [showConnectButton, setShowConnectButton] = useState(false);
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [expandBlock, setExpandBlock] = useState(false);
@@ -80,6 +83,9 @@ export const Block = (props: Props) => {
         <div className={popUpMenuContainer}>
           <BlockActionsModal
             blockId={blockId}
+            isPrivate={isPrivate}
+            channelTitle={channelTitle}
+            channelId={channelId}
             connectionId={connectionId || ""}
           />
         </div>
@@ -89,6 +95,7 @@ export const Block = (props: Props) => {
             <ConnectionModal
               handleCloseConnect={handleCloseConnect}
               blockId={blockId}
+              channelTitle={channelTitle}
             />
           </div>
         )}

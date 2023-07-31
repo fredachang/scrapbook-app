@@ -54,7 +54,7 @@ export const BlockExpanded = (props: Props) => {
     }
   };
 
-  const stopResize = (e: React.MouseEvent<HTMLDivElement>) => {
+  const stopResize = () => {
     setDrag({ ...drag, active: false });
   };
 
@@ -126,6 +126,7 @@ export const BlockExpanded = (props: Props) => {
             <ConnectionModal
               blockId={blockId}
               handleCloseConnect={handleCloseConnect}
+              channelTitle=""
             />
           )}
         </div>

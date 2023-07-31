@@ -6,11 +6,12 @@ import { useGetChannels } from "../hooks/channels/useGetChannels";
 
 interface Props {
   blockId: string;
+  channelTitle: string;
   handleCloseConnect: () => void;
 }
 
 export const ConnectionModal = (props: Props) => {
-  const { handleCloseConnect, blockId } = props;
+  const { handleCloseConnect, blockId, channelTitle } = props;
   const [input, setInput] = useState("");
 
   const { data: channels, isLoading } = useGetChannels();
@@ -35,7 +36,7 @@ export const ConnectionModal = (props: Props) => {
     setFilteredChannels(filteredList);
   };
 
-  const handleClickChannel = (channelId: string) => {
+  const handleClickChannel = (channelId: string, isPrivate: boolean) => {
     const variables = {
       channelId: channelId,
       blockId: blockId,
@@ -44,7 +45,7 @@ export const ConnectionModal = (props: Props) => {
     createConnectionMutation.mutateAsync(variables).then(() => {
       const currentPath = location.pathname;
 
-      let targetUrl;
+      let targetUrl: string;
 
       switch (currentPath) {
         case `/channels/${userName}`:
@@ -52,6 +53,9 @@ export const ConnectionModal = (props: Props) => {
           break;
         case `/blocks/${userName}`:
           targetUrl = `/blocks/${userName}`;
+          break;
+        case `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`:
+          targetUrl = `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`;
           break;
         case `/`:
           targetUrl = `/`;
@@ -82,7 +86,11 @@ export const ConnectionModal = (props: Props) => {
             {isLoading && "Loading..."}
             {filteredChannels.map((channel) => (
               <div key={channel.id}>
-                <button onClick={() => handleClickChannel(channel.id)}>
+                <button
+                  onClick={() =>
+                    handleClickChannel(channel.id, channel.isPrivate)
+                  }
+                >
                   {channel.title}
                 </button>
               </div>

@@ -6,6 +6,7 @@ import { Blocks } from "./pages/Blocks";
 import { Login } from "./pages/LogIn";
 import { SignUp } from "./pages/Signup";
 import { Channels } from "./pages/Channels";
+import { ChannelExpanded } from "./pages/ChannelExpanded";
 
 function App() {
   return (
@@ -33,6 +34,14 @@ function App() {
           element={
             <GuardedRoute>
               <Channels />
+            </GuardedRoute>
+          }
+        />
+        <Route
+          path="/channels/:username/:channelTitle/:id/:isPrivate"
+          element={
+            <GuardedRoute>
+              <ChannelExpanded />
             </GuardedRoute>
           }
         />

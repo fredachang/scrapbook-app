@@ -1,20 +1,24 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useDeleteConnection } from "../hooks/connections/useDeleteConnection";
 
 interface Props {
   blockId: string;
   connectionId: string;
+  channelTitle: string;
+  channelId: string;
+  isPrivate: boolean;
 }
 
 export const BlockActionsModal = (props: Props) => {
-  const { blockId, connectionId } = props;
+  const { blockId, connectionId, channelTitle, channelId, isPrivate } = props;
+
   const [menuPopUp, setMenuPopUp] = useState(false);
 
   const { profile } = useAuthContext();
   const navigate = useNavigate();
-  // const location = useLocation();
+  const location = useLocation();
   const deleteConnectionMutation = useDeleteConnection();
 
   const userName = `${profile?.firstName}-${profile?.lastName}`;
@@ -27,27 +31,29 @@ export const BlockActionsModal = (props: Props) => {
     setMenuPopUp(false);
   };
 
-  //im not sure if deleteblock is needed as a functionality, in remove connection if its the only block it deletes the block already
-
-  // const handleDeleteBlock = () => {
-  //   const variables = {
-  //     blockId: blockId,
-  //   };
-
-  //   deleteBlockMutation.mutateAsync(variables).then(() => {
-  //     navigate(`/channels/${userName}`, { replace: true });
-  //     setMenuPopUp(false);
-  //   });
-  // };
-
   const handleRemoveConnection = () => {
+    const currentPath = location.pathname;
+
+    // console.log(channelTitle);
+
+    let targetUrl: string;
+
+    switch (currentPath) {
+      case `/channels/${userName}`:
+        targetUrl = `/channels/${userName}`;
+        break;
+      case `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`:
+        targetUrl = `/channels/${userName}/${channelTitle}/${channelId}//${isPrivate}`;
+        break;
+    }
+
     const variables = {
       connectionId: connectionId,
       blockId: blockId,
     };
 
     deleteConnectionMutation.mutateAsync(variables).then(() => {
-      navigate(`/channels/${userName}`, { replace: true });
+      navigate(targetUrl, { replace: true });
       setMenuPopUp(false);
     });
   };

@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useCreateBlock } from "../hooks/blocks/useCreateBlock";
 import { useCreateBlockByUpload } from "../hooks/blocks/useCreateBlockByUpload";
@@ -7,10 +7,12 @@ import { splitStringByComma } from "../utils";
 
 interface Props {
   channelId: string;
+  channelTitle: string;
+  isPrivate: boolean;
 }
 
 export const ImageUploader = (props: Props) => {
-  const { channelId } = props;
+  const { channelId, channelTitle, isPrivate } = props;
   const { profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
@@ -20,6 +22,7 @@ export const ImageUploader = (props: Props) => {
   const createBlockMutation = useCreateBlock();
   const uploadblockMutation = useCreateBlockByUpload();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -30,6 +33,18 @@ export const ImageUploader = (props: Props) => {
       setDragActive(false);
     }
   };
+
+  const currentPath = location.pathname;
+  let targetUrl: string;
+
+  switch (currentPath) {
+    case `/channels/${userName}`:
+      targetUrl = `/channels/${userName}`;
+      break;
+    case `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`:
+      targetUrl = `/channels/${userName}/${channelTitle}/${channelId}//${isPrivate}`;
+      break;
+  }
 
   const handleDrop = function (e: React.DragEvent) {
     e.preventDefault();
@@ -53,7 +68,7 @@ export const ImageUploader = (props: Props) => {
           };
 
           uploadblockMutation.mutateAsync(blockVariables).then(() => {
-            navigate(`/channels/${userName}`, { replace: true });
+            navigate(targetUrl, { replace: true });
           });
         }
       };
@@ -81,7 +96,7 @@ export const ImageUploader = (props: Props) => {
     };
 
     createBlockMutation.mutateAsync(blockVariables).then(() => {
-      navigate(`/channels/${userName}`, { replace: true });
+      navigate(targetUrl, { replace: true });
       setImagePath("");
     });
   };

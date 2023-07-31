@@ -75,6 +75,7 @@ export const Block2 = (props: Props) => {
             <ConnectionModal
               handleCloseConnect={handleCloseConnect}
               blockId={blockId}
+              channelTitle=""
             />
           </div>
         )}

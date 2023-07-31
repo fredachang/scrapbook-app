@@ -212,6 +212,26 @@ const run = () => {
     }
   });
 
+  app.post("/channel/update", authMiddleware, async (req, res) => {
+    try {
+      const { title, isPrivate, channelId } = req.body;
+
+      const updatedChannel = await databaseService.updateChannel(
+        title,
+        isPrivate,
+        channelId
+      );
+
+      res.status(200).json(updatedChannel);
+    } catch (error) {
+      if (error instanceof Error) {
+        res
+          .status(400)
+          .json(`EXPRESS: Error updating channel, ${error.message}`);
+      }
+    }
+  });
+
   app.post("/connections/create", authMiddleware, async (req, res) => {
     const { id } = req.user;
 

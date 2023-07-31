@@ -2,10 +2,10 @@ import { ChangeEvent, useState } from "react";
 import { NewChannelModal } from "../components/NewChannelModal";
 import { useNavigate } from "react-router-dom";
 
-import { Channel } from "./Channel";
 import { useAuthContext } from "../context/AuthContext";
 import { useGetChannels } from "../hooks/channels/useGetChannels";
 import { useCreateChannel } from "../hooks/channels/useCreateChannel";
+import { Channel } from "../components/Channel";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
@@ -70,7 +70,11 @@ export const Channels = () => {
           <ul>
             {channels.map((channel) => (
               <div key={channel.id}>
-                <Channel id={channel.id} title={channel.title} />
+                <Channel
+                  id={channel.id}
+                  channelTitle={channel.title}
+                  isPrivate={channel.isPrivate}
+                />
               </div>
             ))}
           </ul>

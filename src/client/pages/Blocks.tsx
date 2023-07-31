@@ -1,5 +1,7 @@
+import { motion } from "framer-motion";
 import { Block2 } from "../components/Block2";
 import { useGetUserBlocks } from "../hooks/blocks/useGetUserBlocks";
+import { fadeXY, staggerParentContainer } from "../motion";
 
 export const Blocks = () => {
   const { data: blocks, isLoading, isError } = useGetUserBlocks();
@@ -9,18 +11,24 @@ export const Blocks = () => {
       <h1 className="text-4xl text-center">Blocks</h1>
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error occurred while fetching data.</p>}
+
       {blocks && (
-        <div className="flex flex-wrap">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerParentContainer}
+          className="flex flex-wrap"
+        >
           {blocks.map((block) => (
-            <div key={block.id}>
+            <motion.div key={block.id} variants={fadeXY}>
               <Block2
                 blockId={block.id}
                 imagePath={block.imagePath ? block.imagePath : ""}
                 imageData={block.imageData ? block.imageData : ""}
               />
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </>
   );

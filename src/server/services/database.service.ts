@@ -349,8 +349,6 @@ export class DatabaseService {
 
     const dbBlock = rows[0];
 
-    console.log(dbBlock.image_data);
-
     return {
       id: dbBlock.id,
       created: dbBlock.created,
@@ -453,6 +451,32 @@ export class DatabaseService {
     const userChannels = mapChannels(channels);
 
     return userChannels;
+  }
+
+  async updateChannel(
+    title: string,
+    isPrivate: boolean,
+    channelId: string
+  ): Promise<Channel> {
+    const { rows } = await this.pool.query<DbChannel>(
+      "UPDATE channels SET title = $1, is_private = $2 WHERE id = $3 RETURNING *",
+      [title, isPrivate, channelId]
+    );
+
+    if (rows.length === 0) {
+      throw new Error("DATABASE SERVICE: Error updating channel");
+    }
+
+    const updatedChannel = rows[0];
+
+    return {
+      id: updatedChannel.id,
+      title: updatedChannel.title,
+      isPrivate: updatedChannel.is_private,
+      created: updatedChannel.created,
+      updated: updatedChannel.updated,
+      userId: updatedChannel.user_id,
+    };
   }
 
   async deleteChannel(channelId: string): Promise<DbChannel | null> {
