@@ -1,8 +1,9 @@
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useAuthContext } from "../../context/AuthContext";
+import { queryKeys } from "../queryKeys";
 
 interface Variables {
-  imageData: string | ArrayBuffer | null;
+  imageData: any;
   channelId: string;
 }
 
@@ -25,8 +26,16 @@ const createBlockByUpload = async (
 
 export const useCreateBlockByUpload = () => {
   const { authToken } = useAuthContext();
+  const queryClient = useQueryClient();
 
-  return useMutation<string, Error, Variables>((variables) =>
-    createBlockByUpload(variables, authToken)
+  return useMutation<string, Error, Variables>(
+    (variables) => createBlockByUpload(variables, authToken),
+    {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(
+          queryKeys.connections.getConnections
+        );
+      },
+    }
   );
 };

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useCreateBlock } from "../hooks/blocks/useCreateBlock";
 import { useCreateBlockByUpload } from "../hooks/blocks/useCreateBlockByUpload";
+import { splitStringByComma } from "../utils";
 
 interface Props {
   channelId: string;
@@ -37,22 +38,24 @@ export const ImageUploader = (props: Props) => {
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const imageFile = e.dataTransfer.files[0];
 
-      console.log(imageFile);
-
       const reader = new FileReader();
 
       reader.readAsDataURL(imageFile);
 
       reader.onload = function () {
-        const base64Url = reader.result;
-        const blockVariables = {
-          imageData: base64Url,
-          channelId,
-        };
+        const base64url = reader.result;
+        if (typeof base64url === "string") {
+          const extractedBase64 = splitStringByComma(base64url);
 
-        uploadblockMutation.mutateAsync(blockVariables).then(() => {
-          navigate(`/channels/${userName}`, { replace: true });
-        });
+          const blockVariables = {
+            imageData: extractedBase64,
+            channelId,
+          };
+
+          uploadblockMutation.mutateAsync(blockVariables).then(() => {
+            navigate(`/channels/${userName}`, { replace: true });
+          });
+        }
       };
     }
   };

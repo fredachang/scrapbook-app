@@ -143,7 +143,7 @@ export class UserService {
 
     if (duplicateBlocks.length === 0) {
       const deletedBlock = await this.databaseService.deleteBlock(blockId);
-      console.log(deletedBlock);
+      return deletedBlock;
     }
     return deletedConnection;
   }

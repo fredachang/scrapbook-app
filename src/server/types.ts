@@ -64,7 +64,7 @@ export interface DbConnectionWithImage {
   user_id: string;
   created: Date;
   image_path: string | null;
-  image_data: string | ArrayBuffer | null;
+  image_data: any;
 }
 
 export interface User {

@@ -19,3 +19,9 @@ export function shortenUUID(id: string | undefined) {
   }
   return "";
 }
+
+export const splitStringByComma = (string: string) => {
+  const splitString = string.split(",");
+  const extractedString = splitString[1];
+  return extractedString;
+};

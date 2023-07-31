@@ -256,15 +256,9 @@ export class DatabaseService {
     }
 
     const mappedConnections = connections.map((connection) => {
-      const imageData = connection.image_data;
-
-      const base64Image = imageData
-        ? Buffer.from(imageData).toString("base64")
-        : null;
-
       return {
         ...connection,
-        imageData: base64Image,
+        imageData: connection.image_data,
         blockId: connection.block_id,
         channelId: connection.channel_id,
         userId: connection.user_id,
@@ -336,13 +330,14 @@ export class DatabaseService {
     const dbBlock = rows[0];
 
     return {
-      ...dbBlock,
+      id: dbBlock.id,
+      created: dbBlock.created,
       imagePath: dbBlock.image_path,
       imageData: dbBlock.image_data,
     };
   }
 
-  async createBlockByUpload(block: Partial<Block>): Promise<DbBlock> {
+  async createBlockByUpload(block: Partial<Block>): Promise<Block> {
     const { rows } = await this.pool.query<DbBlock>(
       "INSERT INTO blocks(created, image_data) VALUES ($1, $2) RETURNING *",
       [block.created, block.imageData]
@@ -352,7 +347,16 @@ export class DatabaseService {
       throw new Error("Error uploading image into block");
     }
 
-    return rows[0];
+    const dbBlock = rows[0];
+
+    console.log(dbBlock.image_data);
+
+    return {
+      id: dbBlock.id,
+      created: dbBlock.created,
+      imagePath: dbBlock.image_path,
+      imageData: dbBlock.image_data,
+    };
   }
 
   async getBlocksByBlockIds(blockIds: string[]): Promise<Block[]> {

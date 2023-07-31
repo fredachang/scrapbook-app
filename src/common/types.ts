@@ -19,13 +19,13 @@ export interface Block {
   id: string;
   imagePath: string | null;
   created: Date;
-  imageData: string | null;
+  imageData: any;
 }
 
 export interface BlockForFeed {
   id: string;
   imagePath: string | null;
-  imageData: string | null;
+  imageData: any;
 }
 
 export interface Connection {
@@ -46,7 +46,7 @@ export interface Feed {
   lastName: string;
   channelTitle: string;
   imagePath: string | null;
-  imageData: string | null;
+  imageData: any;
 }
 
 export interface FeedWithDateString {
@@ -59,7 +59,7 @@ export interface FeedWithDateString {
   lastName: string;
   channelTitle: string;
   imagePath: string | null;
-  imageData: string | null;
+  imageData: any;
 }
 
 export interface FeedFolded {
@@ -80,5 +80,5 @@ export interface ConnectionWithImage {
   userId: string;
   created: Date;
   imagePath: string | null;
-  imageData: string | null;
+  imageData: any;
 }

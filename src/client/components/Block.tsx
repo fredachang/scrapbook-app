@@ -27,7 +27,7 @@ export const Block = (props: Props) => {
 
   const navigate = useNavigate();
 
-  function convertBase64ToUrl(base64string: string) {
+  function convertBase64ToUrl(base64string: any) {
     const imageFormat = "jpeg";
     const dataURL = `data:image/${imageFormat};base64,${base64string}`;
     return dataURL;

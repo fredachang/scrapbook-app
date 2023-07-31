@@ -32,8 +32,6 @@ export const authMiddleware = (
       return res.status(403).json("Unauthorized");
     }
 
-    console.log({ jwtPayload });
-
     req.user =
       typeof jwtPayload !== "string"
         ? (jwtPayload?.user as unknown as User)
