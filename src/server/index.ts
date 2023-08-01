@@ -8,6 +8,7 @@ import { config } from "dotenv";
 import { authMiddleware } from "./middleware/auth.middleware";
 import { SocialService } from "./services/social.service";
 import path from "path";
+import history from "connect-history-api-fallback";
 // import history from "connect-history-api-fallback";
 
 config();
@@ -21,7 +22,7 @@ const userService = new UserService(databaseService);
 const run = () => {
   app.use(cors());
   app.use(express.json({ limit: "50mb" }));
-  // app.use(history());
+  app.use(history());
 
   //Routes
   app.get("/user/blocks", authMiddleware, async (req, res) => {
@@ -348,10 +349,12 @@ const run = () => {
   }
 
   app.listen(4000, () => {
-    console.log(`EXPRESS: server has started on port 4000, in NODE_ENV ${process.env.NODE_ENV ?? 'development'}`);
+    console.log(
+      `EXPRESS: server has started on port 4000, in NODE_ENV ${
+        process.env.NODE_ENV ?? "development"
+      }`
+    );
   });
-
- 
 };
 
 run();
