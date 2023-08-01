@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
+import { apiUrl } from "../apiUrl";
 
 interface Variables {
   title: string;
@@ -12,7 +13,7 @@ const updateChannel = async (
   variables: Variables,
   token?: string
 ): Promise<string> => {
-  const data = await fetch("http://localhost:4000/channel/update", {
+  const data = await fetch(`${apiUrl}/channel/update`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

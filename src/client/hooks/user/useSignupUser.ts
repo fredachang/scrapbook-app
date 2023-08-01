@@ -1,4 +1,5 @@
 import { useMutation } from "react-query";
+import { apiUrl } from "../apiUrl";
 
 interface Variables {
   firstName: string;
@@ -8,7 +9,7 @@ interface Variables {
 }
 
 const signup = async (variables: Variables): Promise<string> => {
-  const data = await fetch("http://localhost:4000/auth/register", {
+  const data = await fetch(`${apiUrl}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

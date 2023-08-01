@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
+import { apiUrl } from "../apiUrl";
 
 interface Variables {
   channelId: string;
@@ -11,7 +12,7 @@ const createConnection = async (
   variables: Variables,
   token?: string
 ): Promise<string> => {
-  const data = await fetch("http://localhost:4000/connections/create", {
+  const data = await fetch(`${apiUrl}/connections/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

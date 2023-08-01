@@ -2,9 +2,10 @@ import { useQuery } from "react-query";
 import { FeedFolded } from "../../../common/types";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
+import { apiUrl } from "../apiUrl";
 
 const getFeed = async (token?: string): Promise<FeedFolded[]> => {
-  const data = await fetch("http://localhost:4000/user/feed", {
+  const data = await fetch(`${apiUrl}/user/feed`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

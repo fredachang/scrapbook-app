@@ -2,12 +2,13 @@ import { useQuery } from "react-query";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
 import { Channel } from "../../../common/types";
+import { apiUrl } from "../apiUrl";
 
 const getBlockChannels = async (
   blockId: string,
   token?: string
 ): Promise<Channel[]> => {
-  const url = `http://localhost:4000/user/${blockId}/channels`;
+  const url = `${apiUrl}/user/${blockId}/channels`;
 
   const data = await fetch(url, {
     method: "GET",

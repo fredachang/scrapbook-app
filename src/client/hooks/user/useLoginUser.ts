@@ -1,4 +1,5 @@
 import { useMutation } from "react-query";
+import { apiUrl } from "../apiUrl";
 
 interface Variables {
   email: string;
@@ -8,7 +9,7 @@ interface Variables {
 type JWT = string;
 
 const login = async (variables: Variables): Promise<JWT> => {
-  const data = await fetch("http://localhost:4000/auth/login", {
+  const data = await fetch(`${apiUrl}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

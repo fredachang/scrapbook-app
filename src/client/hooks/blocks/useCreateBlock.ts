@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { queryKeys } from "../queryKeys";
 import { useAuthContext } from "../../context/AuthContext";
+import { apiUrl } from "../apiUrl";
 
 interface Variables {
   imagePath: string;
@@ -11,7 +12,7 @@ const createBlock = async (
   variables: Variables,
   token?: string
 ): Promise<string> => {
-  const data = await fetch("http://localhost:4000/blocks/create", {
+  const data = await fetch(`${apiUrl}/blocks/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

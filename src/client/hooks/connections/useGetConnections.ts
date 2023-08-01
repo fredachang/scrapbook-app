@@ -2,11 +2,12 @@ import { useQuery } from "react-query";
 import { ConnectionWithImage } from "../../../common/types";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
+import { apiUrl } from "../apiUrl";
 
 const getConnections = async (
   token?: string
 ): Promise<ConnectionWithImage[]> => {
-  const data = await fetch("http://localhost:4000/user/channels/connections", {
+  const data = await fetch(`${apiUrl}/user/channels/connections`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

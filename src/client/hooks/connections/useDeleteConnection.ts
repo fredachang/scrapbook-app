@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { queryKeys } from "../queryKeys";
 import { useAuthContext } from "../../context/AuthContext";
+import { apiUrl } from "../apiUrl";
 
 interface Variables {
   connectionId: string;
@@ -13,7 +14,7 @@ const deleteConnection = async (
 ): Promise<string> => {
   const { connectionId, blockId } = variables;
   const data = await fetch(
-    `http://localhost:4000/user/connection/delete/${connectionId}/${blockId}`,
+    `${apiUrl}/user/connection/delete/${connectionId}/${blockId}`,
     {
       method: "DELETE",
       headers: {

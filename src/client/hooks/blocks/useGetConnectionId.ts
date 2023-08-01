@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
+import { apiUrl } from "../apiUrl";
 
 interface Variables {
   blockId: string;
@@ -12,7 +13,7 @@ const getConnectionId = async (
   token?: string
 ): Promise<string> => {
   const { blockId, channelId } = variables;
-  const url = `http://localhost:4000/user/block/connectionid/${blockId}/${channelId}`;
+  const url = `${apiUrl}/user/block/connectionid/${blockId}/${channelId}`;
 
   const data = await fetch(url, {
     method: "GET",
