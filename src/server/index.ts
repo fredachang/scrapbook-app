@@ -9,7 +9,6 @@ import { authMiddleware } from "./middleware/auth.middleware";
 import { SocialService } from "./services/social.service";
 import path from "path";
 import history from "connect-history-api-fallback";
-// import history from "connect-history-api-fallback";
 
 config();
 
@@ -22,9 +21,7 @@ const userService = new UserService(databaseService);
 const run = () => {
   app.use(cors());
   app.use(express.json({ limit: "50mb" }));
-  app.use(history());
 
-  //Routes
   app.get("/user/blocks", authMiddleware, async (req, res) => {
     const { id } = req.user;
 
@@ -271,17 +268,20 @@ const run = () => {
     try {
       const { firstName, lastName, email, password } = req.body;
 
-      await userService.registerUser({
+      const x = await userService.registerUser({
         email,
         password,
         firstName,
         lastName,
       });
 
-      res.status(200).json("EXPRESS: Sign up successful");
+      console.log({ x });
+      return res.status(200).json("EXPRESS: Sign up successful");
     } catch (error) {
       if (error instanceof Error) {
-        res.status(400).json(`EXPRESS: Error registering, ${error.message}`);
+        return res
+          .status(400)
+          .json(`EXPRESS: Error registering, ${error.message}`);
       }
     }
   });
@@ -292,6 +292,8 @@ const run = () => {
 
       const user = await userService.verifyUserCredentials(email, password);
       const jwt = createJwt({ user }, process.env.AUTH_SECRET!);
+
+      console.log(user, jwt);
 
       return res.status(200).json(jwt);
     } catch (error) {
@@ -343,6 +345,8 @@ const run = () => {
       }
     }
   );
+
+  app.use(history());
 
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client")));

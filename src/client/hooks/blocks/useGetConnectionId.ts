@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
-import { apiUrl } from "../apiUrl";
+import { apiUrl } from "../../apiUrl";
 
 interface Variables {
   blockId: string;

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { queryKeys } from "../queryKeys";
 import { useAuthContext } from "../../context/AuthContext";
-import { apiUrl } from "../apiUrl";
+import { apiUrl } from "../../apiUrl";
 
 interface Variables {
   channelId: string;

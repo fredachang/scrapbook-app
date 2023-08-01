@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { apiUrl } from "../apiUrl";
+import { apiUrl } from "../../apiUrl";
 
 interface Variables {
   firstName: string;

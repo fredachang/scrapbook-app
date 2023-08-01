@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
 import { Channel } from "../../../common/types";
-import { apiUrl } from "../apiUrl";
+import { apiUrl } from "../../apiUrl";
 
 type Channels = Channel[];
 

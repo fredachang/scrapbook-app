@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
-import { apiUrl } from "../apiUrl";
+import { apiUrl } from "../../apiUrl";
 
 interface Variables {
   imageData: any;
@@ -12,7 +12,7 @@ const createBlockByUpload = async (
   variables: Variables,
   token?: string
 ): Promise<string> => {
-  const data = await fetch(`${apiUrl}/http://localhost:4000/blocks/upload`, {
+  const data = await fetch(`${apiUrl}/blocks/upload`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

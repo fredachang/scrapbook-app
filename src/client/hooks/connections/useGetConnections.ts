@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { ConnectionWithImage } from "../../../common/types";
 import { useAuthContext } from "../../context/AuthContext";
 import { queryKeys } from "../queryKeys";
-import { apiUrl } from "../apiUrl";
+import { apiUrl } from "../../apiUrl";
 
 const getConnections = async (
   token?: string

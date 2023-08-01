@@ -17,6 +17,7 @@ export class UserService {
     lastName: string;
   }): Promise<DbUser> {
     const userExists = await this.databaseService.emailExists(data.email);
+    console.log({ userExists });
 
     if (userExists) {
       throw new Error("USER SERVICE: User already exists");
