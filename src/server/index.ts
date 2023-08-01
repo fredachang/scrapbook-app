@@ -343,13 +343,15 @@ const run = () => {
     }
   );
 
-  app.listen(4000, () => {
-    console.log("EXPRESS: server has started on port 4000");
-  });
-
-  if (process.env.NODE_ENV === "PRODUCTION") {
+  if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client")));
   }
+
+  app.listen(4000, () => {
+    console.log(`EXPRESS: server has started on port 4000, in NODE_ENV ${process.env.NODE_ENV ?? 'development'}`);
+  });
+
+ 
 };
 
 run();
