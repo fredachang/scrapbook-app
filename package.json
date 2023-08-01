@@ -10,7 +10,7 @@
     "server:dev": "npx tsx watch src/server/index.ts",
     "server:build": "tsc",
     "build": "run-s clean server:build client:build",
-    "start": "node dist/src/server/index.js",
+    "start": "node dist/server/index.js",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
