@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useCreateConnection } from "../hooks/connections/useCreateConnection";
@@ -14,13 +14,15 @@ export const ConnectionModal = (props: Props) => {
   const { handleCloseConnect, blockId, channelTitle } = props;
   const [input, setInput] = useState("");
 
-  const { data: channels, isLoading } = useGetChannels();
-  console.log({ isLoading });
-  console.log({ channels });
+  const { data: channels } = useGetChannels();
+
+  useEffect(() => {
+    if (channels) {
+      filterList(input);
+    }
+  }, [channels, input]);
 
   const [filteredChannels, setFilteredChannels] = useState(channels);
-
-  console.log(filteredChannels);
 
   const createConnectionMutation = useCreateConnection(blockId);
   const navigate = useNavigate();
@@ -86,23 +88,21 @@ export const ConnectionModal = (props: Props) => {
           onChange={handleFilterList}
         />
 
-        {isLoading
-          ? "isLoading"
-          : filteredChannels && (
-              <ul>
-                {filteredChannels.map((channel) => (
-                  <div key={channel.id}>
-                    <button
-                      onClick={() =>
-                        handleClickChannel(channel.id, channel.isPrivate)
-                      }
-                    >
-                      {channel.title}
-                    </button>
-                  </div>
-                ))}
-              </ul>
-            )}
+        {filteredChannels && (
+          <ul>
+            {filteredChannels.map((channel) => (
+              <div key={channel.id}>
+                <button
+                  onClick={() =>
+                    handleClickChannel(channel.id, channel.isPrivate)
+                  }
+                >
+                  {channel.title}
+                </button>
+              </div>
+            ))}
+          </ul>
+        )}
 
         <button className="text-center" onClick={handleCloseConnect}>
           Close
