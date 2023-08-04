@@ -287,6 +287,7 @@ const run = () => {
   });
 
   app.post("/auth/login", async (req, res) => {
+    console.log("inlogin");
     try {
       const { email, password } = req.body;
 

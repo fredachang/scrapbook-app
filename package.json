@@ -2,7 +2,6 @@
   "name": "arena-clone-app",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "clean": "rm -rf ./dist",
     "client:dev": "vite",
@@ -17,6 +16,7 @@
   "dependencies": {
     "@types/cookie-parser": "^1.4.3",
     "@types/express-session": "^1.17.7",
+    "@types/node": "^20.4.7",
     "@types/react-router-dom": "^5.3.3",
     "bcryptjs": "^2.4.3",
     "connect-history-api-fallback": "^2.0.0",
