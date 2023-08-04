@@ -12,7 +12,7 @@ const createChannel = async (
   variables: Variables,
   token?: string
 ): Promise<string> => {
-  const data = await fetch(`${apiUrl}/create`, {
+  const data = await fetch(`${apiUrl}/channels/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
