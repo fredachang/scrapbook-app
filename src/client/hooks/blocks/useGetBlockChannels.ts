@@ -25,7 +25,7 @@ const getBlockChannels = async (
 export const useGetBlockChannels = (blockId: string) => {
   const { authToken } = useAuthContext();
 
-  const queryKey = queryKeys.blocks.getChannels + JSON.stringify(blockId);
+  const queryKey = `${queryKeys.blocks.getChannels}-${blockId}`;
 
   return useQuery<Channel[], Error>(queryKey, () =>
     getBlockChannels(blockId, authToken)
