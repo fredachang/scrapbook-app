@@ -275,7 +275,6 @@ const run = () => {
         lastName,
       });
 
-      console.log({ x });
       return res.status(200).json("EXPRESS: Sign up successful");
     } catch (error) {
       if (error instanceof Error) {
@@ -287,14 +286,11 @@ const run = () => {
   });
 
   app.post("/auth/login", async (req, res) => {
-    console.log("inlogin");
     try {
       const { email, password } = req.body;
 
       const user = await userService.verifyUserCredentials(email, password);
       const jwt = createJwt({ user }, process.env.AUTH_SECRET!);
-
-      console.log(user, jwt);
 
       return res.status(200).json(jwt);
     } catch (error) {
