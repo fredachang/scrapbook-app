@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useCreateConnection } from "../hooks/connections/useCreateConnection";
 import { useGetChannels } from "../hooks/channels/useGetChannels";
+import React from "react";
 
 interface Props {
   blockId: string;
@@ -16,13 +17,13 @@ export const ConnectionModal = (props: Props) => {
 
   const { data: channels } = useGetChannels();
 
-  useEffect(() => {
-    if (channels) {
-      filterList(input);
-    }
-  }, [channels, input]);
+  // useEffect(() => {
+  //   if (channels) {
+  //     filterList(input);
+  //   }
+  // }, [channels, input]);
 
-  const [filteredChannels, setFilteredChannels] = useState(channels);
+  // const [filteredChannels, setFilteredChannels] = useState(channels);
 
   const createConnectionMutation = useCreateConnection(blockId);
   const navigate = useNavigate();
@@ -33,15 +34,21 @@ export const ConnectionModal = (props: Props) => {
   const handleFilterList = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     setInput(input);
-    filterList(input);
+    // filterList(input);
   };
 
-  const filterList = (input: string) => {
-    const filteredList = channels?.filter((channel) =>
-      channel.title.toLowerCase().includes(input.toLowerCase())
-    );
-    setFilteredChannels(filteredList || []);
-  };
+  const filteredChannels = React.useMemo(() => {
+    const filteredList =
+      channels?.filter((channel) =>
+        channel.title.toLowerCase().includes(input.toLowerCase())
+      ) ?? [];
+
+    return filteredList;
+  }, [channels, input]);
+
+  // const filterList = (input: string) => {
+  //   setFilteredChannels(filteredList || []);
+  // };
 
   const handleClickChannel = (channelId: string, isPrivate: boolean) => {
     const variables = {
@@ -87,22 +94,19 @@ export const ConnectionModal = (props: Props) => {
           value={input}
           onChange={handleFilterList}
         />
-
-        {filteredChannels && (
-          <ul>
-            {filteredChannels.map((channel) => (
-              <div key={channel.id}>
-                <button
-                  onClick={() =>
-                    handleClickChannel(channel.id, channel.isPrivate)
-                  }
-                >
-                  {channel.title}
-                </button>
-              </div>
-            ))}
-          </ul>
-        )}
+        <ul>
+          {filteredChannels.map((channel) => (
+            <div key={channel.id}>
+              <button
+                onClick={() =>
+                  handleClickChannel(channel.id, channel.isPrivate)
+                }
+              >
+                {channel.title}
+              </button>
+            </div>
+          ))}
+        </ul>
 
         <button className="text-center" onClick={handleCloseConnect}>
           Close
