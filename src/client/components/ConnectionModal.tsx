@@ -17,7 +17,7 @@ export const ConnectionModal = (props: Props) => {
   const { data: channels, isLoading } = useGetChannels();
   const [filteredChannels, setFilteredChannels] = useState(channels);
 
-  const createConnectionMutation = useCreateConnection();
+  const createConnectionMutation = useCreateConnection(blockId);
   const navigate = useNavigate();
   const location = useLocation();
   const { profile } = useAuthContext();

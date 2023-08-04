@@ -25,18 +25,24 @@ const createConnection = async (
   return res;
 };
 
-export const useCreateConnection = () => {
+export const useCreateConnection = (blockId: string) => {
   const { authToken } = useAuthContext();
   const queryClient = useQueryClient();
+
+  console.log({ blockId });
+
+  const queryKey = `${queryKeys.blocks.getChannels}-${blockId}`;
+
+  console.log({ queryKey });
 
   return useMutation<string, Error, Variables>(
     (variables) => createConnection(variables, authToken),
     {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries(
-          queryKeys.connections.getConnections
-        );
-      },
+      onSuccess: () =>
+        Promise.all([
+          queryClient.invalidateQueries(queryKeys.connections.getConnections),
+          queryClient.invalidateQueries(queryKey),
+        ]),
     }
   );
 };
