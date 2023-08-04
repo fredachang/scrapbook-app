@@ -15,7 +15,12 @@ export const ConnectionModal = (props: Props) => {
   const [input, setInput] = useState("");
 
   const { data: channels, isLoading } = useGetChannels();
+  console.log({ isLoading });
+  console.log({ channels });
+
   const [filteredChannels, setFilteredChannels] = useState(channels);
+
+  console.log(filteredChannels);
 
   const createConnectionMutation = useCreateConnection(blockId);
   const navigate = useNavigate();
@@ -24,16 +29,16 @@ export const ConnectionModal = (props: Props) => {
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   const handleFilterList = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const filterText = e.target.value;
-    setInput(filterText);
-    filterList(filterText);
+    const input = e.target.value;
+    setInput(input);
+    filterList(input);
   };
 
-  const filterList = (filterText: string) => {
+  const filterList = (input: string) => {
     const filteredList = channels?.filter((channel) =>
-      channel.title.toLowerCase().includes(filterText.toLowerCase())
+      channel.title.toLowerCase().includes(input.toLowerCase())
     );
-    setFilteredChannels(filteredList);
+    setFilteredChannels(filteredList || []);
   };
 
   const handleClickChannel = (channelId: string, isPrivate: boolean) => {
@@ -81,22 +86,23 @@ export const ConnectionModal = (props: Props) => {
           onChange={handleFilterList}
         />
 
-        {filteredChannels && (
-          <ul>
-            {isLoading && "Loading..."}
-            {filteredChannels.map((channel) => (
-              <div key={channel.id}>
-                <button
-                  onClick={() =>
-                    handleClickChannel(channel.id, channel.isPrivate)
-                  }
-                >
-                  {channel.title}
-                </button>
-              </div>
-            ))}
-          </ul>
-        )}
+        {isLoading
+          ? "isLoading"
+          : filteredChannels && (
+              <ul>
+                {filteredChannels.map((channel) => (
+                  <div key={channel.id}>
+                    <button
+                      onClick={() =>
+                        handleClickChannel(channel.id, channel.isPrivate)
+                      }
+                    >
+                      {channel.title}
+                    </button>
+                  </div>
+                ))}
+              </ul>
+            )}
 
         <button className="text-center" onClick={handleCloseConnect}>
           Close

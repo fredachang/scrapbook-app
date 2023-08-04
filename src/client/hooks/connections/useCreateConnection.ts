@@ -29,11 +29,7 @@ export const useCreateConnection = (blockId: string) => {
   const { authToken } = useAuthContext();
   const queryClient = useQueryClient();
 
-  console.log({ blockId });
-
   const queryKey = `${queryKeys.blocks.getChannels}-${blockId}`;
-
-  console.log({ queryKey });
 
   return useMutation<string, Error, Variables>(
     (variables) => createConnection(variables, authToken),

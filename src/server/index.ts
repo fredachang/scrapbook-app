@@ -268,7 +268,7 @@ const run = () => {
     try {
       const { firstName, lastName, email, password } = req.body;
 
-      const x = await userService.registerUser({
+      await userService.registerUser({
         email,
         password,
         firstName,
