@@ -32,9 +32,11 @@ export const useDeleteChannel = () => {
   return useMutation<string, Error, Variables>(
     (variables) => deleteChannel(variables, authToken),
     {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries(queryKeys.channels.getChannels);
-      },
+      onSuccess: () =>
+        Promise.all([
+          queryClient.invalidateQueries(queryKeys.channels.getChannels),
+          // queryClient.invalidateQueries(queryKeys.),
+        ]),
     }
   );
 };

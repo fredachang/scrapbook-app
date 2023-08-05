@@ -25,6 +25,7 @@ export const Block = (props: Props) => {
   const [expandBlock, setExpandBlock] = useState(false);
 
   const { data: connectionId } = useGetConnectionId({ blockId, channelId });
+
   const { profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
@@ -71,7 +72,6 @@ export const Block = (props: Props) => {
   const imageContainer =
     "bg-yellow-100 w-full h-full flex flex-col items-center";
 
-  // console.log(imageSrc);
   return (
     <>
       <div

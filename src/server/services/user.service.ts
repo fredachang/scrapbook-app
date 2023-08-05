@@ -92,40 +92,6 @@ export class UserService {
     return channels;
   }
 
-  async deleteUserBlock(
-    blockId: string,
-    userId: string
-  ): Promise<Block | null> {
-    const blockUserId = await this.databaseService.getUserIdForBlock(blockId);
-
-    if (!blockUserId) {
-      throw new Error("USER SERVICE: getBlockUserId failed");
-    }
-
-    //check if block to be deleted belongs to the user
-    if (userId !== blockUserId) {
-      throw new Error(
-        "USER SERVICE: No permission to delete block as you are not the user that created it"
-      );
-    }
-
-    //delete ALL the connections associated with the blockID (note this deletes connections saved by other users)
-
-    const deletedConnection =
-      await this.databaseService.deleteConnectionsByBlockId(blockId);
-
-    if (!deletedConnection) {
-      throw new Error("USER SERVICE: connections deletion failed");
-    }
-
-    const deletedBlock = await this.databaseService.deleteBlock(blockId);
-
-    if (!deletedBlock) {
-      throw new Error("USER SERVICE: block deletion failed");
-    }
-    return deletedBlock;
-  }
-
   async deleteConnection(
     connectionId: string,
     blockId: string
