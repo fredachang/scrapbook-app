@@ -143,10 +143,14 @@ export class UserService {
 
     //if not, these blocks are deleted (the blocks in this channel are unique)
     if (duplicateConnections.length === 0) {
-      const deletedBlocks = await this.databaseService.deleteMultipleBlocks(
+      await this.databaseService.deleteMultipleBlocks(
         blockIdsOfDeletedConnections
       );
-      return deletedBlocks;
+
+      const deletedChannel = await this.databaseService.deleteChannel(
+        channelId
+      );
+      return deletedChannel;
     }
 
     //if yes, compare the blockIds of the duplicate with the connections and delete blocks that exist independently

@@ -35,7 +35,7 @@ export const useDeleteChannel = () => {
       onSuccess: () =>
         Promise.all([
           queryClient.invalidateQueries(queryKeys.channels.getChannels),
-          // queryClient.invalidateQueries(queryKeys.),
+          queryClient.invalidateQueries(queryKeys.connections.getConnections),
         ]),
     }
   );
