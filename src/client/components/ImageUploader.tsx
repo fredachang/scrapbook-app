@@ -13,6 +13,7 @@ interface Props {
 
 export const ImageUploader = (props: Props) => {
   const { channelId, channelTitle, isPrivate } = props;
+  // console.log({ channelId });
   const { profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
@@ -67,8 +68,6 @@ export const ImageUploader = (props: Props) => {
             channelId,
           };
 
-          console.log({ channelId });
-
           uploadblockMutation.mutateAsync(blockVariables).then(() => {
             navigate(targetUrl, { replace: true });
           });
@@ -78,7 +77,6 @@ export const ImageUploader = (props: Props) => {
   };
 
   const handleManualUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
     if (e.target.files && e.target.files[0]) {
       const imageFile = e.target.files[0];
 
@@ -91,12 +89,11 @@ export const ImageUploader = (props: Props) => {
         if (typeof base64url === "string") {
           const extractedBase64 = splitStringByComma(base64url);
 
+          console.log({ channelId });
           const blockVariables = {
             imageData: extractedBase64,
             channelId,
           };
-
-          console.log(channelId);
 
           uploadblockMutation.mutateAsync(blockVariables).then(() => {
             navigate(targetUrl, { replace: true });

@@ -4,6 +4,7 @@ import { useLoginUser } from "./useLoginUser";
 import { useSignupUser } from "./useSignupUser";
 import decode from "jwt-decode";
 import { User } from "../../../common/types";
+import { useQueryClient } from "react-query";
 
 interface SignupRequest {
   email: string;
@@ -20,6 +21,7 @@ interface JwtBody {
 }
 
 export const useAuth = () => {
+  const queryClient = useQueryClient();
   const [token, setToken, remove] = useLocalStorage<string | undefined>("auth");
 
   const signupUserMutation = useSignupUser();
@@ -36,7 +38,10 @@ export const useAuth = () => {
     loginAsync,
   };
 
-  const logout = React.useCallback(() => remove(), [remove]);
+  const logout = React.useCallback(() => {
+    queryClient.removeQueries();
+    remove();
+  }, [remove]);
 
   const profile = React.useMemo(() => {
     if (!token) {
