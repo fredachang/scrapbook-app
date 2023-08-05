@@ -92,40 +92,6 @@ export class UserService {
     return channels;
   }
 
-  async deleteUserBlock(
-    blockId: string,
-    userId: string
-  ): Promise<Block | null> {
-    const blockUserId = await this.databaseService.getUserIdForBlock(blockId);
-
-    if (!blockUserId) {
-      throw new Error("USER SERVICE: getBlockUserId failed");
-    }
-
-    //check if block to be deleted belongs to the user
-    if (userId !== blockUserId) {
-      throw new Error(
-        "USER SERVICE: No permission to delete block as you are not the user that created it"
-      );
-    }
-
-    //delete ALL the connections associated with the blockID (note this deletes connections saved by other users)
-
-    const deletedConnection =
-      await this.databaseService.deleteConnectionsByBlockId(blockId);
-
-    if (!deletedConnection) {
-      throw new Error("USER SERVICE: connections deletion failed");
-    }
-
-    const deletedBlock = await this.databaseService.deleteBlock(blockId);
-
-    if (!deletedBlock) {
-      throw new Error("USER SERVICE: block deletion failed");
-    }
-    return deletedBlock;
-  }
-
   async deleteConnection(
     connectionId: string,
     blockId: string
@@ -177,10 +143,14 @@ export class UserService {
 
     //if not, these blocks are deleted (the blocks in this channel are unique)
     if (duplicateConnections.length === 0) {
-      const deletedBlocks = await this.databaseService.deleteMultipleBlocks(
+      await this.databaseService.deleteMultipleBlocks(
         blockIdsOfDeletedConnections
       );
-      return deletedBlocks;
+
+      const deletedChannel = await this.databaseService.deleteChannel(
+        channelId
+      );
+      return deletedChannel;
     }
 
     //if yes, compare the blockIds of the duplicate with the connections and delete blocks that exist independently
