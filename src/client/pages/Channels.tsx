@@ -66,19 +66,17 @@ export const Channels = () => {
           />
         )}
 
-        {channels && (
-          <ul>
-            {channels.map((channel) => (
-              <div key={channel.id}>
-                <Channel
-                  id={channel.id}
-                  channelTitle={channel.title}
-                  isPrivate={channel.isPrivate}
-                />
-              </div>
-            ))}
-          </ul>
-        )}
+        <ul>
+          {channels?.map((channel, idx) => (
+            <div key={`${channel.id}-${idx}`}>
+              <Channel
+                id={channel.id}
+                channelTitle={channel.title}
+                isPrivate={channel.isPrivate}
+              />
+            </div>
+          ))}
+        </ul>
       </div>
     </>
   );
