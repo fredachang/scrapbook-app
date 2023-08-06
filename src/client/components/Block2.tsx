@@ -10,6 +10,7 @@ interface Props {
   blockId: string;
   imagePath: string | null;
   imageData: string | null;
+  text: string | null;
 }
 
 function shortenUUID(id: string | undefined) {
@@ -17,7 +18,7 @@ function shortenUUID(id: string | undefined) {
 }
 
 export const Block2 = (props: Props) => {
-  const { blockId, imagePath, imageData } = props;
+  const { blockId, imagePath, imageData, text } = props;
   const [showConnectButton, setShowConnectButton] = useState(false);
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [expandBlock, setExpandBlock] = useState(false);
@@ -104,12 +105,16 @@ export const Block2 = (props: Props) => {
         )}
 
         <div className={imageContainer}>
-          <img
-            src={imageSrc}
-            alt="block-image"
-            className="w-full h-4/5 object-contain"
-            onClick={handleExpandBlock}
-          />
+          {text ? (
+            <div className="w-full h-4/5">{text}</div>
+          ) : (
+            <img
+              src={imageSrc}
+              alt="block-image"
+              className="w-full h-4/5 object-contain"
+              onClick={handleExpandBlock}
+            />
+          )}
           <p className="text-xs">BlockId: {shortenUUID(blockId)}</p>
           <div>
             {blockChannels?.map((blockChannel) => {

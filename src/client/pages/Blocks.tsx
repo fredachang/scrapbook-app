@@ -25,6 +25,7 @@ export const Blocks = () => {
                 blockId={block.id}
                 imagePath={block.imagePath ? block.imagePath : ""}
                 imageData={block.imageData ? block.imageData : ""}
+                text={block.text}
               />
             </motion.div>
           ))}
