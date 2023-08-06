@@ -240,7 +240,8 @@ export class DatabaseService {
       SELECT 
         c.*,
         b.image_path, 
-        b.image_data
+        b.image_data,
+        b.text
       FROM 
         connections c
       JOIN 
@@ -263,6 +264,7 @@ export class DatabaseService {
         channelId: connection.channel_id,
         userId: connection.user_id,
         imagePath: connection.image_path,
+        text: connection.text,
       };
     });
 
@@ -334,6 +336,28 @@ export class DatabaseService {
       created: dbBlock.created,
       imagePath: dbBlock.image_path,
       imageData: dbBlock.image_data,
+      text: dbBlock.text,
+    };
+  }
+
+  async createBlockWithText(block: Partial<Block>): Promise<Block> {
+    const { rows } = await this.pool.query<DbBlock>(
+      "INSERT INTO blocks(text,created) VALUES ($1, $2) RETURNING *",
+      [block.text, block.created]
+    );
+
+    if (rows.length === 0) {
+      throw new Error("DATABASE SERVICE: Error uploading text to block");
+    }
+
+    const dbBlock = rows[0];
+
+    return {
+      id: dbBlock.id,
+      created: dbBlock.created,
+      imagePath: dbBlock.image_path,
+      imageData: dbBlock.image_data,
+      text: dbBlock.text,
     };
   }
 
@@ -354,6 +378,7 @@ export class DatabaseService {
       created: dbBlock.created,
       imagePath: dbBlock.image_path,
       imageData: dbBlock.image_data,
+      text: dbBlock.text,
     };
   }
 

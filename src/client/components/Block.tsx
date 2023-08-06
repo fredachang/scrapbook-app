@@ -15,11 +15,19 @@ interface Props {
   channelTitle: string;
   imagePath: string | null;
   imageData: string | null;
+  text: string | null;
 }
 
 export const Block = (props: Props) => {
-  const { blockId, imagePath, imageData, channelId, channelTitle, isPrivate } =
-    props;
+  const {
+    blockId,
+    imagePath,
+    imageData,
+    channelId,
+    channelTitle,
+    isPrivate,
+    text,
+  } = props;
   const [showConnectButton, setShowConnectButton] = useState(false);
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [expandBlock, setExpandBlock] = useState(false);
@@ -37,7 +45,7 @@ export const Block = (props: Props) => {
     return dataURL;
   }
 
-  const imageSrc = imagePath ? imagePath : convertBase64ToUrl(imageData || "");
+  const imageSrc = imagePath ? imagePath : convertBase64ToUrl(imageData);
 
   const handleOnMouseOver = () => {
     setShowConnectButton(true);
@@ -110,12 +118,17 @@ export const Block = (props: Props) => {
         )}
 
         <div className={imageContainer}>
-          <img
-            src={imageSrc}
-            alt="block-image"
-            className="w-full h-4/5 object-contain"
-            onClick={handleExpandBlock}
-          />
+          {text ? (
+            <div className="w-full h-4/5">{text}</div>
+          ) : (
+            <img
+              src={imageSrc}
+              alt="block-image"
+              className="w-full h-4/5 object-contain"
+              onClick={handleExpandBlock}
+            />
+          )}
+
           <p className="text-xs">ConnectionId: {shortenUUID(connectionId)}</p>
           <p className="text-xs">BlockId: {shortenUUID(blockId)}</p>
         </div>

@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { Block } from "../components/Block";
-import { ImageUploader } from "../components/ImageUploader";
 import { useAuthContext } from "../context/AuthContext";
 import { useGetConnections } from "../hooks/connections/useGetConnections";
 
 import { motion } from "framer-motion";
 import { fadeXY, staggerParentContainer } from "../motion";
 import { shortenUUID } from "../utils";
+import { Uploader } from "./Uploader";
 
 interface Props {
   id: string;
@@ -43,7 +43,7 @@ export const Channel = (props: Props) => {
         </div>
 
         <div>
-          <ImageUploader
+          <Uploader
             channelId={id}
             channelTitle={channelTitle}
             isPrivate={isPrivate}
@@ -68,6 +68,7 @@ export const Channel = (props: Props) => {
                   channelTitle={channelTitle}
                   imagePath={connection.imagePath}
                   imageData={connection.imageData}
+                  text={connection.text}
                 />
               </motion.div>
             );
