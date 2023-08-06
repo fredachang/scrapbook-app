@@ -34,6 +34,7 @@ export interface DbBlock {
   image_path: string;
   created: Date;
   image_data: any;
+  text: string | null;
 }
 
 export interface DbConnection {

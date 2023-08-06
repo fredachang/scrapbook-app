@@ -20,6 +20,7 @@ export interface Block {
   imagePath: string | null;
   created: Date;
   imageData: any;
+  text: string | null;
 }
 
 export interface BlockForFeed {
@@ -81,4 +82,5 @@ export interface ConnectionWithImage {
   created: Date;
   imagePath: string | null;
   imageData: any;
+  text: string;
 }

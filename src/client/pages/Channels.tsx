@@ -54,7 +54,7 @@ export const Channels = () => {
     setInput(input);
   };
 
-  const handleClear = (e: React.MouseEvent<HTMLElement>) => {
+  const handleClear = () => {
     setInput("");
   };
 

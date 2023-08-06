@@ -184,6 +184,34 @@ const run = () => {
     }
   });
 
+  app.post("/blocks/createtext", authMiddleware, async (req, res) => {
+    const userId = req.user?.id;
+    try {
+      const { text, channelId } = req.body;
+
+      const created = new Date();
+
+      const block = await databaseService.createBlockWithText({
+        text,
+        created,
+      });
+
+      await databaseService.createConnection({
+        blockId: block.id,
+        channelId: channelId,
+        userId: userId,
+      });
+
+      res.status(200).json("EXPRESS: block added successfully with text");
+    } catch (error) {
+      if (error instanceof Error) {
+        res
+          .status(400)
+          .json(`EXPRESS: Error adding block with text, ${error.message}`);
+      }
+    }
+  });
+
   app.post("/blocks/upload", authMiddleware, async (req, res) => {
     try {
       const { imageData, channelId } = req.body;

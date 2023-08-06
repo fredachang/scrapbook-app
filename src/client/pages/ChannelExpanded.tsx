@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Block } from "../components/Block";
-import { ImageUploader } from "../components/ImageUploader";
 import { useAuthContext } from "../context/AuthContext";
 import { useGetConnections } from "../hooks/connections/useGetConnections";
 import { useDeleteChannel } from "../hooks/channels/useDeleteChannel";
@@ -11,6 +10,7 @@ import { motion } from "framer-motion";
 import { fadeXY, staggerParentContainer } from "../motion";
 import { ChannelSettingModal } from "../components/ChannelSettingsModal";
 import { useUpdateChannel } from "../hooks/channels/useUpdateChannel";
+import { Uploader } from "../components/Uploader";
 
 export const ChannelExpanded = () => {
   const { id, channelTitle, isPrivate } = useParams();
@@ -136,7 +136,7 @@ export const ChannelExpanded = () => {
         </div>
 
         <div>
-          <ImageUploader
+          <Uploader
             channelId={IdCheck}
             channelTitle={channelTitleCheck}
             isPrivate={isPrivateCheck}
@@ -161,6 +161,7 @@ export const ChannelExpanded = () => {
                   channelTitle={channelTitleCheck}
                   imagePath={connection.imagePath}
                   imageData={connection.imageData}
+                  text={connection.text}
                 />
               </motion.div>
             );
