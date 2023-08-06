@@ -69,6 +69,7 @@ export const mapBlocks = (blocks: DbBlock[]): Block[] => {
     imagePath: block.image_path,
     created: block.created,
     imageData: block.image_data,
+    text: block.text,
   }));
 };
 
