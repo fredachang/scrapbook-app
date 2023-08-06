@@ -6,10 +6,12 @@ import { useAuthContext } from "../context/AuthContext";
 import { useGetChannels } from "../hooks/channels/useGetChannels";
 import { useCreateChannel } from "../hooks/channels/useCreateChannel";
 import { Channel } from "../components/Channel";
+import React from "react";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
   const { profile } = useAuthContext();
+  const [input, setInput] = useState("");
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   const [showModal, setShowModal] = useState(false);
@@ -47,11 +49,41 @@ export const Channels = () => {
     setShowModal((prevValue) => !prevValue);
   };
 
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    setInput(input);
+  };
+
+  const handleClear = (e: React.MouseEvent<HTMLElement>) => {
+    setInput("");
+  };
+
+  const filteredChannels = React.useMemo(() => {
+    const filteredList =
+      channels?.filter((channel) =>
+        channel.title.toLowerCase().includes(input.toLowerCase())
+      ) ?? [];
+
+    return filteredList;
+  }, [channels, input]);
+
   return (
     <>
       <div className="">
         <h1 className="text-4xl text-center">Channels</h1>
-        <button onClick={handleShowModal}>Create New</button>
+        <div className="flex justify-between">
+          <button onClick={handleShowModal}>Create New</button>
+          <div>
+            <input
+              type="text"
+              placeholder="Type to filter..."
+              value={input}
+              onChange={handleInput}
+            />
+            <button onClick={handleClear}>Clear</button>
+          </div>
+        </div>
+
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error occurred while fetching data.</p>}
 
@@ -67,7 +99,7 @@ export const Channels = () => {
         )}
 
         <ul>
-          {channels?.map((channel, idx) => (
+          {filteredChannels?.map((channel, idx) => (
             <div key={`${channel.id}-${idx}`}>
               <Channel
                 id={channel.id}

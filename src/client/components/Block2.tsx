@@ -3,6 +3,8 @@ import { GenericButton } from "./GenericButton";
 import { ConnectionModal } from "./ConnectionModal";
 import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
 import { BlockExpanded } from "./BlockExpanded";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 interface Props {
   blockId: string;
@@ -21,6 +23,9 @@ export const Block2 = (props: Props) => {
   const [expandBlock, setExpandBlock] = useState(false);
 
   const { data: blockChannels } = useGetBlockChannels(blockId);
+  const navigate = useNavigate();
+  const { profile } = useAuthContext();
+  const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   function convertBase64ToUrl(base64string: string) {
     const imageFormat = "jpeg";
@@ -52,6 +57,15 @@ export const Block2 = (props: Props) => {
 
   const handleCloseBlock = () => {
     setExpandBlock(false);
+  };
+
+  const handleNavigateToChannel = (
+    channelTitle: string,
+    channelId: string,
+    isPrivate: boolean
+  ) => {
+    const targetUrl = `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`;
+    navigate(targetUrl, { replace: true });
   };
 
   const blockContainer =
@@ -100,9 +114,19 @@ export const Block2 = (props: Props) => {
           <div>
             {blockChannels?.map((blockChannel) => {
               return (
-                <p className="text-xs" key={blockChannel.id}>
+                <button
+                  className="block text-xs"
+                  key={blockChannel.id}
+                  onClick={() =>
+                    handleNavigateToChannel(
+                      blockChannel.title,
+                      blockChannel.id,
+                      blockChannel.isPrivate
+                    )
+                  }
+                >
                   {blockChannel.title}
-                </p>
+                </button>
               );
             })}
           </div>

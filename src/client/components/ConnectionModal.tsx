@@ -17,14 +17,6 @@ export const ConnectionModal = (props: Props) => {
 
   const { data: channels } = useGetChannels();
 
-  // useEffect(() => {
-  //   if (channels) {
-  //     filterList(input);
-  //   }
-  // }, [channels, input]);
-
-  // const [filteredChannels, setFilteredChannels] = useState(channels);
-
   const createConnectionMutation = useCreateConnection(blockId);
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,11 +63,8 @@ export const ConnectionModal = (props: Props) => {
         case `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`:
           targetUrl = `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`;
           break;
-        case `/`:
-          targetUrl = `/`;
-          break;
         default:
-          targetUrl = "/";
+          targetUrl = `/channels/${userName}`;
       }
 
       navigate(targetUrl, { replace: true });
