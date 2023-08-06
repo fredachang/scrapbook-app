@@ -39,6 +39,7 @@ export const SocialPost = (props: Props) => {
                   blockId={block.id}
                   imagePath={block.imagePath}
                   imageData={block.imageData}
+                  text={block.text}
                 />
               </div>
             );

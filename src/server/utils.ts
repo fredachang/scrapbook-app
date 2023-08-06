@@ -127,6 +127,7 @@ export const mapFeeds = (feeds: DbFeed[]): Feed[] => {
     channelTitle: feed.channel_title,
     imagePath: feed.image_path,
     imageData: feed.image_data,
+    text: feed.text,
   }));
 };
 
@@ -139,6 +140,7 @@ export const restructureFeeds = (feeds: FeedWithDateString[]): FeedFolded[] => {
       id: currentValue.blockId,
       imagePath: currentValue.imagePath,
       imageData: currentValue.imageData,
+      text: currentValue.text,
     };
 
     if (existingItem) {

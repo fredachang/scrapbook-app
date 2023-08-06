@@ -56,6 +56,7 @@ export interface DbFeed {
   channel_title: string;
   image_path: string | null;
   image_data: any;
+  text: string | null;
 }
 
 export interface DbConnectionWithImage {
