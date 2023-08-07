@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreateBlockWithText } from "../hooks/blocks/useCreateBlockWithText";
+import { tailwindStyles } from "../tailwind";
 
 interface Props {
   channelId: string;
@@ -38,15 +39,20 @@ export const TextUploader = (props: Props) => {
   return (
     <>
       <form className={commonFormStyle} onSubmit={handleTextSubmit}>
-        <div className="w-44 h-46 flex flex-col absolute">
+        <div className="w-full h-full flex flex-col absolute">
           <input
-            className="w-44 h-32"
+            className="w-full h-full"
             type="text"
             placeholder="Start Typing..."
             onChange={handleText}
             value={text}
           />
-          <button type="submit">Add Text</button>
+          <button
+            className={`h-6 border-t border-${tailwindStyles.highlightColour}`}
+            type="submit"
+          >
+            Add Text
+          </button>
         </div>
       </form>
     </>

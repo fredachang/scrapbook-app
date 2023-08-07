@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { ImageUploader } from "./ImageUploader";
 import { TextUploader } from "./TextUploader";
+import { buttonStyle, tailwindStyles } from "../tailwind";
 
 interface Props {
   channelId: string;
@@ -47,28 +48,38 @@ export const Uploader = (props: Props) => {
   };
 
   const commonFormStyle =
-    "w-56 h-56 border m-3 border-black flex relative justify-center items-center";
+    "w-full h-full flex relative justify-center items-center";
 
   return (
     <>
-      <div className="flex justify-between">
-        <button onClick={handleImageMode}>Image</button>
-        <button onClick={handleTextMode}>Text</button>
-      </div>
+      <div
+        className={`flex flex-col border border-${tailwindStyles.highlightColour} ${tailwindStyles.blockDimensions} ml-${tailwindStyles.standardMargin} my-${tailwindStyles.standardMargin}`}
+      >
+        <div className="flex h-6 justify-between">
+          <button onClick={handleImageMode} className={buttonStyle}>
+            <p>Image</p>
+          </button>
+          <button onClick={handleTextMode} className={buttonStyle}>
+            <p>Text</p>
+          </button>
+        </div>
 
-      {inputMode === mode.image ? (
-        <ImageUploader
-          channelId={channelId}
-          targetUrl={targetUrl}
-          commonFormStyle={commonFormStyle}
-        />
-      ) : (
-        <TextUploader
-          channelId={channelId}
-          targetUrl={targetUrl}
-          commonFormStyle={commonFormStyle}
-        />
-      )}
+        <div className="w-full h-full">
+          {inputMode === mode.image ? (
+            <ImageUploader
+              channelId={channelId}
+              targetUrl={targetUrl}
+              commonFormStyle={commonFormStyle}
+            />
+          ) : (
+            <TextUploader
+              channelId={channelId}
+              targetUrl={targetUrl}
+              commonFormStyle={commonFormStyle}
+            />
+          )}
+        </div>
+      </div>
     </>
   );
 };

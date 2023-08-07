@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <div
-        className={`w-screen h-screen overflow-y-scroll ${tailwindStyles.primaryColour}`}
+        className={`w-screen h-screen overflow-y-scroll bg-${tailwindStyles.primaryColour}`}
       >
         <div className="w-3% h-screen fixed right-0">
           <Nav />

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { GenericButton } from "./GenericButton";
 import { ConnectionModal } from "./ConnectionModal";
-import { BlockActionsModal } from "./BlockActionsModal";
 import { useGetConnectionId } from "../hooks/blocks/useGetConnectionId";
 import { shortenUUID } from "../utils";
 import { BlockExpanded } from "./BlockExpanded";
 import { useAuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { blockContainerStyle } from "../tailwind";
+import { useDeleteConnection } from "../hooks/connections/useDeleteConnection";
 
 interface Props {
   blockId: string;
@@ -34,10 +35,14 @@ export const Block = (props: Props) => {
 
   const { data: connectionId } = useGetConnectionId({ blockId, channelId });
 
+  const connectionIdCheck = connectionId ? connectionId : "";
+
   const { profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const deleteConnectionMutation = useDeleteConnection();
 
   function convertBase64ToUrl(base64string: any) {
     const imageFormat = "jpeg";
@@ -72,23 +77,59 @@ export const Block = (props: Props) => {
     navigate(`/channels/${userName}`, { replace: true });
   };
 
-  const blockContainer =
-    "w-56 h-56 border m-3 border-black flex flex-col relative";
-  const popUpMenuContainer = "bg-purple-100 flex justify-end z-10";
+  const handleRemoveConnection = () => {
+    const currentPath = location.pathname;
+
+    // console.log(channelTitle);
+
+    let targetUrl: string;
+
+    switch (currentPath) {
+      case `/channels/${userName}`:
+        targetUrl = `/channels/${userName}`;
+        break;
+      case `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`:
+        targetUrl = `/channels/${userName}/${channelTitle}/${channelId}//${isPrivate}`;
+        break;
+    }
+
+    const variables = {
+      connectionId: connectionIdCheck,
+      blockId: blockId,
+    };
+
+    deleteConnectionMutation.mutateAsync(variables).then(() => {
+      navigate(targetUrl, { replace: true });
+    });
+  };
+
+  // const popUpMenuContainer = "flex justify-end z-10";
 
   const connectModalContainer = "w-full h-full absolute z-20";
-  const imageContainer =
-    "bg-yellow-100 w-full h-full flex flex-col items-center";
+  const imageContainer = "w-full h-full flex flex-col items-center";
 
   return (
     <>
       <div
         key={blockId}
-        className={blockContainer}
+        className={blockContainerStyle}
         onMouseEnter={handleOnMouseOver}
         onMouseLeave={handleOnMouseLeave}
       >
-        <div className={popUpMenuContainer}>
+        {showConnectButton && (
+          <div className="w-full h-6 flex justify-between absolute">
+            <GenericButton
+              buttonText="Connect"
+              handleOnClick={handleClickConnect}
+            />
+            <GenericButton
+              buttonText="Remove"
+              handleOnClick={handleRemoveConnection}
+            />
+          </div>
+        )}
+
+        {/* <div className={popUpMenuContainer}>
           <BlockActionsModal
             blockId={blockId}
             isPrivate={isPrivate}
@@ -96,7 +137,7 @@ export const Block = (props: Props) => {
             channelId={channelId}
             connectionId={connectionId || ""}
           />
-        </div>
+        </div> */}
 
         {showConnectModal && (
           <div className={connectModalContainer}>
@@ -104,15 +145,6 @@ export const Block = (props: Props) => {
               handleCloseConnect={handleCloseConnect}
               blockId={blockId}
               channelTitle={channelTitle}
-            />
-          </div>
-        )}
-
-        {showConnectButton && (
-          <div className="flex">
-            <GenericButton
-              buttonText="Connect"
-              handleOnClick={handleClickConnect}
             />
           </div>
         )}

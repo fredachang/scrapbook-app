@@ -3,6 +3,7 @@ import { useCreateBlock } from "../hooks/blocks/useCreateBlock";
 import { useCreateBlockByUpload } from "../hooks/blocks/useCreateBlockByUpload";
 import { splitStringByComma } from "../utils";
 import { useNavigate } from "react-router-dom";
+import { tailwindStyles } from "../tailwind";
 
 interface Props {
   channelId: string;
@@ -50,6 +51,8 @@ export const ImageUploader = (props: Props) => {
             channelId,
           };
 
+          console.log(targetUrl);
+
           uploadblockMutation.mutateAsync(blockVariables).then(() => {
             navigate(targetUrl, { replace: true });
           });
@@ -77,8 +80,13 @@ export const ImageUploader = (props: Props) => {
   };
 
   const formStyle = dragActive
-    ? `bg-slate-200 ${commonFormStyle}`
-    : `bg-slate-300 ${commonFormStyle}`;
+    ? `bg-${tailwindStyles.hoverColour} ${commonFormStyle}`
+    : `bg-${tailwindStyles.primaryColour} ${commonFormStyle}`;
+
+  const sharedDragStyle = "w-full h-full absolute z-20";
+  const dragAreaStyle = dragActive
+    ? `${sharedDragStyle} bg-${tailwindStyles.hoverColour}`
+    : `${sharedDragStyle} bg-${tailwindStyles.primaryColour}`;
 
   return (
     <>
@@ -87,21 +95,26 @@ export const ImageUploader = (props: Props) => {
         onDragEnter={handleDrag}
         onSubmit={handleImageSubmit}
       >
-        <div className="w-44 h-46 flex flex-col absolute">
+        <div className="w-full h-full flex flex-col absolute">
           <input
-            className="w-44 h-32"
+            className="w-full h-full"
             type="text"
             placeholder="Drag & Drop or paste path"
             onChange={handleImagePath}
             value={imagePath}
           />
-          <button type="submit">Add Path</button>
+          <button
+            type="submit"
+            className={`h-6 border-t border-${tailwindStyles.highlightColour}`}
+          >
+            Add Path
+          </button>
         </div>
 
         {/* invisible element to cover the form when dragactive is true*/}
         {dragActive && (
           <div
-            className="w-full h-full absolute"
+            className={dragAreaStyle}
             id="drag-file-element"
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}

@@ -3,7 +3,6 @@ import { Block2 } from "../components/Block2";
 import { useGetUserBlocks } from "../hooks/blocks/useGetUserBlocks";
 import { fadeXY, staggerParentContainer } from "../motion";
 import { PageHeader } from "../components/PageHeader";
-import { tailwindStyles } from "../tailwind";
 
 export const Blocks = () => {
   const { data: blocks, isLoading, isError } = useGetUserBlocks();
@@ -14,6 +13,11 @@ export const Blocks = () => {
 
   return (
     <>
+      <PageHeader
+        title="Blocks"
+        count={blockCount}
+        buttonContainerClass="hidden"
+      />
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error occurred while fetching data.</p>}
 
@@ -36,13 +40,6 @@ export const Blocks = () => {
           ))}
         </motion.div>
       )}
-      <div className={tailwindStyles.pageHeaderContainer}>
-        <PageHeader
-          title="Blocks"
-          count={blockCount}
-          buttonContainerClass="hidden"
-        />
-      </div>
     </>
   );
 };

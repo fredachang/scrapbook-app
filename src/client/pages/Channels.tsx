@@ -8,7 +8,6 @@ import { useCreateChannel } from "../hooks/channels/useCreateChannel";
 import { Channel } from "../components/Channel";
 import React from "react";
 import { PageHeader } from "../components/PageHeader";
-import { tailwindStyles } from "../tailwind";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
@@ -75,6 +74,16 @@ export const Channels = () => {
 
   return (
     <>
+      <PageHeader
+        title="Channels"
+        count={channelsCount}
+        buttonClass="text-3xl"
+        buttonContainerClass="w-2/5 flex justify-between items-center"
+        onClick={handleShowModal}
+        inputValue={input}
+        handleInput={handleInput}
+        handleClear={handleClear}
+      />
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error occurred while fetching data.</p>}
 
@@ -100,19 +109,6 @@ export const Channels = () => {
           </div>
         ))}
       </ul>
-
-      <div className={tailwindStyles.pageHeaderContainer}>
-        <PageHeader
-          title="Channels"
-          count={channelsCount}
-          buttonClass="text-3xl"
-          buttonContainerClass="w-1/3 flex justify-between"
-          onClick={handleShowModal}
-          inputValue={input}
-          handleInput={handleInput}
-          handleClear={handleClear}
-        />
-      </div>
     </>
   );
 };

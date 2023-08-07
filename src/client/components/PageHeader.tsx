@@ -33,13 +33,17 @@ export const PageHeader = (props: Props) => {
 
           {showButtonsAndInput && (
             <div className={buttonContainerClass}>
-              <input
-                type="text"
-                placeholder="Type to filter..."
-                value={inputValue}
-                onChange={handleInput}
-              />
-              <button onClick={handleClear}>Clear</button>
+              <div className="w-2/3">
+                <input
+                  type="text"
+                  placeholder="Type to filter..."
+                  value={inputValue}
+                  onChange={handleInput}
+                  className="w-2/3 focus:outline-none"
+                />
+                <button onClick={handleClear}>Clear</button>
+              </div>
+
               <button className={buttonClass} onClick={onClick}>
                 +
               </button>
@@ -47,7 +51,7 @@ export const PageHeader = (props: Props) => {
             </div>
           )}
         </div>
-        <div className="w-full h-1.5 border-y border-black"></div>
+        {/* <div className="w-full h-1.5 border-y border-black"></div> */}
       </div>
     </>
   );

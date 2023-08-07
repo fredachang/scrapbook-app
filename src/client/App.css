@@ -36,13 +36,23 @@ h2 {
   font-size: 0.8rem;
 }
 
+h3 {
+  font-family: "GT-Alpina-Thin";
+  font-size: 1.2rem;
+}
+
+p {
+  font-family: "GT-Cinetype-Mono";
+  font-size: 0.8rem;
+}
+
 .verticalText {
   height: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
   writing-mode: vertical-rl;
-  border: 1px solid black;
+  border: 1px solid #93c5fd;
   border-top: none;
   transform: rotate(360deg);
 }
@@ -54,7 +64,7 @@ h2 {
   justify-content: center;
   align-items: center;
   writing-mode: vertical-rl;
-  border: 1px solid black;
+  border: 1px solid #93c5fd;
   border-top: none;
   transform: rotate(360deg);
   border-left: none;

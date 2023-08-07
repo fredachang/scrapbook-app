@@ -5,6 +5,7 @@ import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
 import { BlockExpanded } from "./BlockExpanded";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import { blockContainerStyle } from "../tailwind";
 
 interface Props {
   blockId: string;
@@ -69,19 +70,14 @@ export const Block2 = (props: Props) => {
     navigate(targetUrl, { replace: true });
   };
 
-  const blockContainer =
-    "w-56 h-56 border m-3 border-black flex flex-col relative";
-
   const connectModalContainer = "w-full h-full absolute z-20";
-  const imageContainer =
-    "bg-yellow-100 w-full h-full flex flex-col items-center";
+  const imageContainer = "w-full h-full flex flex-col items-center";
 
-  // console.log(imageSrc);
   return (
     <>
       <div
         key={blockId}
-        className={blockContainer}
+        className={blockContainerStyle}
         onMouseEnter={handleOnMouseOver}
         onMouseLeave={handleOnMouseLeave}
       >
