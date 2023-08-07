@@ -2,13 +2,18 @@ import { motion } from "framer-motion";
 import { Block2 } from "../components/Block2";
 import { useGetUserBlocks } from "../hooks/blocks/useGetUserBlocks";
 import { fadeXY, staggerParentContainer } from "../motion";
+import { PageHeader } from "../components/PageHeader";
+import { tailwindStyles } from "../tailwind";
 
 export const Blocks = () => {
   const { data: blocks, isLoading, isError } = useGetUserBlocks();
 
+  const blockCheck = blocks ? blocks : [];
+
+  const blockCount = blockCheck.length;
+
   return (
     <>
-      <h1 className="text-4xl text-center">Blocks</h1>
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error occurred while fetching data.</p>}
 
@@ -31,6 +36,13 @@ export const Blocks = () => {
           ))}
         </motion.div>
       )}
+      <div className={tailwindStyles.pageHeaderContainer}>
+        <PageHeader
+          title="Blocks"
+          count={blockCount}
+          buttonContainerClass="hidden"
+        />
+      </div>
     </>
   );
 };

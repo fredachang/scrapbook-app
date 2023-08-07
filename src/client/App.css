@@ -1,8 +1,61 @@
-#block {
-  width: 200px;
-  height: 200px;
-  border: 1px solid black;
+@font-face {
+  font-family: "GT-Alpina-Thin";
+  src: url("/public/GT-Alpina/GT-Alpina-Standard-Thin-Trial.woff2")
+    format("truetype");
+}
+
+@font-face {
+  font-family: "GT-Alpina-Medium-Italic";
+  src: url("/public/GT-Alpina/GT-Alpina-Standard-Medium-Italic-Trial.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "GT-Alpina-Extended-Regular-Italic";
+  src: url("/public/GT-Alpina/GT-Alpina-Extended-Regular-Italic-Trial.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "GT-Alpina-Extended-Thin-Italic";
+  src: url("/public/GT-Alpina/GT-Alpina-Extended-Thin-Italic-Trial.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "GT-Cinetype-Mono";
+  src: url("/public/GT-Cinetype/GT-Cinetype-Mono.woff2") format("woff2");
+}
+
+h1 {
+  font-family: "GT-Alpina-Extended-Thin-Italic";
+  font-size: 2rem;
+}
+
+h2 {
+  font-family: "GT-Cinetype-Mono";
+  font-size: 0.8rem;
+}
+
+.verticalText {
+  height: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
+  writing-mode: vertical-rl;
+  border: 1px solid black;
+  border-top: none;
+  transform: rotate(360deg);
+}
+
+.verticalTextActive {
+  text-decoration: underline;
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  writing-mode: vertical-rl;
+  border: 1px solid black;
+  border-top: none;
+  transform: rotate(360deg);
+  border-left: none;
 }

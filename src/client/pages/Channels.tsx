@@ -7,6 +7,8 @@ import { useGetChannels } from "../hooks/channels/useGetChannels";
 import { useCreateChannel } from "../hooks/channels/useCreateChannel";
 import { Channel } from "../components/Channel";
 import React from "react";
+import { PageHeader } from "../components/PageHeader";
+import { tailwindStyles } from "../tailwind";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
@@ -17,6 +19,10 @@ export const Channels = () => {
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
+
+  const channelsCheck = channels ? channels : [];
+
+  const channelsCount = channelsCheck.length;
 
   const navigate = useNavigate();
   const newChannelMutation = useCreateChannel();
@@ -69,46 +75,43 @@ export const Channels = () => {
 
   return (
     <>
-      <div className="">
-        <h1 className="text-4xl text-center">Channels</h1>
-        <div className="flex justify-between">
-          <button onClick={handleShowModal}>Create New</button>
-          <div>
-            <input
-              type="text"
-              placeholder="Type to filter..."
-              value={input}
-              onChange={handleInput}
+      {isLoading && <p>Loading...</p>}
+      {isError && <p>Error occurred while fetching data.</p>}
+
+      {showModal && (
+        <NewChannelModal
+          handleTitle={handleTitle}
+          handleIsPrivate={handleIsPrivate}
+          handleSubmit={handleSubmit}
+          title={title}
+          isPrivate={isPrivate}
+          handleShowModal={handleShowModal}
+        />
+      )}
+
+      <ul>
+        {filteredChannels?.map((channel, idx) => (
+          <div key={`${channel.id}-${idx}`}>
+            <Channel
+              id={channel.id}
+              channelTitle={channel.title}
+              isPrivate={channel.isPrivate}
             />
-            <button onClick={handleClear}>Clear</button>
           </div>
-        </div>
+        ))}
+      </ul>
 
-        {isLoading && <p>Loading...</p>}
-        {isError && <p>Error occurred while fetching data.</p>}
-
-        {showModal && (
-          <NewChannelModal
-            handleTitle={handleTitle}
-            handleIsPrivate={handleIsPrivate}
-            handleSubmit={handleSubmit}
-            title={title}
-            isPrivate={isPrivate}
-            handleShowModal={handleShowModal}
-          />
-        )}
-
-        <ul>
-          {filteredChannels?.map((channel, idx) => (
-            <div key={`${channel.id}-${idx}`}>
-              <Channel
-                id={channel.id}
-                channelTitle={channel.title}
-                isPrivate={channel.isPrivate}
-              />
-            </div>
-          ))}
-        </ul>
+      <div className={tailwindStyles.pageHeaderContainer}>
+        <PageHeader
+          title="Channels"
+          count={channelsCount}
+          buttonClass="text-3xl"
+          buttonContainerClass="w-1/3 flex justify-between"
+          onClick={handleShowModal}
+          inputValue={input}
+          handleInput={handleInput}
+          handleClear={handleClear}
+        />
       </div>
     </>
   );

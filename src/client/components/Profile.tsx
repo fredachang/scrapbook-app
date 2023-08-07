@@ -13,8 +13,8 @@ export const Profile = () => {
   return (
     <>
       <div className="flex flex-col">
-        <button onClick={handleShowProfile}>
-          <h1>Profile</h1>
+        <button onClick={handleShowProfile} className="verticalText">
+          <h2>Profile</h2>
         </button>
 
         <div className="bg-red-100">

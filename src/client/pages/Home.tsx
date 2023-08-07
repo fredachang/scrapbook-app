@@ -1,12 +1,16 @@
+import { PageHeader } from "../components/PageHeader";
 import { SocialPost } from "../components/SoicalPost";
 import { useGetFeed } from "../hooks/feed/useGetFeed";
+import { tailwindStyles } from "../tailwind";
 
 export const Home = () => {
   const { data: feeds, isLoading, isError } = useGetFeed();
 
+  const feedsCheck = feeds ? feeds : [];
+  const feedsCount = feedsCheck.length;
+
   return (
     <>
-      <h1 className="text-4xl text-center">Home</h1>
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error occurred while fetching data.</p>}
       {feeds &&
@@ -25,6 +29,13 @@ export const Home = () => {
             </div>
           );
         })}
+      <div className={tailwindStyles.pageHeaderContainer}>
+        <PageHeader
+          title="Home"
+          count={feedsCount}
+          buttonContainerClass="hidden"
+        />
+      </div>
     </>
   );
 };

@@ -26,7 +26,6 @@ export const ConnectionModal = (props: Props) => {
   const handleFilterList = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     setInput(input);
-    // filterList(input);
   };
 
   const filteredChannels = React.useMemo(() => {
