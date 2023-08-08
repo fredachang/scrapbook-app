@@ -2,6 +2,7 @@ import { useState } from "react";
 import { shortenUUID } from "../utils";
 import { ConnectionModal } from "./ConnectionModal";
 import { GenericButton } from "./GenericButton";
+import { buttonStyleHalf } from "../tailwind";
 
 interface Props {
   imageSrc: string;
@@ -121,6 +122,8 @@ export const BlockExpanded = (props: Props) => {
           <GenericButton
             buttonText="Connect"
             handleOnClick={handleClickConnect}
+            buttonStyle={buttonStyleHalf}
+            buttonType="button"
           />
           {showConnectModal && (
             <ConnectionModal

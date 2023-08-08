@@ -111,7 +111,6 @@ export const ChannelExpanded = () => {
         title={channelTitleCheck}
         count={connectionsCount}
         buttonClass="text-3xl"
-        buttonContainerClass="w-1/3 flex"
         handleShowSettings={handleShowChannelSettings}
         handleConfirmDelete={handleShowConfirmDelete}
       />

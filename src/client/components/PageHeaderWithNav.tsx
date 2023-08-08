@@ -25,7 +25,6 @@ export const PageHeaderWithNav = (props: Props) => {
         <div className="flex justify-between">
           <div className="flex items-center w-1/2">
             <Link to={`/channels/${userName}`}>
-              {" "}
               <h1>Channels</h1>
             </Link>
 
