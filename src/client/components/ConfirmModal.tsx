@@ -1,3 +1,11 @@
+import {
+  buttonStyleHalf,
+  modalBgStyle,
+  modalContainerStyle,
+  modalOuterContainerStyle,
+} from "../tailwind";
+import { GenericButton } from "./GenericButton";
+
 interface Props {
   text: string;
   handleHideConfirmDelete: () => void;
@@ -6,28 +14,33 @@ interface Props {
 
 export const ConfirmModal = (props: Props) => {
   const { text, handleHideConfirmDelete, handleDeleteChannel } = props;
-  const outerContainer =
-    "w-full h-full flex absolute justify-center items-center";
-  const innerContainer =
-    "p-4 w-96 h-2/5 bg-slate-100 flex flex-col justify-center items-center border border-black rounded-3xl z-10";
-  const buttonStyle = "bg-black text-white w-3/5 mb-2 rounded-md py-1 px-2";
 
   return (
     <>
-      <div className={outerContainer}>
-        <div className={innerContainer}>
+      <div
+        className={modalOuterContainerStyle}
+        onClick={handleHideConfirmDelete}
+      >
+        <div className={modalContainerStyle}>
           <h1 className="text-2xl text-center">{text}</h1>
 
-          <div className="bg-red-100 w-4/5 flex justify-between">
-            <button className={buttonStyle} onClick={handleDeleteChannel}>
-              Yes
-            </button>
-            <button className={buttonStyle} onClick={handleHideConfirmDelete}>
-              No
-            </button>
+          <div className="w-full flex justify-between">
+            <GenericButton
+              buttonText="Yes"
+              handleOnClick={handleDeleteChannel}
+              buttonStyle={buttonStyleHalf}
+              buttonType="button"
+            />
+            <GenericButton
+              buttonText="No"
+              handleOnClick={handleHideConfirmDelete}
+              buttonStyle={buttonStyleHalf}
+              buttonType="button"
+            />
           </div>
         </div>
       </div>
+      <div className={modalBgStyle}></div>
     </>
   );
 };

@@ -2,11 +2,10 @@ import { useState } from "react";
 import { GenericButton } from "./GenericButton";
 import { ConnectionModal } from "./ConnectionModal";
 import { useGetConnectionId } from "../hooks/blocks/useGetConnectionId";
-import { shortenUUID } from "../utils";
 import { BlockExpanded } from "./BlockExpanded";
 import { useAuthContext } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { blockContainerStyle } from "../tailwind";
+import { blockContainerStyle, buttonStyleHalf, twStyle } from "../tailwind";
 import { useDeleteConnection } from "../hooks/connections/useDeleteConnection";
 
 interface Props {
@@ -117,27 +116,23 @@ export const Block = (props: Props) => {
         onMouseLeave={handleOnMouseLeave}
       >
         {showConnectButton && (
-          <div className="w-full h-6 flex justify-between absolute">
+          <div
+            className={`w-full h-${twStyle.sizeSm} flex justify-between absolute`}
+          >
             <GenericButton
               buttonText="Connect"
               handleOnClick={handleClickConnect}
+              buttonStyle={buttonStyleHalf}
+              buttonType="button"
             />
             <GenericButton
               buttonText="Remove"
               handleOnClick={handleRemoveConnection}
+              buttonStyle={buttonStyleHalf}
+              buttonType="button"
             />
           </div>
         )}
-
-        {/* <div className={popUpMenuContainer}>
-          <BlockActionsModal
-            blockId={blockId}
-            isPrivate={isPrivate}
-            channelTitle={channelTitle}
-            channelId={channelId}
-            connectionId={connectionId || ""}
-          />
-        </div> */}
 
         {showConnectModal && (
           <div className={connectModalContainer}>
@@ -151,18 +146,22 @@ export const Block = (props: Props) => {
 
         <div className={imageContainer}>
           {text ? (
-            <div className="w-full h-4/5">{text}</div>
+            <div
+              className={`w-full h-full  border border-${twStyle.highlightColour} py-${twStyle.spacingLg} px-${twStyle.spacingMd}`}
+            >
+              <p>{text}</p>
+            </div>
           ) : (
             <img
               src={imageSrc}
               alt="block-image"
-              className="w-full h-4/5 object-contain"
+              className="w-full h-full object-contain"
               onClick={handleExpandBlock}
             />
           )}
 
-          <p className="text-xs">ConnectionId: {shortenUUID(connectionId)}</p>
-          <p className="text-xs">BlockId: {shortenUUID(blockId)}</p>
+          {/* <p className="text-xs">ConnectionId: {shortenUUID(connectionId)}</p>
+          <p className="text-xs">BlockId: {shortenUUID(blockId)}</p> */}
         </div>
       </div>
 

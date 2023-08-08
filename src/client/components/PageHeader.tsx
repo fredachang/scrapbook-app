@@ -1,4 +1,4 @@
-import { tailwindStyles } from "../tailwind";
+import { defaultInputStyle, twStyle } from "../tailwind";
 
 interface Props {
   title: string;
@@ -27,29 +27,29 @@ export const PageHeader = (props: Props) => {
 
   return (
     <>
-      <div className={`${tailwindStyles.primaryColour} pb-2`}>
+      <div
+        className={`bg-${twStyle.primaryColour} w-97% h-${twStyle.sizeMd} fixed top-0 z-10 ${twStyle.primaryColour} px-${twStyle.spacingSm}`}
+      >
         <div className="flex justify-between">
           <h1>{title}</h1>
 
           {showButtonsAndInput && (
             <div className={buttonContainerClass}>
-              <div className="w-2/3">
-                <input
-                  type="text"
-                  placeholder="Type to filter..."
-                  value={inputValue}
-                  onChange={handleInput}
-                  className="w-2/3 focus:outline-none"
-                />
-                <button onClick={handleClear}>Clear</button>
-              </div>
+              <input
+                type="text"
+                placeholder="Type to filter..."
+                value={inputValue}
+                onChange={handleInput}
+                className={defaultInputStyle}
+              />
+              <button onClick={handleClear}>Clear</button>
 
               <button className={buttonClass} onClick={onClick}>
                 +
               </button>
-              <h2 className="text-xl">{count}</h2>
             </div>
           )}
+          <h2 className="text-xl">{count}</h2>
         </div>
         {/* <div className="w-full h-1.5 border-y border-black"></div> */}
       </div>

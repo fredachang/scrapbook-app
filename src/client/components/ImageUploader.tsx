@@ -3,7 +3,7 @@ import { useCreateBlock } from "../hooks/blocks/useCreateBlock";
 import { useCreateBlockByUpload } from "../hooks/blocks/useCreateBlockByUpload";
 import { splitStringByComma } from "../utils";
 import { useNavigate } from "react-router-dom";
-import { tailwindStyles } from "../tailwind";
+import { twStyle } from "../tailwind";
 
 interface Props {
   channelId: string;
@@ -80,13 +80,13 @@ export const ImageUploader = (props: Props) => {
   };
 
   const formStyle = dragActive
-    ? `bg-${tailwindStyles.hoverColour} ${commonFormStyle}`
-    : `bg-${tailwindStyles.primaryColour} ${commonFormStyle}`;
+    ? `bg-${twStyle.hoverColour} ${commonFormStyle}`
+    : `bg-${twStyle.primaryColour} ${commonFormStyle}`;
 
   const sharedDragStyle = "w-full h-full absolute z-20";
   const dragAreaStyle = dragActive
-    ? `${sharedDragStyle} bg-${tailwindStyles.hoverColour}`
-    : `${sharedDragStyle} bg-${tailwindStyles.primaryColour}`;
+    ? `${sharedDragStyle} bg-${twStyle.hoverColour}`
+    : `${sharedDragStyle} bg-${twStyle.primaryColour}`;
 
   return (
     <>
@@ -105,9 +105,9 @@ export const ImageUploader = (props: Props) => {
           />
           <button
             type="submit"
-            className={`h-6 border-t border-${tailwindStyles.highlightColour}`}
+            className={`h-6 border-t border-${twStyle.highlightColour}`}
           >
-            Add Path
+            <p>Add Path</p>
           </button>
         </div>
 

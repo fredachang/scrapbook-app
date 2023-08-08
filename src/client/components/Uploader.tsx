@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { ImageUploader } from "./ImageUploader";
 import { TextUploader } from "./TextUploader";
-import { buttonStyle, tailwindStyles } from "../tailwind";
+import { buttonStyleHalf, twStyle } from "../tailwind";
 
 interface Props {
   channelId: string;
@@ -36,7 +36,7 @@ export const Uploader = (props: Props) => {
       targetUrl = `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`;
       break;
     default:
-      targetUrl = "/"; // Set a default value in case the switch doesn't match any case
+      targetUrl = `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`;
   }
 
   const handleImageMode = () => {
@@ -53,13 +53,13 @@ export const Uploader = (props: Props) => {
   return (
     <>
       <div
-        className={`flex flex-col border border-${tailwindStyles.highlightColour} ${tailwindStyles.blockDimensions} ml-${tailwindStyles.standardMargin} my-${tailwindStyles.standardMargin}`}
+        className={`flex flex-col border border-${twStyle.highlightColour} ${twStyle.blockDimensions} ml-${twStyle.spacingMd}`}
       >
-        <div className="flex h-6 justify-between">
-          <button onClick={handleImageMode} className={buttonStyle}>
+        <div className={`flex h-${twStyle.sizeSm} justify-between`}>
+          <button onClick={handleImageMode} className={buttonStyleHalf}>
             <p>Image</p>
           </button>
-          <button onClick={handleTextMode} className={buttonStyle}>
+          <button onClick={handleTextMode} className={buttonStyleHalf}>
             <p>Text</p>
           </button>
         </div>

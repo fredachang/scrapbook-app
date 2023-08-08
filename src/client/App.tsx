@@ -7,34 +7,25 @@ import { Login } from "./pages/LogIn";
 import { SignUp } from "./pages/Signup";
 import { Channels } from "./pages/Channels";
 import { ChannelExpanded } from "./pages/ChannelExpanded";
-import { tailwindStyles } from "./tailwind";
-import { ProfilePage } from "./pages/ProfilePage";
+import { twStyle } from "./tailwind";
 
 function App() {
   return (
     <>
       <div
-        className={`w-screen h-screen overflow-y-scroll bg-${tailwindStyles.primaryColour}`}
+        className={`w-screen h-screen overflow-y-scroll bg-${twStyle.primaryColour}`}
       >
-        <div className="w-3% h-screen fixed right-0">
+        <div className={`w-3% h-screen fixed right-0`}>
           <Nav />
         </div>
 
-        <div className="pl-2 pt-2 w-97%">
+        <div className={`k w-97% mt-${twStyle.spacing2Xl}`}>
           <Routes>
             <Route
               path="/"
               element={
                 <GuardedRoute>
                   <Home />
-                </GuardedRoute>
-              }
-            />
-            <Route
-              path="/:username"
-              element={
-                <GuardedRoute>
-                  <ProfilePage />
                 </GuardedRoute>
               }
             />

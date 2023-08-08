@@ -1,4 +1,12 @@
 import { ChangeEvent } from "react";
+import {
+  buttonStyleFull,
+  defaultInputStyle,
+  modalBgStyle,
+  modalContainerStyle,
+  modalOuterContainerStyle,
+} from "../tailwind";
+import { GenericButton } from "./GenericButton";
 
 interface Props {
   handleHideChannelSettings: () => void;
@@ -19,30 +27,28 @@ export const ChannelSettingModal = (props: Props) => {
     handleUpdateChannelSettings,
   } = props;
 
-  const outerContainer =
-    "w-full h-full flex absolute justify-center items-center";
-  const innerContainer =
-    "p-4 w-96 h-2/5 bg-slate-100 flex flex-col justify-center items-center border border-black rounded-3xl z-10";
   const formStyle =
     "flex flex-col justify-between items-center w-full h-3/5 mt-5";
 
-  const formEntry = "flex justify-between pb-3";
-
-  const inputStyle = "w-3/5 border-b border-black";
-  const buttonStyle = "bg-black text-white w-4/5 mb-2 rounded-md py-1 px-2";
+  const formEntry = "flex w-full justify-between items-center pb-3";
 
   return (
     <>
-      <div className={outerContainer} onClick={handleHideChannelSettings}>
-        <div className={innerContainer} onClick={(e) => e.stopPropagation()}>
-          <h1 className="text-2xl text-center">Update Channel Settings</h1>
+      <div
+        className={modalOuterContainerStyle}
+        onClick={handleHideChannelSettings}
+      >
+        <div
+          className={modalContainerStyle}
+          onClick={(e) => e.stopPropagation()}
+        >
           <form onSubmit={handleUpdateChannelSettings} className={formStyle}>
             <div className={formEntry}>
-              <label className="text-xl" htmlFor="email">
-                New Title
+              <label className="w-20">
+                <p>New Title</p>
               </label>
               <input
-                className={inputStyle}
+                className={defaultInputStyle}
                 type="text"
                 id="title"
                 value={newChannelName}
@@ -52,22 +58,26 @@ export const ChannelSettingModal = (props: Props) => {
 
             <div className={formEntry}>
               <label className="text-xl" htmlFor="isPrivate">
-                Private
+                <p>Private</p>
               </label>
               <input
                 type="checkbox"
                 id="isPrivate"
                 checked={privateSetting}
                 onChange={handlePrivateSetting}
+                className="w-full"
               />
             </div>
 
-            <button className={buttonStyle} type="submit">
-              Submit
-            </button>
+            <GenericButton
+              buttonType="submit"
+              buttonText="update"
+              buttonStyle={buttonStyleFull}
+            />
           </form>
         </div>
       </div>
+      <div className={modalBgStyle}></div>
     </>
   );
 };

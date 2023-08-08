@@ -3,14 +3,16 @@ import { Block } from "../components/Block";
 import { useAuthContext } from "../context/AuthContext";
 import { useGetConnections } from "../hooks/connections/useGetConnections";
 import { useDeleteChannel } from "../hooks/channels/useDeleteChannel";
-import { shortenUUID } from "../utils";
 import { ChangeEvent, useState } from "react";
-import { ConfirmModal } from "../components/ConfirmModal";
 import { motion } from "framer-motion";
 import { fadeXY, staggerParentContainer } from "../motion";
-import { ChannelSettingModal } from "../components/ChannelSettingsModal";
 import { useUpdateChannel } from "../hooks/channels/useUpdateChannel";
 import { Uploader } from "../components/Uploader";
+
+import { twStyle } from "../tailwind";
+import { PageHeaderWithNav } from "../components/PageHeaderWithNav";
+import { ConfirmModal } from "../components/ConfirmModal";
+import { ChannelSettingModal } from "../components/ChannelSettingsModal";
 
 export const ChannelExpanded = () => {
   const { id, channelTitle, isPrivate } = useParams();
@@ -32,6 +34,10 @@ export const ChannelExpanded = () => {
   const connectionsByChannel = data?.filter((connection) => {
     return connection.channelId === id;
   });
+
+  const connectionsCheck = connectionsByChannel ? connectionsByChannel : [];
+
+  const connectionsCount = connectionsCheck.length;
 
   const { profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
@@ -101,59 +107,57 @@ export const ChannelExpanded = () => {
 
   return (
     <>
-      <h1 className="text-4xl text-center">{channelTitle}</h1>
+      <PageHeaderWithNav
+        title={channelTitleCheck}
+        count={connectionsCount}
+        buttonClass="text-3xl"
+        buttonContainerClass="w-1/3 flex"
+        handleShowSettings={handleShowChannelSettings}
+        handleConfirmDelete={handleShowConfirmDelete}
+      />
 
-      <div className="bg-slate-100 flex m-4">
-        <div className="flex flex-col">
-          <p className="text-xs">{shortenUUID(id)}</p>
-          <p className="text-xs">
-            {isPrivateCheck ? "Private Channel" : "Public Channel"}
-          </p>
+      {showConfirmDelete && (
+        <ConfirmModal
+          text="confirm delete?"
+          handleHideConfirmDelete={handleHideConfirmDelete}
+          handleDeleteChannel={handleDeleteChannel}
+        />
+      )}
+      {showChannelSettings && (
+        <ChannelSettingModal
+          handleHideChannelSettings={handleHideChannelSettings}
+          newChannelName={newChannelName}
+          privateSetting={privateSetting}
+          handleInput={handleInput}
+          handlePrivateSetting={handlePrivateSetting}
+          handleUpdateChannelSettings={handleUpdateChannelSettings}
+        />
+      )}
 
-          <button onClick={handleShowConfirmDelete} className="text-xs">
-            Delete Channel
-          </button>
-          <button onClick={handleShowChannelSettings} className="text-xs">
-            Update Channel Settings
-          </button>
-          {showConfirmDelete && (
-            <ConfirmModal
-              text="confirm delete?"
-              handleHideConfirmDelete={handleHideConfirmDelete}
-              handleDeleteChannel={handleDeleteChannel}
-            />
-          )}
-          {showChannelSettings && (
-            <ChannelSettingModal
-              handleHideChannelSettings={handleHideChannelSettings}
-              newChannelName={newChannelName}
-              privateSetting={privateSetting}
-              handleInput={handleInput}
-              handlePrivateSetting={handlePrivateSetting}
-              handleUpdateChannelSettings={handleUpdateChannelSettings}
-            />
-          )}
-        </div>
-
-        <div>
-          <Uploader
-            channelId={IdCheck}
-            channelTitle={channelTitleCheck}
-            isPrivate={isPrivateCheck}
-          />
-          {isLoading && <p>Loading...</p>}
-          {isError && <p>Error occurred while fetching data.</p>}
-        </div>
+      <div className="flex">
+        {isLoading && <p>Loading...</p>}
+        {isError && <p>Error occurred while fetching data.</p>}
 
         <motion.div
-          className="bg-red-100 flex flex-row overflow-x-hidden"
           initial="hidden"
           animate="visible"
           variants={staggerParentContainer}
+          className="flex flex-wrap"
         >
+          <div>
+            <Uploader
+              channelId={IdCheck}
+              channelTitle={channelTitleCheck}
+              isPrivate={isPrivateCheck}
+            />
+          </div>
           {connectionsByChannel?.map((connection) => {
             return (
-              <motion.div key={connection?.blockId} variants={fadeXY}>
+              <motion.div
+                key={connection?.blockId}
+                variants={fadeXY}
+                className={`mb-${twStyle.spacingMd}`}
+              >
                 <Block
                   blockId={connection?.blockId}
                   channelId={IdCheck}

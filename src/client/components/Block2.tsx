@@ -5,17 +5,13 @@ import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
 import { BlockExpanded } from "./BlockExpanded";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { blockContainerStyle } from "../tailwind";
+import { blockContainerStyle, buttonStyleFull, twStyle } from "../tailwind";
 
 interface Props {
   blockId: string;
   imagePath: string | null;
   imageData: string | null;
   text: string | null;
-}
-
-function shortenUUID(id: string | undefined) {
-  return id ? id.split("-")[0] : "";
 }
 
 export const Block2 = (props: Props) => {
@@ -75,62 +71,70 @@ export const Block2 = (props: Props) => {
 
   return (
     <>
-      <div
-        key={blockId}
-        className={blockContainerStyle}
-        onMouseEnter={handleOnMouseOver}
-        onMouseLeave={handleOnMouseLeave}
-      >
-        {showConnectModal && (
-          <div className={connectModalContainer}>
-            <ConnectionModal
-              handleCloseConnect={handleCloseConnect}
-              blockId={blockId}
-              channelTitle=""
-            />
-          </div>
-        )}
-
-        {showConnectButton && (
-          <div className=" flex">
-            <GenericButton
-              buttonText="Connect"
-              handleOnClick={handleClickConnect}
-            />
-          </div>
-        )}
-
-        <div className={imageContainer}>
-          {text ? (
-            <div className="w-full h-4/5">{text}</div>
-          ) : (
-            <img
-              src={imageSrc}
-              alt="block-image"
-              className="w-full h-4/5 object-contain"
-              onClick={handleExpandBlock}
-            />
+      <div className="flex flex-col">
+        <div
+          key={blockId}
+          className={blockContainerStyle}
+          onMouseEnter={handleOnMouseOver}
+          onMouseLeave={handleOnMouseLeave}
+        >
+          {showConnectModal && (
+            <div className={connectModalContainer}>
+              <ConnectionModal
+                handleCloseConnect={handleCloseConnect}
+                blockId={blockId}
+                channelTitle=""
+              />
+            </div>
           )}
-          <p className="text-xs">BlockId: {shortenUUID(blockId)}</p>
-          <div>
-            {blockChannels?.map((blockChannel) => {
-              return (
-                <button
-                  className="block text-xs"
-                  key={blockChannel.id}
-                  onClick={() =>
-                    handleNavigateToChannel(
-                      blockChannel.title,
-                      blockChannel.id,
-                      blockChannel.isPrivate
-                    )
-                  }
-                >
-                  {blockChannel.title}
-                </button>
-              );
-            })}
+
+          {showConnectButton && (
+            <div className="flex">
+              <GenericButton
+                buttonText="Connect"
+                handleOnClick={handleClickConnect}
+                buttonStyle={`${buttonStyleFull} absolute`}
+                buttonType="button"
+              />
+            </div>
+          )}
+
+          <div className={imageContainer}>
+            {text ? (
+              <div
+                className={`w-full h-full border border-${twStyle.highlightColour} py-${twStyle.spacingLg} px-${twStyle.spacingMd}`}
+              >
+                {text}
+              </div>
+            ) : (
+              <img
+                src={imageSrc}
+                alt="block-image"
+                className="w-full h-full object-contain"
+                onClick={handleExpandBlock}
+              />
+            )}
+            {/* <p className="text-xs">BlockId: {shortenUUID(blockId)}</p> */}
           </div>
+        </div>
+
+        <div className="flex flex-col">
+          {blockChannels?.map((blockChannel) => {
+            return (
+              <button
+                key={blockChannel.id}
+                onClick={() =>
+                  handleNavigateToChannel(
+                    blockChannel.title,
+                    blockChannel.id,
+                    blockChannel.isPrivate
+                  )
+                }
+              >
+                <p>{blockChannel.title}</p>
+              </button>
+            );
+          })}
         </div>
       </div>
 

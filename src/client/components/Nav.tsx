@@ -1,10 +1,10 @@
 import { useAuthContext } from "../context/AuthContext";
-import { tailwindStyles } from "../tailwind";
 import { NavLink } from "react-router-dom";
+import { twStyle } from "../tailwind";
 
 export const Nav = () => {
   const { isAuthenticated } = useAuthContext();
-  const { profile } = useAuthContext();
+  const { logout, profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   if (!isAuthenticated()) {
@@ -14,7 +14,7 @@ export const Nav = () => {
   return (
     <>
       <div
-        className={`${tailwindStyles.primaryColour} h-full flex flex-col justify-between`}
+        className={`${twStyle.primaryColour} h-full flex flex-col justify-between`}
       >
         <NavLink
           to="/"
@@ -26,7 +26,7 @@ export const Nav = () => {
               : "verticalText"
           }
         >
-          <h2> Home</h2>
+          <h2> {userName}</h2>
         </NavLink>
         <NavLink
           to={`/blocks/${userName}`}
@@ -54,7 +54,8 @@ export const Nav = () => {
         </NavLink>
 
         <NavLink
-          to={`/${userName}`}
+          to="/login"
+          onClick={logout}
           className={({ isActive, isPending }) =>
             isPending
               ? "pending"
@@ -63,10 +64,8 @@ export const Nav = () => {
               : "verticalText"
           }
         >
-          <h2>{userName}</h2>
+          <h2>Log Out</h2>
         </NavLink>
-
-        {/* <Profile /> */}
       </div>
     </>
   );

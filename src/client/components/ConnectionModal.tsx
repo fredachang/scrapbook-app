@@ -4,6 +4,8 @@ import { useAuthContext } from "../context/AuthContext";
 import { useCreateConnection } from "../hooks/connections/useCreateConnection";
 import { useGetChannels } from "../hooks/channels/useGetChannels";
 import React from "react";
+import { buttonStyleFull, defaultInputStyle, twStyle } from "../tailwind";
+import { GenericButton } from "./GenericButton";
 
 interface Props {
   blockId: string;
@@ -36,10 +38,6 @@ export const ConnectionModal = (props: Props) => {
 
     return filteredList;
   }, [channels, input]);
-
-  // const filterList = (input: string) => {
-  //   setFilteredChannels(filteredList || []);
-  // };
 
   const handleClickChannel = (channelId: string, isPrivate: boolean) => {
     const variables = {
@@ -74,31 +72,38 @@ export const ConnectionModal = (props: Props) => {
 
   return (
     <>
-      <div className="bg-slate-200 w-full h-full">
-        <p>Connection Modal</p>
-        <input
-          type="text"
-          placeholder="Type to filter..."
-          value={input}
-          onChange={handleFilterList}
-        />
-        <ul>
-          {filteredChannels.map((channel) => (
-            <div key={channel.id}>
-              <button
-                onClick={() =>
-                  handleClickChannel(channel.id, channel.isPrivate)
-                }
-              >
-                {channel.title}
-              </button>
-            </div>
-          ))}
-        </ul>
+      <div
+        className={`bg-${twStyle.primaryColour} w-full h-full flex flex-col justify-between`}
+      >
+        <div>
+          <input
+            type="text"
+            placeholder="Type to filter..."
+            value={input}
+            onChange={handleFilterList}
+            className={`${defaultInputStyle} px-${twStyle.spacingSm} mb-${twStyle.spacingSm} `}
+          />
+          <ul className={`px-${twStyle.spacingSm} `}>
+            {filteredChannels.map((channel) => (
+              <div key={channel.id} className={`mb-${twStyle.spacingSm}`}>
+                <button
+                  onClick={() =>
+                    handleClickChannel(channel.id, channel.isPrivate)
+                  }
+                >
+                  <p className="text-left">{channel.title}</p>
+                </button>
+              </div>
+            ))}
+          </ul>
+        </div>
 
-        <button className="text-center" onClick={handleCloseConnect}>
-          Close
-        </button>
+        <GenericButton
+          buttonStyle={buttonStyleFull}
+          buttonText="Close"
+          handleOnClick={handleCloseConnect}
+          buttonType="button"
+        />
       </div>
     </>
   );

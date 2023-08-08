@@ -1,4 +1,5 @@
 import { BlockForFeed } from "../../common/types";
+import { twStyle } from "../tailwind";
 import { Block2 } from "./Block2";
 
 interface Props {
@@ -18,16 +19,25 @@ export const SocialPost = (props: Props) => {
 
   return (
     <>
-      <div className="border-b border-black">
-        <span className="font-bold">{firstName || ""} </span>
-        <span className="font-bold">{lastName || ""} </span>
-        <span>connected </span>
-        <span>{blocksCount} </span>
-        <span>images </span>
-        <span>to </span>
-        <span className="font-bold">{channelTitle} </span>
-        <span>on </span>
-        <span className="font-bold">{created}</span>
+      <div
+        className={`flex justify-between border-b border-${twStyle.highlightColour} mb-${twStyle.spacingMd} mx-${twStyle.spacingSm}`}
+      >
+        <div>
+          <h4>
+            <span className="font-bold">{firstName || ""} </span>
+            <span className="font-bold">{lastName || ""} </span>
+            <span>connected </span>
+            <span>{blocksCount} </span>
+            <span>images </span>
+            <span>to </span>
+            <span className="font-bold">{channelTitle} </span>
+            <span>on </span>
+          </h4>
+        </div>
+
+        <h4>
+          <span className="font-bold">{created}</span>
+        </h4>
       </div>
 
       <div>

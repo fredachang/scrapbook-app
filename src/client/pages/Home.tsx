@@ -1,9 +1,14 @@
 import { PageHeader } from "../components/PageHeader";
 import { SocialPost } from "../components/SoicalPost";
+import { useAuthContext } from "../context/AuthContext";
 import { useGetFeed } from "../hooks/feed/useGetFeed";
+import { twStyle } from "../tailwind";
 
 export const Home = () => {
   const { data: feeds, isLoading, isError } = useGetFeed();
+
+  const { profile } = useAuthContext();
+  const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   const feedsCheck = feeds ? feeds : [];
   const feedsCount = feedsCheck.length;
@@ -11,7 +16,7 @@ export const Home = () => {
   return (
     <>
       <PageHeader
-        title="Home"
+        title={userName}
         count={feedsCount}
         buttonContainerClass="hidden"
       />
@@ -20,7 +25,7 @@ export const Home = () => {
       {feeds &&
         feeds.map((feed) => {
           return (
-            <div key={feed.key}>
+            <div key={feed.key} className={`mb-${twStyle.spacingMd}`}>
               <SocialPost
                 created={feed.created}
                 firstName={feed.firstName}

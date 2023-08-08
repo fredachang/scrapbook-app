@@ -1,34 +1,33 @@
 @font-face {
   font-family: "GT-Alpina-Thin";
-  src: url("/public/GT-Alpina/GT-Alpina-Standard-Thin-Trial.woff2")
-    format("truetype");
+  src: url("/GT-Alpina/GT-Alpina-Standard-Thin-Trial.woff2") format("truetype");
 }
 
 @font-face {
   font-family: "GT-Alpina-Medium-Italic";
-  src: url("/public/GT-Alpina/GT-Alpina-Standard-Medium-Italic-Trial.woff2")
+  src: url("/GT-Alpina/GT-Alpina-Standard-Medium-Italic-Trial.woff2")
     format("woff2");
 }
 
 @font-face {
   font-family: "GT-Alpina-Extended-Regular-Italic";
-  src: url("/public/GT-Alpina/GT-Alpina-Extended-Regular-Italic-Trial.woff2")
+  src: url("/GT-Alpina/GT-Alpina-Extended-Regular-Italic-Trial.woff2")
     format("woff2");
 }
 @font-face {
   font-family: "GT-Alpina-Extended-Thin-Italic";
-  src: url("/public/GT-Alpina/GT-Alpina-Extended-Thin-Italic-Trial.woff2")
+  src: url("/GT-Alpina/GT-Alpina-Extended-Thin-Italic-Trial.woff2")
     format("woff2");
 }
 
 @font-face {
   font-family: "GT-Cinetype-Mono";
-  src: url("/public/GT-Cinetype/GT-Cinetype-Mono.woff2") format("woff2");
+  src: url("/GT-Cinetype/GT-Cinetype-Mono.woff2") format("woff2");
 }
 
 h1 {
   font-family: "GT-Alpina-Extended-Thin-Italic";
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 h2 {
@@ -41,9 +40,14 @@ h3 {
   font-size: 1.2rem;
 }
 
-p {
+h4 {
   font-family: "GT-Cinetype-Mono";
   font-size: 0.8rem;
+}
+
+p {
+  font-family: "GT-Cinetype-Mono";
+  font-size: 0.6rem;
 }
 
 .verticalText {
@@ -68,4 +72,28 @@ p {
   border-top: none;
   transform: rotate(360deg);
   border-left: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: black;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(0, 205, 0);
 }

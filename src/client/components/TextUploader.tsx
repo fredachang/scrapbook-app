@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreateBlockWithText } from "../hooks/blocks/useCreateBlockWithText";
-import { tailwindStyles } from "../tailwind";
+import { twStyle } from "../tailwind";
 
 interface Props {
   channelId: string;
@@ -48,7 +48,7 @@ export const TextUploader = (props: Props) => {
             value={text}
           />
           <button
-            className={`h-6 border-t border-${tailwindStyles.highlightColour}`}
+            className={`h-${twStyle.sizeSm} border-t border-${twStyle.highlightColour}`}
             type="submit"
           >
             Add Text
