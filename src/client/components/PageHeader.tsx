@@ -34,7 +34,7 @@ export const PageHeader = (props: Props) => {
   return (
     <>
       <div
-        className={`bg-${twStyle.primaryColour} w-97% h-${twStyle.sizeMd} fixed top-0 z-10 ${twStyle.primaryColour} px-${twStyle.spacingSm}`}
+        className={`bg-${twStyle.primaryColour} w-97% h-${twStyle.sizeMd} fixed top-0 z-20 ${twStyle.primaryColour} px-${twStyle.spacingSm}`}
       >
         <div className="flex justify-between">
           <div className="flex items-center w-1/2">

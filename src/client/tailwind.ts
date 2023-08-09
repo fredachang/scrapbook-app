@@ -1,5 +1,6 @@
 export const twStyle = {
   primaryColour: "neutral-50",
+  secondaryColour: "neutral-100",
   highlightColour: "blue-300",
   dimColour: "slate-600",
   hoverColour: "blue-100",
@@ -10,6 +11,7 @@ export const twStyle = {
   spacingLg: "8",
   spacingXl: "10",
   spacing2Xl: "14",
+  spacing3Xl: "16",
   sizeSm: "6",
   sizeMd: "10",
 };

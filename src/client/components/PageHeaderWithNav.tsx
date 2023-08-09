@@ -21,11 +21,13 @@ export const PageHeaderWithNav = (props: Props) => {
   return (
     <>
       <div
-        className={`bg-${twStyle.primaryColour} w-97% h-${twStyle.sizeMd} fixed top-0 z-10 ${twStyle.primaryColour} px-${twStyle.spacingSm}`}
+        className={`bg-${twStyle.primaryColour} w-97% h-${twStyle.sizeMd} fixed top-0 z-20 ${twStyle.primaryColour} px-${twStyle.spacingSm}`}
       >
         <div className="flex justify-between">
           <div className="flex items-center w-2/3">
-            <Logo />
+            <Link to={`/`}>
+              <Logo />
+            </Link>
 
             <h1 className="mx-2">/</h1>
 
