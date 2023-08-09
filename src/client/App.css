@@ -14,6 +14,13 @@
   src: url("/GT-Alpina/GT-Alpina-Extended-Regular-Italic-Trial.woff2")
     format("woff2");
 }
+
+@font-face {
+  font-family: "GT-Alpina-Extended-Medium-Italic";
+  src: url("/GT-Alpina/GT-Alpina-Extended-Medium-Italic-Trial.woff2")
+    format("woff2");
+}
+
 @font-face {
   font-family: "GT-Alpina-Extended-Thin-Italic";
   src: url("/GT-Alpina/GT-Alpina-Extended-Thin-Italic-Trial.woff2")
@@ -48,6 +55,11 @@ h4 {
 p {
   font-family: "GT-Cinetype-Mono";
   font-size: 0.6rem;
+}
+
+.logo {
+  font-family: "GT-Alpina-Extended-Medium-Italic";
+  font-size: 1.5rem;
 }
 
 .verticalText {

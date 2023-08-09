@@ -1,7 +1,10 @@
+import { Link } from "react-router-dom";
 import { defaultInputStyle, twStyle } from "../tailwind";
+import { useAuthContext } from "../context/AuthContext";
+import { Logo } from "./Logo";
 
 interface Props {
-  title: string;
+  title?: string;
   count: number;
   buttonContainerClass: string;
   buttonClass?: string;
@@ -23,6 +26,9 @@ export const PageHeader = (props: Props) => {
     buttonContainerClass,
   } = props;
 
+  const { profile } = useAuthContext();
+  const userName = `${profile?.firstName}-${profile?.lastName}`;
+
   const showButtonsAndInput = buttonContainerClass !== "hidden";
 
   return (
@@ -31,7 +37,21 @@ export const PageHeader = (props: Props) => {
         className={`bg-${twStyle.primaryColour} w-97% h-${twStyle.sizeMd} fixed top-0 z-10 ${twStyle.primaryColour} px-${twStyle.spacingSm}`}
       >
         <div className="flex justify-between">
-          <h1>{title}</h1>
+          <div className="flex items-center w-1/2">
+            <Link to={`/`}>
+              <Logo />
+            </Link>
+
+            <h1 className="mx-2">/</h1>
+
+            <Link to={`/`}>
+              <h1>{userName}</h1>
+            </Link>
+
+            <h1 className="mx-2">/</h1>
+
+            <h1>{title}</h1>
+          </div>
 
           {showButtonsAndInput && (
             <div className={buttonContainerClass}>
@@ -42,7 +62,9 @@ export const PageHeader = (props: Props) => {
                 onChange={handleInput}
                 className={defaultInputStyle}
               />
-              <button onClick={handleClear}>Clear</button>
+              <button onClick={handleClear}>
+                <p>Clear</p>
+              </button>
 
               <button className={buttonClass} onClick={onClick}>
                 +

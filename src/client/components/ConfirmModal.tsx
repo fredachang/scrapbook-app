@@ -8,32 +8,29 @@ import { GenericButton } from "./GenericButton";
 
 interface Props {
   text: string;
-  handleHideConfirmDelete: () => void;
-  handleDeleteChannel: () => void;
+  handleYes: () => void;
+  handleNo: () => void;
 }
 
 export const ConfirmModal = (props: Props) => {
-  const { text, handleHideConfirmDelete, handleDeleteChannel } = props;
+  const { text, handleYes, handleNo } = props;
 
   return (
     <>
-      <div
-        className={modalOuterContainerStyle}
-        onClick={handleHideConfirmDelete}
-      >
+      <div className={modalOuterContainerStyle} onClick={handleNo}>
         <div className={modalContainerStyle}>
           <h1 className="text-2xl text-center">{text}</h1>
 
           <div className="w-full flex justify-between">
             <GenericButton
               buttonText="Yes"
-              handleOnClick={handleDeleteChannel}
+              handleOnClick={handleYes}
               buttonStyle={buttonStyleHalf}
               buttonType="button"
             />
             <GenericButton
               buttonText="No"
-              handleOnClick={handleHideConfirmDelete}
+              handleOnClick={handleNo}
               buttonStyle={buttonStyleHalf}
               buttonType="button"
             />

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { twStyle } from "../tailwind";
 import { useAuthContext } from "../context/AuthContext";
+import { Logo } from "./Logo";
 
 interface Props {
   title: string;
@@ -23,7 +24,17 @@ export const PageHeaderWithNav = (props: Props) => {
         className={`bg-${twStyle.primaryColour} w-97% h-${twStyle.sizeMd} fixed top-0 z-10 ${twStyle.primaryColour} px-${twStyle.spacingSm}`}
       >
         <div className="flex justify-between">
-          <div className="flex items-center w-1/2">
+          <div className="flex items-center w-2/3">
+            <Logo />
+
+            <h1 className="mx-2">/</h1>
+
+            <Link to={`/`}>
+              <h1>{userName}</h1>
+            </Link>
+
+            <h1 className="mx-2">/</h1>
+
             <Link to={`/channels/${userName}`}>
               <h1>Channels</h1>
             </Link>

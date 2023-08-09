@@ -1,4 +1,11 @@
 import { ChangeEvent } from "react";
+import {
+  buttonStyleFull,
+  defaultInputStyle,
+  modalContainerStyle,
+  modalOuterContainerStyle,
+} from "../tailwind";
+import { GenericButton } from "./GenericButton";
 
 interface Props {
   handleTitle: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -18,30 +25,26 @@ export const NewChannelModal = (props: Props) => {
     isPrivate,
     handleShowModal,
   } = props;
-  const outerContainer =
-    "w-full h-full flex absolute justify-center items-center";
-  const innerContainer =
-    "p-4 w-96 h-2/5 bg-slate-100 flex flex-col justify-center items-center border border-black rounded-3xl z-10";
+
   const formStyle =
     "flex flex-col justify-between items-center w-full h-3/5 mt-5";
 
-  const formEntry = "flex justify-between pb-3";
-
-  const input = "w-3/5 border-b border-black";
-  const buttonStyle = "bg-black text-white w-4/5 mb-2 rounded-md py-1 px-2";
+  const formEntry = "w-full flex justify-between pb-3";
 
   return (
     <>
-      <div className={outerContainer} onClick={handleShowModal}>
-        <div className={innerContainer} onClick={(e) => e.stopPropagation()}>
-          <h1 className="text-2xl text-center">New Channel</h1>
+      <div className={modalOuterContainerStyle} onClick={handleShowModal}>
+        <div
+          className={modalContainerStyle}
+          onClick={(e) => e.stopPropagation()}
+        >
           <form onSubmit={handleSubmit} className={formStyle}>
             <div className={formEntry}>
               <label className="text-xl" htmlFor="email">
-                Title
+                <p>Title</p>
               </label>
               <input
-                className={input}
+                className={defaultInputStyle}
                 type="text"
                 id="title"
                 value={title}
@@ -52,7 +55,7 @@ export const NewChannelModal = (props: Props) => {
 
             <div className={formEntry}>
               <label className="text-xl" htmlFor="isPrivate">
-                Private
+                <p>Private</p>
               </label>
               <input
                 type="checkbox"
@@ -62,9 +65,11 @@ export const NewChannelModal = (props: Props) => {
               />
             </div>
 
-            <button className={buttonStyle} type="submit">
-              Submit
-            </button>
+            <GenericButton
+              buttonType="submit"
+              buttonText="Create New Channel"
+              buttonStyle={buttonStyleFull}
+            />
           </form>
         </div>
       </div>

@@ -118,8 +118,8 @@ export const ChannelExpanded = () => {
       {showConfirmDelete && (
         <ConfirmModal
           text="confirm delete?"
-          handleHideConfirmDelete={handleHideConfirmDelete}
-          handleDeleteChannel={handleDeleteChannel}
+          handleNo={handleHideConfirmDelete}
+          handleYes={handleDeleteChannel}
         />
       )}
       {showChannelSettings && (
