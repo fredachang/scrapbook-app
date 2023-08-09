@@ -1,7 +1,12 @@
-export const Logo = () => {
+interface Props {
+  logoType: string;
+}
+
+export const Logo = (props: Props) => {
+  const { logoType } = props;
   return (
     <>
-      <div className="logo">Scrapbook</div>
+      <div className={logoType}>Scrapbook</div>
     </>
   );
 };

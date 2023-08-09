@@ -13,7 +13,7 @@ export const TitleBlock = (props: Props) => {
   return (
     <>
       <div
-        className={`flex flex-col justify-center items-center ${twStyle.blockDimensions} border border-${twStyle.highlightColour} ml-${twStyle.spacingMd}`}
+        className={`flex flex-col justify-center items-center ${twStyle.blockDimensions} border border-${twStyle.highlightColour}`}
       >
         <Link
           to={linkToChannel}

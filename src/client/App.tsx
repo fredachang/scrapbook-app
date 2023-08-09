@@ -12,14 +12,14 @@ import { twStyle } from "./tailwind";
 function App() {
   return (
     <>
-      <div
-        className={`w-screen h-screen overflow-y-scroll bg-${twStyle.primaryColour}`}
-      >
+      <div className={`w-screen bg-${twStyle.primaryColour}`}>
         <div className={`w-3% h-screen fixed right-0`}>
           <Nav />
         </div>
 
-        <div className={`k w-97% mt-${twStyle.spacing2Xl}`}>
+        <div
+          className={`px-${twStyle.spacingLg} w-97% pt-${twStyle.spacingXl}`}
+        >
           <Routes>
             <Route
               path="/"

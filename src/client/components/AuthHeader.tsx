@@ -20,7 +20,7 @@ export const AuthHeader = (props: Props) => {
       <div className="w-full">
         <div className={`flex justify-between mb-${twStyle.spacingSm}`}>
           <div className="flex flex-col">
-            <Logo />
+            <Logo logoType="logo-large" />
             <h1>{headingText}</h1>
           </div>
 

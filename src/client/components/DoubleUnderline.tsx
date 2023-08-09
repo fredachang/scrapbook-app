@@ -9,7 +9,7 @@ export const DoubleUnderline = (props: Props) => {
   return (
     <>
       <div
-        className={`w-full h-${height} border-y border-${twStyle.highlightColour}`}
+        className={`w-full h-${height} border-dotted border-y border-${twStyle.highlightColour}`}
       ></div>
     </>
   );

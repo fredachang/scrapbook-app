@@ -2,7 +2,7 @@ type Button = "button" | "submit" | "reset" | undefined;
 
 interface Props {
   buttonText: string;
-  handleOnClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  handleOnClick?: () => void;
   buttonStyle: string;
   buttonType: Button;
 }
