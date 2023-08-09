@@ -1,6 +1,18 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import {
+  buttonStyleFull,
+  defaultInputStyle,
+  formEntry,
+  formStyle,
+  labelStyle,
+  logInModalStyle,
+  modalOuterContainerStyle,
+} from "../tailwind";
+
+import { GenericButton } from "../components/GenericButton";
+import { AuthHeader } from "../components/AuthHeader";
 
 export const Login = () => {
   const { login } = useAuthContext();
@@ -37,34 +49,24 @@ export const Login = () => {
       });
   };
 
-  const outerContainer = "w-full h-screen flex justify-center items-center";
-  const innerContainer =
-    "p-4 w-96 h-2/5 flex flex-col justify-center items-center border border-black rounded-3xl";
-
-  const formStyle =
-    "flex flex-col justify-between items-center w-full h-3/5 mt-5";
-
-  const formEntry = "flex justify-between pb-3";
-
-  const input = "w-3/5 border-b border-black";
-
-  const buttonStyle = "bg-black text-white w-4/5 mb-2 rounded-md py-1 px-2";
-
-  const linkStyle = "text-black w-1/5 mb-2";
-
   return (
     <>
-      <div className={outerContainer}>
-        <div className={innerContainer}>
-          <h1 className="text-4xl text-center">Login</h1>
+      <div className={modalOuterContainerStyle}>
+        <div className={logInModalStyle}>
+          <AuthHeader
+            headingText="Log In"
+            navigateToPath={"/register"}
+            navigateToText="Register"
+          />
+
           <form onSubmit={handleSubmit} className={formStyle}>
             <div className="w-full">
               <div className={formEntry}>
-                <label className="text-xl" htmlFor="email">
-                  Email
+                <label className={labelStyle} htmlFor="email">
+                  <p>Email</p>
                 </label>
                 <input
-                  className={input}
+                  className={defaultInputStyle}
                   type="email"
                   id="email"
                   value={email}
@@ -73,11 +75,11 @@ export const Login = () => {
                 />
               </div>
               <div className={formEntry}>
-                <label className="text-xl" htmlFor="password">
-                  Password
+                <label className={labelStyle} htmlFor="password">
+                  <p>Password</p>
                 </label>
                 <input
-                  className={input}
+                  className={defaultInputStyle}
                   type="password"
                   id="password"
                   value={password}
@@ -87,14 +89,13 @@ export const Login = () => {
               </div>
             </div>
 
-            <button className={buttonStyle} type="submit">
-              Login
-            </button>
+            <GenericButton
+              buttonText="Log In"
+              buttonStyle={buttonStyleFull}
+              buttonType="submit"
+            />
           </form>
 
-          <button className={linkStyle} onClick={() => navigate("/register")}>
-            Register
-          </button>
           {message && <div>{message}</div>}
         </div>
       </div>

@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import {
+  buttonStyleFull,
+  defaultInputStyle,
+  formEntry,
+  formStyle,
+  labelStyle,
+  logInModalStyle,
+  modalOuterContainerStyle,
+} from "../tailwind";
+import { AuthHeader } from "../components/AuthHeader";
+import { GenericButton } from "../components/GenericButton";
 
 export const SignUp = () => {
   const { signup } = useAuthContext();
@@ -29,33 +40,24 @@ export const SignUp = () => {
     });
   };
 
-  const outerContainer = "w-full h-screen flex justify-center items-center";
-  const innerContainer =
-    "p-4 w-96 h-2/5 flex flex-col justify-center items-center border border-black rounded-3xl";
-
-  const formStyle =
-    "flex flex-col justify-between items-center w-full h-4/5 mt-5";
-
-  const formEntry = "flex justify-between pb-3";
-
-  const input = "w-3/5 border-b border-black";
-
-  const buttonStyle = "bg-black text-white w-4/5 mb-2 rounded-md py-1 px-2";
-
-  const linkStyle = "text-black w-1/5 mb-2";
-
   return (
     <>
-      <div className={outerContainer}>
-        <div className={innerContainer}>
-          <h1 className="text-4xl text-center">Register</h1>
+      <div className={modalOuterContainerStyle}>
+        <div className={logInModalStyle}>
+          <AuthHeader
+            headingText="Register"
+            navigateToText="Log In"
+            navigateToPath="/login"
+          />
 
           <form onSubmit={handleSubmit} className={formStyle}>
             <div className="w-full">
               <div className={formEntry}>
-                <label htmlFor="firstName">First Name:</label>
+                <label className={labelStyle} htmlFor="firstName">
+                  <p>First Name:</p>
+                </label>
                 <input
-                  className={input}
+                  className={defaultInputStyle}
                   type="text"
                   id="firstName"
                   value={firstName}
@@ -64,9 +66,11 @@ export const SignUp = () => {
                 />
               </div>
               <div className={formEntry}>
-                <label htmlFor="lastName">Last Name:</label>
+                <label htmlFor="lastName" className={labelStyle}>
+                  <p>Last Name:</p>
+                </label>
                 <input
-                  className={input}
+                  className={defaultInputStyle}
                   type="text"
                   id="lastName"
                   value={lastName}
@@ -75,9 +79,11 @@ export const SignUp = () => {
                 />
               </div>
               <div className={formEntry}>
-                <label htmlFor="email">Email:</label>
+                <label htmlFor="email" className={labelStyle}>
+                  <p>Email:</p>
+                </label>
                 <input
-                  className={input}
+                  className={defaultInputStyle}
                   type="email"
                   id="email"
                   value={email}
@@ -86,9 +92,11 @@ export const SignUp = () => {
                 />
               </div>
               <div className={formEntry}>
-                <label htmlFor="password">Password:</label>
+                <label htmlFor="password" className={labelStyle}>
+                  <p>Password:</p>
+                </label>
                 <input
-                  className={input}
+                  className={defaultInputStyle}
                   type="password"
                   id="password"
                   value={password}
@@ -98,14 +106,12 @@ export const SignUp = () => {
               </div>
             </div>
 
-            <button className={buttonStyle} type="submit">
-              Sign Up
-            </button>
+            <GenericButton
+              buttonText="Register"
+              buttonStyle={buttonStyleFull}
+              buttonType="submit"
+            />
           </form>
-
-          <button className={linkStyle} onClick={() => navigate("/login")}>
-            Log In
-          </button>
 
           {message && <div>{message}</div>}
         </div>
