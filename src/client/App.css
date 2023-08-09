@@ -47,19 +47,27 @@ h3 {
   font-size: 1.2rem;
 }
 
+/* numbers */
 h4 {
   font-family: "GT-Cinetype-Mono";
-  font-size: 0.8rem;
+  font-size: 2rem;
 }
 
+/* bodytext */
 p {
   font-family: "GT-Cinetype-Mono";
   font-size: 0.6rem;
 }
 
-.logo {
+/* logos */
+.logo-small {
   font-family: "GT-Alpina-Extended-Medium-Italic";
-  font-size: 1.5rem;
+  font-size: 1rem;
+}
+
+.logo-large {
+  font-family: "GT-Alpina-Extended-Medium-Italic";
+  font-size: 3rem;
 }
 
 .verticalText {

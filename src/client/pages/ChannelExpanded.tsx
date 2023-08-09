@@ -9,10 +9,13 @@ import { fadeXY, staggerParentContainer } from "../motion";
 import { useUpdateChannel } from "../hooks/channels/useUpdateChannel";
 import { Uploader } from "../components/Uploader";
 
-import { twStyle } from "../tailwind";
-import { PageHeaderWithNav } from "../components/PageHeaderWithNav";
+import { buttonStyleFull, twStyle } from "../tailwind";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { ChannelSettingModal } from "../components/ChannelSettingsModal";
+import { PageHeader } from "../components/PageHeader";
+import { useScrollDetection } from "../hooks/useScrollDetection";
+import { Heading } from "../components/Heading";
+import { GenericButton } from "../components/GenericButton";
 
 export const ChannelExpanded = () => {
   const { id, channelTitle, isPrivate } = useParams();
@@ -44,6 +47,7 @@ export const ChannelExpanded = () => {
   const updateChannelMutation = useUpdateChannel();
 
   const navigate = useNavigate();
+  const isScrolled = useScrollDetection();
   const deleteMutation = useDeleteChannel();
 
   const handleShowChannelSettings = () => {
@@ -107,13 +111,40 @@ export const ChannelExpanded = () => {
 
   return (
     <>
-      <PageHeaderWithNav
-        title={channelTitleCheck}
-        count={connectionsCount}
-        buttonClass="text-3xl"
-        handleShowSettings={handleShowChannelSettings}
-        handleConfirmDelete={handleShowConfirmDelete}
+      <PageHeader
+        isScrolled={isScrolled}
+        thirdLink={true}
+        thirdLinkText="Channels"
+        thirdLinkPath={`/channels/${userName}`}
+        fourthlink={true}
+        fourthLinkText={channelTitleCheck}
+        fourthLinkPath=""
       />
+
+      <Heading
+        thirdLink={true}
+        thirdLinkText="Channels"
+        thirdLinkPath={`/channels/${userName}`}
+        fourthlink={true}
+        fourthLinkText={channelTitleCheck}
+        fourthLinkPath=""
+        count={connectionsCount}
+      />
+
+      <div>
+        <GenericButton
+          buttonText="Update Channel"
+          buttonStyle={buttonStyleFull}
+          buttonType="button"
+          handleOnClick={handleShowChannelSettings}
+        />
+        <GenericButton
+          buttonText="Delete Channel"
+          buttonStyle={buttonStyleFull}
+          buttonType="button"
+          handleOnClick={handleShowConfirmDelete}
+        />
+      </div>
 
       {showConfirmDelete && (
         <ConfirmModal

@@ -102,7 +102,7 @@ export const Block2 = (props: Props) => {
           <div className={imageContainer}>
             {text ? (
               <div
-                className={`w-full h-full border border-${twStyle.highlightColour} py-${twStyle.spacingLg} px-${twStyle.spacingMd}`}
+                className={`w-full h-full border border-dotted border-${twStyle.highlightColour} py-${twStyle.spacingLg} px-${twStyle.spacingMd}`}
               >
                 {text}
               </div>

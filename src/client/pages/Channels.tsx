@@ -8,6 +8,8 @@ import { useCreateChannel } from "../hooks/channels/useCreateChannel";
 import { Channel } from "../components/Channel";
 import React from "react";
 import { PageHeader } from "../components/PageHeader";
+import { Heading } from "../components/Heading";
+import { useScrollDetection } from "../hooks/useScrollDetection";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
@@ -22,6 +24,8 @@ export const Channels = () => {
   const channelsCheck = channels ? channels : [];
 
   const channelsCount = channelsCheck.length;
+
+  const isScrolled = useScrollDetection();
 
   const navigate = useNavigate();
   const newChannelMutation = useCreateChannel();
@@ -75,15 +79,30 @@ export const Channels = () => {
   return (
     <>
       <PageHeader
-        title="Channels"
-        count={channelsCount}
         buttonClass="text-3xl"
-        buttonContainerClass="w-2/5 flex justify-between items-center"
-        onClick={handleShowModal}
+        isScrolled={isScrolled}
+        thirdLink={true}
+        thirdLinkText="Channels"
+        thirdLinkPath=""
+        fourthlink={false}
+        fourthLinkPath=""
+        fourthLinkText=""
+        handleShowCreateChannelModal={handleShowModal}
         inputValue={input}
         handleInput={handleInput}
         handleClear={handleClear}
       />
+
+      <Heading
+        thirdLink={true}
+        thirdLinkText="Channels"
+        thirdLinkPath=""
+        fourthlink={false}
+        fourthLinkText=""
+        fourthLinkPath=""
+        count={channelsCount}
+      />
+
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error occurred while fetching data.</p>}
 

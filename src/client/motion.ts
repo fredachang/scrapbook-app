@@ -25,3 +25,18 @@ export const fadeXY = {
     },
   },
 };
+
+export const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 10,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.3,
+      ease: "easeIn",
+    },
+  },
+};

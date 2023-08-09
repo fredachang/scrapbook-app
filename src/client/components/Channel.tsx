@@ -46,16 +46,6 @@ export const Channel = (props: Props) => {
         </div>
 
         <div className="flex items-center overflow-x-scroll">
-          {/* <div>
-            <Uploader
-              channelId={id}
-              channelTitle={channelTitle}
-              isPrivate={isPrivate}
-            />
-            {isLoading && <p>Loading...</p>}
-            {isError && <p>Error occurred while fetching data.</p>}
-          </div> */}
-
           <motion.div
             className="flex"
             initial="hidden"
