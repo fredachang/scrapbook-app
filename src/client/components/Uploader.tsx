@@ -53,7 +53,7 @@ export const Uploader = (props: Props) => {
   return (
     <>
       <div
-        className={`flex flex-col border border-${twStyle.highlightColour} ${twStyle.blockDimensions} ml-${twStyle.spacingMd}`}
+        className={`flex flex-col border border-${twStyle.highlightColour} ${twStyle.blockDimensions} mr-${twStyle.spacingLg}`}
       >
         <div className={`flex h-${twStyle.sizeSm} justify-between`}>
           <button onClick={handleImageMode} className={buttonStyleHalf}>

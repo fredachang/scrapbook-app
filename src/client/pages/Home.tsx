@@ -3,7 +3,6 @@ import { PageHeader } from "../components/PageHeader";
 import { SocialPost } from "../components/SoicalPost";
 import { useGetFeed } from "../hooks/feed/useGetFeed";
 import { useScrollDetection } from "../hooks/useScrollDetection";
-import { twStyle } from "../tailwind";
 
 export const Home = () => {
   const { data: feeds, isLoading, isError } = useGetFeed();
@@ -39,7 +38,7 @@ export const Home = () => {
       {feeds &&
         feeds.map((feed) => {
           return (
-            <div key={feed.key} className={`mb-${twStyle.spacingMd}`}>
+            <div key={feed.key}>
               <SocialPost
                 created={feed.created}
                 firstName={feed.firstName}

@@ -18,79 +18,10 @@
   src: url("/GT-Pressura/GT-Pressura-Mono-Light-Trial.woff2") format("woff2");
 }
 
-@font-face {
-  font-family: "GT-Alpina-Thin";
-  src: url("/GT-Alpina/GT-Alpina-Standard-Thin-Trial.woff2") format("truetype");
-}
-
-@font-face {
-  font-family: "GT-Alpina-Medium-Italic";
-  src: url("/GT-Alpina/GT-Alpina-Standard-Medium-Italic-Trial.woff2")
-    format("woff2");
-}
-
-@font-face {
-  font-family: "GT-Alpina-Extended-Regular-Italic";
-  src: url("/GT-Alpina/GT-Alpina-Extended-Regular-Italic-Trial.woff2")
-    format("woff2");
-}
-
-@font-face {
-  font-family: "GT-Alpina-Extended-Medium-Italic";
-  src: url("/GT-Alpina/GT-Alpina-Extended-Medium-Italic-Trial.woff2")
-    format("woff2");
-}
-
-@font-face {
-  font-family: "GT-Alpina-Extended-Thin-Italic";
-  src: url("/GT-Alpina/GT-Alpina-Extended-Thin-Italic-Trial.woff2")
-    format("woff2");
-}
-
-@font-face {
-  font-family: "GT-Cinetype-Mono";
-  src: url("/GT-Cinetype/GT-Cinetype-Mono.woff2") format("woff2");
-}
-
-h1 {
-  font-family: "GT-Alpina-Extended-Thin-Italic";
-  font-size: 1.5rem;
-}
-
-h2 {
-  font-family: "GT-Cinetype-Mono";
-  font-size: 0.8rem;
-}
-
-h3 {
-  font-family: "GT-Alpina-Thin";
-  font-size: 1.2rem;
-}
-
-/* numbers */
-h4 {
-  font-family: "GT-Cinetype-Mono";
-  font-size: 2rem;
-}
-
-/* bodytext */
-p {
-  font-family: "GT-Cinetype-Mono";
-  font-size: 0.6rem;
-}
-
-/* logos */
-.logo-small {
-  font-family: "GT-Alpina-Extended-Medium-Italic";
-  font-size: 1rem;
-}
-
-.logo-large {
-  font-family: "GT-Alpina-Extended-Medium-Italic";
-  font-size: 3rem;
-}
-
 .verticalText {
+  font-family: "GT-Pressura-Light";
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
   height: 25%;
   display: flex;
   justify-content: center;
@@ -102,7 +33,9 @@ p {
 }
 
 .verticalTextActive {
-  text-decoration: underline;
+  font-family: "GT-Pressura-Medium";
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
   height: 25%;
   display: flex;
   justify-content: center;

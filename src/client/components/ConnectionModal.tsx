@@ -4,7 +4,12 @@ import { useAuthContext } from "../context/AuthContext";
 import { useCreateConnection } from "../hooks/connections/useCreateConnection";
 import { useGetChannels } from "../hooks/channels/useGetChannels";
 import React from "react";
-import { buttonStyleFull, defaultInputStyle, twStyle } from "../tailwind";
+import {
+  buttonStyleFull,
+  defaultInputStyle,
+  twStyle,
+  twText,
+} from "../tailwind";
 import { GenericButton } from "./GenericButton";
 
 interface Props {
@@ -85,7 +90,10 @@ export const ConnectionModal = (props: Props) => {
           />
           <ul className={`px-${twStyle.spacingSm} `}>
             {filteredChannels.map((channel) => (
-              <div key={channel.id} className={`mb-${twStyle.spacingSm}`}>
+              <div
+                key={channel.id}
+                className={`${twText.paragraph} mb-${twStyle.spacingSm}`}
+              >
                 <button
                   onClick={() =>
                     handleClickChannel(channel.id, channel.isPrivate)

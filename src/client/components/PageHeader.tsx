@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { defaultInputStyle, twStyle } from "../tailwind";
+import { defaultInputStyle, twStyle, twText } from "../tailwind";
 import { useAuthContext } from "../context/AuthContext";
 import { Logo } from "./Logo";
 import { motion } from "framer-motion";
@@ -42,8 +42,10 @@ export const PageHeader = (props: Props) => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const overallContainer = `bg-${twStyle.primaryColour} flex justify-between w-97% h-${twStyle.sizeMd} fixed left-0 top-0 z-20 ${twStyle.primaryColour} px-${twStyle.spacingLg}`;
+  const overallContainer = `bg-${twStyle.primaryColour} flex justify-between w-97% h-${twStyle.sizeLg} fixed left-0 top-0 z-20 px-${twStyle.spacingLg}`;
   const logoContainer = "flex items-center w-full";
+
+  const slashStyle = `${twText.breadcrumbs} mx-${twStyle.spacingSm}`;
 
   return (
     <>
@@ -56,31 +58,31 @@ export const PageHeader = (props: Props) => {
             className={isScrolled ? logoContainer : "hidden"}
           >
             <Link to={`/`}>
-              <Logo logoType={twStyle.logoSmall} />
+              <Logo logoType={twText.logoSmall} />
             </Link>
 
-            <h1 className="mx-2">/</h1>
+            <h1 className={slashStyle}>/</h1>
 
             <Link to={`/`}>
-              <h1>{userName}</h1>
+              <h1 className={twText.breadcrumbs}>{userName}</h1>
             </Link>
 
             {thirdLink && (
               <div className="flex">
-                <h1 className="mx-2">/</h1>
+                <h1 className={slashStyle}>/</h1>
 
                 <Link to={thirdLinkPath}>
-                  <h1>{thirdLinkText}</h1>
+                  <h1 className={twText.breadcrumbs}>{thirdLinkText}</h1>
                 </Link>
               </div>
             )}
 
             {fourthlink && (
               <div className="flex">
-                <h1 className="mx-2">/</h1>
+                <h1 className={slashStyle}>/</h1>
 
                 <Link to={fourthLinkPath}>
-                  <h1>{fourthLinkText}</h1>
+                  <h1 className={twText.breadcrumbs}>{fourthLinkText}</h1>
                 </Link>
               </div>
             )}

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { twStyle } from "../tailwind";
+import { twStyle, twText } from "../tailwind";
 
 interface Props {
   linkToChannel: string;
@@ -13,19 +13,23 @@ export const TitleBlock = (props: Props) => {
   return (
     <>
       <div
-        className={`flex flex-col justify-center items-center ${twStyle.blockDimensions} border border-${twStyle.highlightColour}`}
+        className={`relative ${twStyle.blockDimensions} border border-${twStyle.highlightColour} mr-${twStyle.spacingLg}`}
       >
         <Link
           to={linkToChannel}
-          className={`w-full h-full flex items-center justify-center mb-${twStyle.spacingMd}`}
+          className={`px-${twStyle.spacingSm} absolute w-full h-full flex flex-col items-center justify-center`}
         >
-          <h3 className="text-center">{channelTitle}</h3>
+          <h3
+            className={`${twText.heading} text-center leading-5 mb-${twStyle.spacingMd}`}
+          >
+            {channelTitle}
+          </h3>
+          <p className={`${twText.small} mb-${twStyle.spacingSm}`}>
+            {isPrivate ? "Private Channel" : "Public Channel"}
+          </p>
+          <p className={twText.small}>{connectionsCount} blocks</p>
         </Link>
         {/* <p className="text-xs">{shortenUUID(id)}</p> */}
-        <div className="text-center">
-          <p>{isPrivate ? "Private Channel" : "Public Channel"}</p>
-          <p>{connectionsCount} blocks</p>
-        </div>
       </div>
     </>
   );

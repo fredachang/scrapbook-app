@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { GenericButton } from "./GenericButton";
 import { ConnectionModal } from "./ConnectionModal";
-import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
 import { BlockExpanded } from "./BlockExpanded";
-import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext";
 import { blockContainerStyle, buttonStyleFull, twStyle } from "../tailwind";
 
 interface Props {
@@ -20,10 +17,10 @@ export const Block2 = (props: Props) => {
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [expandBlock, setExpandBlock] = useState(false);
 
-  const { data: blockChannels } = useGetBlockChannels(blockId);
-  const navigate = useNavigate();
-  const { profile } = useAuthContext();
-  const userName = `${profile?.firstName}-${profile?.lastName}`;
+  // const { data: blockChannels } = useGetBlockChannels(blockId);
+  // const navigate = useNavigate();
+  // const { profile } = useAuthContext();
+  // const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   function convertBase64ToUrl(base64string: string) {
     const imageFormat = "jpeg";
@@ -57,14 +54,14 @@ export const Block2 = (props: Props) => {
     setExpandBlock(false);
   };
 
-  const handleNavigateToChannel = (
-    channelTitle: string,
-    channelId: string,
-    isPrivate: boolean
-  ) => {
-    const targetUrl = `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`;
-    navigate(targetUrl, { replace: true });
-  };
+  // const handleNavigateToChannel = (
+  //   channelTitle: string,
+  //   channelId: string,
+  //   isPrivate: boolean
+  // ) => {
+  //   const targetUrl = `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`;
+  //   navigate(targetUrl, { replace: true });
+  // };
 
   const connectModalContainer = "w-full h-full absolute z-20";
   const imageContainer = "w-full h-full flex flex-col items-center";
@@ -74,7 +71,7 @@ export const Block2 = (props: Props) => {
       <div className="flex flex-col">
         <div
           key={blockId}
-          className={blockContainerStyle}
+          className={`${blockContainerStyle} mb-${twStyle.spacingLg}`}
           onMouseEnter={handleOnMouseOver}
           onMouseLeave={handleOnMouseLeave}
         >
@@ -118,10 +115,11 @@ export const Block2 = (props: Props) => {
           </div>
         </div>
 
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           {blockChannels?.map((blockChannel) => {
             return (
               <button
+                className={buttonStyleFull}
                 key={blockChannel.id}
                 onClick={() =>
                   handleNavigateToChannel(
@@ -135,7 +133,7 @@ export const Block2 = (props: Props) => {
               </button>
             );
           })}
-        </div>
+        </div> */}
       </div>
 
       {expandBlock && (

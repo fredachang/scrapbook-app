@@ -3,7 +3,8 @@ import { useCreateBlock } from "../hooks/blocks/useCreateBlock";
 import { useCreateBlockByUpload } from "../hooks/blocks/useCreateBlockByUpload";
 import { splitStringByComma } from "../utils";
 import { useNavigate } from "react-router-dom";
-import { twStyle } from "../tailwind";
+import { buttonStyleFull, twStyle } from "../tailwind";
+import { GenericButton } from "./GenericButton";
 
 interface Props {
   channelId: string;
@@ -103,12 +104,12 @@ export const ImageUploader = (props: Props) => {
             onChange={handleImagePath}
             value={imagePath}
           />
-          <button
-            type="submit"
-            className={`h-6 border-t border-${twStyle.highlightColour}`}
-          >
-            <p>Add Path</p>
-          </button>
+
+          <GenericButton
+            buttonText="Add Path"
+            buttonStyle={buttonStyleFull}
+            buttonType="submit"
+          />
         </div>
 
         {/* invisible element to cover the form when dragactive is true*/}

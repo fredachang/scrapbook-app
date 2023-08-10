@@ -29,7 +29,7 @@ export const Channel = (props: Props) => {
   const { profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
-  const commonStyle = `flex items-center mb-${twStyle.spacingMd}`;
+  const commonStyle = `flex items-center mb-${twStyle.spacingLg}`;
   const publicContainerStyle = `${commonStyle}`;
   const privateContainerStyle = `${commonStyle} bg-slate-300`;
 
