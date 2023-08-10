@@ -11,6 +11,7 @@ import {
   twText,
 } from "../tailwind";
 import { GenericButton } from "./GenericButton";
+import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
 
 interface Props {
   blockId: string;
@@ -25,6 +26,14 @@ export const ConnectionModal = (props: Props) => {
   const { data: channels } = useGetChannels();
 
   const createConnectionMutation = useCreateConnection(blockId);
+  const { data: blockChannels } = useGetBlockChannels(blockId);
+
+  const blockChannelIds = blockChannels?.map((channel) => channel.id);
+
+  const alreadyInChannel = (id: string) => {
+    return blockChannelIds?.includes(id) ?? false;
+  };
+
   const navigate = useNavigate();
   const location = useLocation();
   const { profile } = useAuthContext();
@@ -92,12 +101,17 @@ export const ConnectionModal = (props: Props) => {
             {filteredChannels.map((channel) => (
               <div
                 key={channel.id}
-                className={`${twText.paragraph} mb-${twStyle.spacingSm}`}
+                className={`
+               ${alreadyInChannel(channel.id) && `text-${twStyle.dimColour}`}
+                
+                ${twText.paragraph} mb-${twStyle.spacingSm}`}
               >
                 <button
-                  onClick={() =>
-                    handleClickChannel(channel.id, channel.isPrivate)
-                  }
+                  onClick={() => {
+                    !alreadyInChannel(channel.id) &&
+                      handleClickChannel(channel.id, channel.isPrivate);
+                  }}
+                  disabled={alreadyInChannel(channel.id)}
                 >
                   <p className="text-left">{channel.title}</p>
                 </button>
