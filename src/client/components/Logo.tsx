@@ -9,7 +9,7 @@ export const Logo = (props: Props) => {
   return (
     <>
       <div className="flex items-start">
-        <img className={logoImgStyle} src="/public/Logo.png" />
+        <img className={logoImgStyle} src="/Logo.png" />
         <div className={`${logoTextStyle}`}>{logoText}</div>
       </div>
     </>
