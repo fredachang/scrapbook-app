@@ -14,7 +14,6 @@ interface Props {
   fourthLinkPath: string;
   fourthLinkText: string;
   handleShowCreateChannelModal?: () => void;
-  buttonClass?: string;
   inputValue?: string;
   handleInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClear?: () => void;
@@ -28,7 +27,6 @@ export const PageHeader = (props: Props) => {
     fourthlink,
     fourthLinkPath,
     fourthLinkText,
-    buttonClass,
     handleShowCreateChannelModal,
     inputValue,
     isScrolled,
@@ -42,7 +40,7 @@ export const PageHeader = (props: Props) => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const overallContainer = `bg-${twStyle.primaryColour} flex justify-between w-97% h-${twStyle.sizeLg} fixed left-0 top-0 z-20 px-${twStyle.spacingLg}`;
+  const overallContainer = `bg-${twStyle.primaryColour} flex justify-between items-center w-97% h-${twStyle.sizeLg} fixed left-0 top-0 z-20 px-${twStyle.spacingLg}`;
   const logoContainer = "flex items-center w-full";
 
   const slashStyle = `${twText.breadcrumbs} mx-${twStyle.spacingSm}`;
@@ -102,14 +100,18 @@ export const PageHeader = (props: Props) => {
               onChange={handleInput}
               className={defaultInputStyle}
             />
-            <button onClick={handleClear} className={`ml-${twStyle.spacingMd}`}>
-              <p>Clear</p>
+            <button onClick={handleClear} className={`ml-${twStyle.spacingSm}`}>
+              <p className={twText.heading}>Clear</p>
             </button>
           </div>
         )}
 
-        <button className={buttonClass} onClick={handleShowCreateChannelModal}>
-          +
+        <button
+          className={`${twText.heading} flex justify-end w-64`}
+          onClick={handleShowCreateChannelModal}
+        >
+          <p className={`mr-${twStyle.spacingSm}`}>New Channel</p>
+          <p>+</p>
         </button>
       </div>
     </>

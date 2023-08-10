@@ -24,6 +24,7 @@ export const twText = {
   headingBold: "font-bold text-xl",
   heading: "font-light text-xl",
   paragraph: "font-light text-base",
+  buttonLg: "font-mono text-2xl",
   button: "font-mono text-base",
   small: "font-mono text-xs",
   numberLg: "font-mono text-6xl",

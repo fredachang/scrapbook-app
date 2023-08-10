@@ -16,16 +16,18 @@ import { PageHeader } from "../components/PageHeader";
 import { useScrollDetection } from "../hooks/useScrollDetection";
 import { Heading } from "../components/Heading";
 import { GenericButton } from "../components/GenericButton";
+import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
+import { NewChannelModal } from "../components/NewChannelModal";
 
 export const ChannelExpanded = () => {
-  const { id, channelTitle, isPrivate } = useParams();
+  const { id, channelTitle, isPrivate: privateCheck } = useParams();
 
   //deal with the scenario where id could be undefined
   const IdCheck = id ? id : "";
   const channelTitleCheck = channelTitle ? channelTitle : "";
 
   //isPrivate retrieved from the params will be a string "true" or "false"
-  const isPrivateCheck = isPrivate ? JSON.parse(isPrivate) : false;
+  const isPrivateCheck = privateCheck ? JSON.parse(privateCheck) : false;
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [showChannelSettings, setShowChannelSettings] = useState(false);
@@ -49,6 +51,15 @@ export const ChannelExpanded = () => {
   const navigate = useNavigate();
   const isScrolled = useScrollDetection();
   const deleteMutation = useDeleteChannel();
+  const {
+    showModal,
+    handleShowModal,
+    title,
+    handleTitle,
+    isPrivate,
+    handleIsPrivate,
+    handleSubmit,
+  } = useCreateChannelModal();
 
   const handleShowChannelSettings = () => {
     setShowChannelSettings(true);
@@ -119,6 +130,7 @@ export const ChannelExpanded = () => {
         fourthlink={true}
         fourthLinkText={channelTitleCheck}
         fourthLinkPath=""
+        handleShowCreateChannelModal={handleShowModal}
       />
 
       <Heading
@@ -201,6 +213,16 @@ export const ChannelExpanded = () => {
             );
           })}
         </motion.div>
+        {showModal && (
+          <NewChannelModal
+            handleTitle={handleTitle}
+            handleIsPrivate={handleIsPrivate}
+            handleSubmit={handleSubmit}
+            title={title}
+            isPrivate={isPrivate}
+            handleShowModal={handleShowModal}
+          />
+        )}
       </div>
     </>
   );

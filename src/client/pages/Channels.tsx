@@ -1,62 +1,32 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { NewChannelModal } from "../components/NewChannelModal";
-import { useNavigate } from "react-router-dom";
 
-import { useAuthContext } from "../context/AuthContext";
 import { useGetChannels } from "../hooks/channels/useGetChannels";
-import { useCreateChannel } from "../hooks/channels/useCreateChannel";
 import { Channel } from "../components/Channel";
 import React from "react";
 import { PageHeader } from "../components/PageHeader";
 import { Heading } from "../components/Heading";
 import { useScrollDetection } from "../hooks/useScrollDetection";
+import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
-  const { profile } = useAuthContext();
   const [input, setInput] = useState("");
-  const userName = `${profile?.firstName}-${profile?.lastName}`;
-
-  const [showModal, setShowModal] = useState(false);
-  const [title, setTitle] = useState("");
-  const [isPrivate, setIsPrivate] = useState(false);
 
   const channelsCheck = channels ? channels : [];
 
   const channelsCount = channelsCheck.length;
 
   const isScrolled = useScrollDetection();
-
-  const navigate = useNavigate();
-  const newChannelMutation = useCreateChannel();
-
-  const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleIsPrivate = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsPrivate(e.target.checked);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const variables = {
-      title: title,
-      isPrivate: isPrivate,
-    };
-
-    newChannelMutation.mutateAsync(variables).then(() => {
-      navigate(`/channels/${userName}`, { replace: true });
-      setShowModal(false);
-      setTitle("");
-      setIsPrivate(false);
-    });
-  };
-
-  const handleShowModal = () => {
-    setShowModal((prevValue) => !prevValue);
-  };
+  const {
+    showModal,
+    handleShowModal,
+    title,
+    handleTitle,
+    isPrivate,
+    handleIsPrivate,
+    handleSubmit,
+  } = useCreateChannelModal();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
@@ -79,7 +49,6 @@ export const Channels = () => {
   return (
     <>
       <PageHeader
-        buttonClass="text-3xl"
         isScrolled={isScrolled}
         thirdLink={true}
         thirdLinkText="Channels"
