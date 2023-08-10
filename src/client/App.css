@@ -1,4 +1,24 @@
 @font-face {
+  font-family: "GT-Pressura-Bold";
+  src: url("/GT-Pressura/GT-Pressura-Bold-Trial.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "GT-Pressura-Medium";
+  src: url("/GT-Pressura/GT-Pressura-Medium-Trial.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "GT-Pressura-Light";
+  src: url("/GT-Pressura/GT-Pressura-Light-Trial.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "GT-Pressura-Mono";
+  src: url("/GT-Pressura/GT-Pressura-Mono-Light-Trial.woff2") format("woff2");
+}
+
+@font-face {
   font-family: "GT-Alpina-Thin";
   src: url("/GT-Alpina/GT-Alpina-Standard-Thin-Trial.woff2") format("truetype");
 }

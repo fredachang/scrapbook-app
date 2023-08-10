@@ -5,6 +5,8 @@ export const twStyle = {
   dimColour: "slate-600",
   hoverColour: "blue-100",
   blockDimensions: "w-64 h-64",
+  logoLarge: "font-bold text-6xl",
+  logoSmall: "font-bold text-2xl",
   spacingXs: "1",
   spacingSm: "2",
   spacingMd: "5",

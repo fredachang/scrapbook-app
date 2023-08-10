@@ -40,7 +40,7 @@ export const Heading = (props: Props) => {
         <div className={innerContainer}>
           <div className={logoContainer}>
             <Link to={`/`}>
-              <Logo logoType="logo-large" />
+              <Logo logoType={twStyle.logoLarge} />
             </Link>
 
             <div className="flex">
