@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import {
   buttonStyleFull,
+  buttonStyleFullNoBorder,
   defaultInputStyle,
   formEntry,
   formStyle,
   labelStyle,
   logInModalStyle,
   modalOuterContainerStyle,
+  twStyle,
+  twText,
 } from "../tailwind";
 import { AuthHeader } from "../components/AuthHeader";
 import { GenericButton } from "../components/GenericButton";
@@ -44,17 +47,13 @@ export const SignUp = () => {
     <>
       <div className={modalOuterContainerStyle}>
         <div className={logInModalStyle}>
-          <AuthHeader
-            headingText="Register"
-            navigateToText="Log In"
-            navigateToPath="/login"
-          />
+          <AuthHeader />
 
           <form onSubmit={handleSubmit} className={formStyle}>
             <div className="w-full">
               <div className={formEntry}>
                 <label className={labelStyle} htmlFor="firstName">
-                  <p>First Name:</p>
+                  <p className={twText.paragraph}>First Name:</p>
                 </label>
                 <input
                   className={defaultInputStyle}
@@ -67,7 +66,7 @@ export const SignUp = () => {
               </div>
               <div className={formEntry}>
                 <label htmlFor="lastName" className={labelStyle}>
-                  <p>Last Name:</p>
+                  <p className={twText.paragraph}>Last Name:</p>
                 </label>
                 <input
                   className={defaultInputStyle}
@@ -80,7 +79,7 @@ export const SignUp = () => {
               </div>
               <div className={formEntry}>
                 <label htmlFor="email" className={labelStyle}>
-                  <p>Email:</p>
+                  <p className={twText.paragraph}>Email:</p>
                 </label>
                 <input
                   className={defaultInputStyle}
@@ -93,7 +92,7 @@ export const SignUp = () => {
               </div>
               <div className={formEntry}>
                 <label htmlFor="password" className={labelStyle}>
-                  <p>Password:</p>
+                  <p className={twText.paragraph}>Password:</p>
                 </label>
                 <input
                   className={defaultInputStyle}
@@ -112,6 +111,15 @@ export const SignUp = () => {
               buttonType="submit"
             />
           </form>
+
+          <div className={`mt-${twStyle.spacingSm}`}>
+            <GenericButton
+              buttonText="Log In"
+              buttonStyle={buttonStyleFullNoBorder}
+              buttonType="button"
+              handleOnClick={() => navigate("/login")}
+            />
+          </div>
 
           {message && <div>{message}</div>}
         </div>

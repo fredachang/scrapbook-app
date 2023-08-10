@@ -16,7 +16,7 @@ function App() {
         <Nav />
       </div>
 
-      <div className={`px-${twStyle.spacingLg} w-97% pt-${twStyle.spacing2Xl}`}>
+      <div className={`px-${twStyle.spacingLg} w-97% pt-${twStyle.spacingXl}`}>
         <Routes>
           <Route
             path="/"

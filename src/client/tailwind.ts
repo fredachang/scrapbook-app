@@ -20,7 +20,7 @@ export const twStyle = {
 
 export const twText = {
   logoLarge: "font-bold text-5xl",
-  logoSmall: "font-bold text-2xl",
+  logoSmall: "font-bold text-3xl",
   breadcrumbs: "font-light text-2xl",
   headingBold: "font-bold text-xl",
   heading: "font-light text-xl",
@@ -37,6 +37,8 @@ export const buttonStyleHalf = `${twText.button} bg-${twStyle.primaryColour} hov
 
 export const buttonStyleFull = `${twText.button} bg-${twStyle.primaryColour} hover:bg-${twStyle.secondaryHighlightColour} ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center  border border-${twStyle.highlightColour}`;
 
+export const buttonStyleFullNoBorder = `w-full ${twText.button} border border-${twStyle.primaryColour} hover:border-${twStyle.highlightColour} hover:rounded-3xl hover:border-dotted ${twStyle.transitionSm}`;
+
 export const defaultInputStyle = `w-full h-${twStyle.sizeSm} focus:outline-none`;
 
 export const modalOuterContainerStyle = `w-full h-full flex fixed top-0 justify-center items-center z-20`;
@@ -46,8 +48,9 @@ export const modalBgStyle = `bg-${twStyle.dimColour} w-full h-full fixed top-0 z
 export const breadcrumbStyle = `${twText.breadcrumbs} border border-${twStyle.primaryColour} hover:border-${twStyle.highlightColour} hover:rounded-3xl hover:border-dotted ${twStyle.transitionSm}`;
 
 //Auth
+
 export const formStyle =
   "flex flex-col justify-between items-center w-full h-4/5 mt-5";
 export const formEntry = "flex justify-between pb-3";
 export const labelStyle = "w-2/5";
-export const logInModalStyle = `p-4 w-96 h-3/5 bg-${twStyle.primaryColour} flex flex-col items-center border border-${twStyle.highlightColour}`;
+export const logInModalStyle = `p-4 w-1/4 h-1/2 bg-${twStyle.primaryColour} flex flex-col items-center`;

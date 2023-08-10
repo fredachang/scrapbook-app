@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import {
   buttonStyleFull,
+  buttonStyleFullNoBorder,
   defaultInputStyle,
   formEntry,
   formStyle,
   labelStyle,
   logInModalStyle,
   modalOuterContainerStyle,
+  twStyle,
+  twText,
 } from "../tailwind";
 
 import { GenericButton } from "../components/GenericButton";
@@ -53,17 +56,13 @@ export const Login = () => {
     <>
       <div className={modalOuterContainerStyle}>
         <div className={logInModalStyle}>
-          <AuthHeader
-            headingText="Log In"
-            navigateToPath={"/register"}
-            navigateToText="Register"
-          />
+          <AuthHeader />
 
           <form onSubmit={handleSubmit} className={formStyle}>
             <div className="w-full">
               <div className={formEntry}>
                 <label className={labelStyle} htmlFor="email">
-                  <p>Email</p>
+                  <p className={twText.paragraph}>Email</p>
                 </label>
                 <input
                   className={defaultInputStyle}
@@ -76,7 +75,7 @@ export const Login = () => {
               </div>
               <div className={formEntry}>
                 <label className={labelStyle} htmlFor="password">
-                  <p>Password</p>
+                  <p className={twText.paragraph}>Password</p>
                 </label>
                 <input
                   className={defaultInputStyle}
@@ -95,6 +94,15 @@ export const Login = () => {
               buttonType="submit"
             />
           </form>
+
+          <div className={`mt-${twStyle.spacingSm}`}>
+            <GenericButton
+              buttonText="Register"
+              buttonStyle={buttonStyleFullNoBorder}
+              buttonType="button"
+              handleOnClick={() => navigate("/register")}
+            />
+          </div>
 
           {message && <div>{message}</div>}
         </div>
