@@ -5,11 +5,22 @@ import { fadeXY, staggerParentContainer } from "../motion";
 import { PageHeader } from "../components/PageHeader";
 import { useScrollDetection } from "../hooks/useScrollDetection";
 import { Heading } from "../components/Heading";
+import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
+import { NewChannelModal } from "../components/NewChannelModal";
 
 export const Blocks = () => {
   const { data: blocks, isLoading, isError } = useGetUserBlocks();
 
   const isScrolled = useScrollDetection();
+  const {
+    showModal,
+    handleShowModal,
+    title,
+    handleTitle,
+    isPrivate,
+    handleIsPrivate,
+    handleSubmit,
+  } = useCreateChannelModal();
 
   const blockCheck = blocks ? blocks : [];
 
@@ -25,6 +36,7 @@ export const Blocks = () => {
         fourthLinkText=""
         fourthLinkPath=""
         isScrolled={isScrolled}
+        handleShowCreateChannelModal={handleShowModal}
       />
 
       <Heading
@@ -57,6 +69,16 @@ export const Blocks = () => {
             </motion.div>
           ))}
         </motion.div>
+      )}
+      {showModal && (
+        <NewChannelModal
+          handleTitle={handleTitle}
+          handleIsPrivate={handleIsPrivate}
+          handleSubmit={handleSubmit}
+          title={title}
+          isPrivate={isPrivate}
+          handleShowModal={handleShowModal}
+        />
       )}
     </>
   );
