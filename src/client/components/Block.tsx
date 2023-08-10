@@ -88,7 +88,7 @@ export const Block = (props: Props) => {
         targetUrl = `/channels/${userName}`;
         break;
       case `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`:
-        targetUrl = `/channels/${userName}/${channelTitle}/${channelId}//${isPrivate}`;
+        targetUrl = `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`;
         break;
     }
 

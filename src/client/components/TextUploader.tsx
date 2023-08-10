@@ -23,8 +23,6 @@ export const TextUploader = (props: Props) => {
   const handleTextSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(text);
-
     const blockVariables = {
       text: text,
       channelId,
