@@ -13,7 +13,7 @@ export const TitleBlock = (props: Props) => {
   return (
     <>
       <div
-        className={`relative ${twStyle.blockDimensions} border border-${twStyle.highlightColour} mr-${twStyle.spacingLg}`}
+        className={`relative ${twStyle.blockDimensions} border border-${twStyle.highlightColour} mr-${twStyle.spacingLg} hover:bg-${twStyle.secondaryColour}`}
       >
         <Link
           to={linkToChannel}

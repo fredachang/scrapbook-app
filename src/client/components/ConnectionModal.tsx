@@ -12,6 +12,8 @@ import {
 } from "../tailwind";
 import { GenericButton } from "./GenericButton";
 import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
+import { motion } from "framer-motion";
+import { fadeXY, staggerParentContainer } from "../motion";
 
 interface Props {
   blockId: string;
@@ -97,13 +99,23 @@ export const ConnectionModal = (props: Props) => {
             onChange={handleFilterList}
             className={`${defaultInputStyle} px-${twStyle.spacingSm} mb-${twStyle.spacingSm} `}
           />
-          <ul className={`px-${twStyle.spacingSm} `}>
+          <motion.div
+            className={`px-${twStyle.spacingSm}`}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={staggerParentContainer}
+          >
             {filteredChannels.map((channel) => (
-              <div
+              <motion.div
+                variants={fadeXY}
                 key={channel.id}
                 className={`
-               ${alreadyInChannel(channel.id) && `text-${twStyle.dimColour}`}
-                
+               ${
+                 alreadyInChannel(channel.id) &&
+                 `text-${twStyle.dimColour} hover:bg-${twStyle.primaryColour}`
+               }
+                hover:bg-${twStyle.secondaryColour}
                 ${twText.paragraph} mb-${twStyle.spacingSm}`}
               >
                 <button
@@ -115,9 +127,9 @@ export const ConnectionModal = (props: Props) => {
                 >
                   <p className="text-left">{channel.title}</p>
                 </button>
-              </div>
+              </motion.div>
             ))}
-          </ul>
+          </motion.div>
         </div>
 
         <GenericButton

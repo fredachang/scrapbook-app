@@ -81,12 +81,12 @@ export const ImageUploader = (props: Props) => {
   };
 
   const formStyle = dragActive
-    ? `bg-${twStyle.hoverColour} ${commonFormStyle}`
+    ? `bg-${twStyle.secondaryColour} ${commonFormStyle}`
     : `bg-${twStyle.primaryColour} ${commonFormStyle}`;
 
   const sharedDragStyle = "w-full h-full absolute z-20";
   const dragAreaStyle = dragActive
-    ? `${sharedDragStyle} bg-${twStyle.hoverColour}`
+    ? `${sharedDragStyle} bg-${twStyle.secondaryColour} opacity-60`
     : `${sharedDragStyle} bg-${twStyle.primaryColour}`;
 
   return (

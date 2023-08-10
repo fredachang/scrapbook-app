@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
-import { twStyle, twText } from "../tailwind";
+import { breadcrumbStyle, twStyle, twText } from "../tailwind";
 import { DoubleUnderline } from "./DoubleUnderline";
 import { useAuthContext } from "../context/AuthContext";
 
@@ -49,14 +49,14 @@ export const Heading = (props: Props) => {
               <h1 className={slashStyle}>/</h1>
 
               <Link to={`/`}>
-                <h1 className={twText.breadcrumbs}>{userName}</h1>
+                <h1 className={breadcrumbStyle}>{userName}</h1>
               </Link>
 
               <h1 className={slashStyle}>/</h1>
 
               {thirdLink && (
                 <Link to={thirdLinkPath}>
-                  <h1 className={twText.breadcrumbs}>{thirdLinkText}</h1>
+                  <h1 className={breadcrumbStyle}>{thirdLinkText}</h1>
                 </Link>
               )}
 
@@ -65,7 +65,7 @@ export const Heading = (props: Props) => {
                   <h1 className={slashStyle}>/</h1>
 
                   <Link to={fourthLinkPath}>
-                    <h1 className={twText.breadcrumbs}>{fourthLinkText}</h1>
+                    <h1 className={breadcrumbStyle}>{fourthLinkText}</h1>
                   </Link>
                 </div>
               )}

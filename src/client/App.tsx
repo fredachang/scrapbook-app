@@ -12,51 +12,47 @@ import { twStyle } from "./tailwind";
 function App() {
   return (
     <>
-      <div className={`w-screen bg-${twStyle.primaryColour}`}>
-        <div className={`w-3% h-screen fixed right-0`}>
-          <Nav />
-        </div>
+      <div className={`w-3% h-screen fixed right-0`}>
+        <Nav />
+      </div>
 
-        <div
-          className={`px-${twStyle.spacingLg} w-97% pt-${twStyle.spacing2Xl}`}
-        >
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <GuardedRoute>
-                  <Home />
-                </GuardedRoute>
-              }
-            />
-            <Route
-              path="/blocks/:username"
-              element={
-                <GuardedRoute>
-                  <Blocks />
-                </GuardedRoute>
-              }
-            />
-            <Route
-              path="/channels/:username"
-              element={
-                <GuardedRoute>
-                  <Channels />
-                </GuardedRoute>
-              }
-            />
-            <Route
-              path="/channels/:username/:channelTitle/:id/:isPrivate"
-              element={
-                <GuardedRoute>
-                  <ChannelExpanded />
-                </GuardedRoute>
-              }
-            />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<SignUp />} />
-          </Routes>
-        </div>
+      <div className={`px-${twStyle.spacingLg} w-97% pt-${twStyle.spacing2Xl}`}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <GuardedRoute>
+                <Home />
+              </GuardedRoute>
+            }
+          />
+          <Route
+            path="/blocks/:username"
+            element={
+              <GuardedRoute>
+                <Blocks />
+              </GuardedRoute>
+            }
+          />
+          <Route
+            path="/channels/:username"
+            element={
+              <GuardedRoute>
+                <Channels />
+              </GuardedRoute>
+            }
+          />
+          <Route
+            path="/channels/:username/:channelTitle/:id/:isPrivate"
+            element={
+              <GuardedRoute>
+                <ChannelExpanded />
+              </GuardedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<SignUp />} />
+        </Routes>
       </div>
     </>
   );

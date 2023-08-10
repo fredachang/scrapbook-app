@@ -18,13 +18,19 @@
   src: url("/GT-Pressura/GT-Pressura-Mono-Light-Trial.woff2") format("woff2");
 }
 
+body {
+  background-color: #fafafa;
+}
+
 .verticalText {
+  background-color: #f5f5f5;
   font-family: "GT-Pressura-Light";
   font-size: 1.125rem; /* 18px */
   line-height: 1.75rem; /* 28px */
   height: 25%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: start;
   align-items: center;
   writing-mode: vertical-rl;
   border: 1px solid #93c5fd;
@@ -38,7 +44,8 @@
   line-height: 1.75rem; /* 28px */
   height: 25%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: start;
   align-items: center;
   writing-mode: vertical-rl;
   border: 1px solid #93c5fd;

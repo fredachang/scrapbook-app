@@ -1,5 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import { defaultInputStyle, twStyle, twText } from "../tailwind";
+import {
+  breadcrumbStyle,
+  defaultInputStyle,
+  twStyle,
+  twText,
+} from "../tailwind";
 import { useAuthContext } from "../context/AuthContext";
 import { Logo } from "./Logo";
 import { motion } from "framer-motion";
@@ -39,9 +44,12 @@ export const PageHeader = (props: Props) => {
 
   const location = useLocation();
   const currentPath = location.pathname;
+  const channelsPath = `/channels/${userName}`;
 
   const overallContainer = `bg-${twStyle.primaryColour} flex justify-between items-center w-97% h-${twStyle.sizeLg} fixed left-0 top-0 z-20 px-${twStyle.spacingLg}`;
-  const logoContainer = "flex items-center w-full";
+  const logoContainer = `flex items-center ${
+    currentPath === channelsPath ? `w-2/3` : `w-full`
+  } `;
 
   const slashStyle = `${twText.breadcrumbs} mx-${twStyle.spacingSm}`;
 
@@ -62,7 +70,7 @@ export const PageHeader = (props: Props) => {
             <h1 className={slashStyle}>/</h1>
 
             <Link to={`/`}>
-              <h1 className={twText.breadcrumbs}>{userName}</h1>
+              <h1 className={breadcrumbStyle}>{userName}</h1>
             </Link>
 
             {thirdLink && (
@@ -70,7 +78,7 @@ export const PageHeader = (props: Props) => {
                 <h1 className={slashStyle}>/</h1>
 
                 <Link to={thirdLinkPath}>
-                  <h1 className={twText.breadcrumbs}>{thirdLinkText}</h1>
+                  <h1 className={breadcrumbStyle}>{thirdLinkText}</h1>
                 </Link>
               </div>
             )}
@@ -80,7 +88,7 @@ export const PageHeader = (props: Props) => {
                 <h1 className={slashStyle}>/</h1>
 
                 <Link to={fourthLinkPath}>
-                  <h1 className={twText.breadcrumbs}>{fourthLinkText}</h1>
+                  <h1 className={breadcrumbStyle}>{fourthLinkText}</h1>
                 </Link>
               </div>
             )}
@@ -89,9 +97,9 @@ export const PageHeader = (props: Props) => {
           <div className={logoContainer}></div>
         )}
 
-        {currentPath === `/channels/${userName}` && (
+        {currentPath === channelsPath && (
           <div
-            className={`w-1/3 flex justify-between items-center mr-${twStyle.spacingLg}`}
+            className={`w-1/3 flex justify-between items-center mr-${twStyle.spacingXl}`}
           >
             <input
               type="text"
@@ -107,7 +115,7 @@ export const PageHeader = (props: Props) => {
         )}
 
         <button
-          className={`${twText.heading} flex justify-end w-64`}
+          className={`${twText.heading} ${breadcrumbStyle} flex justify-end w-44 px-${twStyle.spacingSm}`}
           onClick={handleShowCreateChannelModal}
         >
           <p className={`mr-${twStyle.spacingSm}`}>New Channel</p>
