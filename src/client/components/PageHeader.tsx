@@ -49,7 +49,7 @@ export const PageHeader = (props: Props) => {
   const containerHeight = isScrolled
     ? `h-${twStyle.sizeLg}`
     : `h-${twStyle.sizeMd}`;
-  const overallContainer = `bg-${twStyle.primaryColour} flex justify-between items-center w-97% ${containerHeight} fixed left-0 top-0 z-20 px-${twStyle.spacingLg}`;
+  const overallContainer = `bg-${twStyle.primaryColour} flex justify-between items-start w-97% ${containerHeight} fixed left-0 top-0 z-20 pt-${twStyle.spacingSm} px-${twStyle.spacingLg}`;
   const logoContainer = `flex items-center ${
     currentPath === channelsPath ? `w-2/3` : `w-full`
   } `;
