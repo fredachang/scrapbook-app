@@ -1,12 +1,17 @@
 interface Props {
-  logoType: string;
+  logoText: string;
+  logoTextStyle: string;
+  logoImgStyle: string;
 }
 
 export const Logo = (props: Props) => {
-  const { logoType } = props;
+  const { logoText, logoTextStyle, logoImgStyle } = props;
   return (
     <>
-      <div className={logoType}>Scrapbook</div>
+      <div className="flex items-start">
+        <img className={logoImgStyle} src="/public/Logo.png" />
+        <div className={`${logoTextStyle}`}>{logoText}</div>
+      </div>
     </>
   );
 };

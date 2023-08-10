@@ -64,7 +64,11 @@ export const PageHeader = (props: Props) => {
             className={isScrolled ? logoContainer : "hidden"}
           >
             <Link to={`/`}>
-              <Logo logoType={twText.logoSmall} />
+              <Logo
+                logoText=""
+                logoTextStyle={twText.logoSmall}
+                logoImgStyle="w-12 mt-1"
+              />
             </Link>
 
             <h1 className={slashStyle}>/</h1>

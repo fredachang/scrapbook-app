@@ -1,6 +1,4 @@
 import { useAuthContext } from "../context/AuthContext";
-import { NavLink } from "react-router-dom";
-import { twStyle } from "../tailwind";
 import { NavTab } from "./NavTabSecond";
 
 export const Nav = () => {
@@ -14,9 +12,7 @@ export const Nav = () => {
 
   return (
     <>
-      <div
-        className={`${twStyle.primaryColour} h-full flex flex-col justify-between`}
-      >
+      <div className={`h-full flex flex-col justify-between`}>
         <NavTab path="/" linkTitle={userName} />
         <NavTab path={`/blocks/${userName}`} linkTitle="Blocks" />
         <NavTab path={`/channels/${userName}`} linkTitle="Channels" />

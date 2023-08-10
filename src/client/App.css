@@ -33,7 +33,7 @@ body {
   justify-content: start;
   align-items: center;
   writing-mode: vertical-rl;
-  border: 1px solid #93c5fd;
+  border: 1px dotted #1f2937;
   border-top: none;
   transform: rotate(360deg);
 }
@@ -48,7 +48,7 @@ body {
   justify-content: start;
   align-items: center;
   writing-mode: vertical-rl;
-  border: 1px solid #93c5fd;
+  border: 1px dotted #1f2937;
   border-top: none;
   transform: rotate(360deg);
   border-left: none;

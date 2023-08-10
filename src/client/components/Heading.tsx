@@ -42,7 +42,11 @@ export const Heading = (props: Props) => {
         <div className={innerContainer}>
           <div className={logoContainer}>
             <Link to={`/`}>
-              <Logo logoType={twText.logoLarge} />
+              <Logo
+                logoText="Scrapbook"
+                logoTextStyle={twText.logoLarge}
+                logoImgStyle={`w-20 mr-${twStyle.spacingSm} mt-1.5`}
+              />
             </Link>
 
             <div className="flex">

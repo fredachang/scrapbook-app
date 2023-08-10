@@ -19,7 +19,7 @@ export const twStyle = {
 };
 
 export const twText = {
-  logoLarge: "font-bold text-6xl",
+  logoLarge: "font-bold text-5xl",
   logoSmall: "font-bold text-2xl",
   breadcrumbs: "font-light text-2xl",
   headingBold: "font-bold text-xl",
