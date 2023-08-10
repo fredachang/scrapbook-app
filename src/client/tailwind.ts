@@ -2,7 +2,7 @@ export const twStyle = {
   primaryColour: "neutral-50",
   secondaryColour: "neutral-100",
   highlightColour: "blue-300",
-  dimColour: "slate-600",
+  dimColour: "slate-400",
   hoverColour: "blue-100",
   blockDimensions: "w-80 h-80",
   spacingXs: "1",
@@ -34,7 +34,7 @@ export const blockContainerStyle = `${twStyle.blockDimensions} mr-${twStyle.spac
 
 export const buttonStyleHalf = `${twText.button} bg-${twStyle.primaryColour} flex justify-center items-center w-1/2 border border-${twStyle.highlightColour}`;
 
-export const buttonStyleFull = `${twText.button} w-full flex justify-center items-center  border border-${twStyle.highlightColour}`;
+export const buttonStyleFull = `${twText.button} bg-${twStyle.primaryColour} w-full flex justify-center items-center  border border-${twStyle.highlightColour}`;
 
 export const defaultInputStyle = `w-full h-${twStyle.sizeSm} focus:outline-none`;
 
