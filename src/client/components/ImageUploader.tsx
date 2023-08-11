@@ -3,12 +3,7 @@ import { useCreateBlock } from "../hooks/blocks/useCreateBlock";
 import { useCreateBlockByUpload } from "../hooks/blocks/useCreateBlockByUpload";
 import { splitStringByComma } from "../utils";
 import { useNavigate } from "react-router-dom";
-import {
-  buttonStyleFull,
-  twStyle,
-  uploadSubmitButton,
-  uploaderStyle,
-} from "../tailwind";
+import { twStyle, uploadSubmitButton, uploaderStyle } from "../tailwind";
 import { GenericButton } from "./GenericButton";
 
 interface Props {

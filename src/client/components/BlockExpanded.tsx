@@ -28,7 +28,7 @@ export const BlockExpanded = (props: Props) => {
 
   return (
     <>
-      <div className={containerstyle} onClick={() => handleCloseBlock}>
+      <div className={containerstyle}>
         <div className={imgContainerStyle}>
           <img src={imageSrc} alt="block-image" className={imgStyleStatic} />
         </div>
