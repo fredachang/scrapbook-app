@@ -43,7 +43,7 @@ export const SocialPost = (props: Props) => {
             </div>
           </div>
 
-          <div className="overflow-x-scroll">
+          <div className="flex overflow-x-scroll">
             {blocks &&
               blocks.map((block) => {
                 return (
