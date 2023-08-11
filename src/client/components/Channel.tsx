@@ -36,7 +36,7 @@ export const Channel = (props: Props) => {
 
   const commonStyle = `flex items-center mb-${twStyle.spacingLg}`;
   const publicContainerStyle = `${commonStyle}`;
-  const privateContainerStyle = `${commonStyle} bg-slate-300`;
+  const privateContainerStyle = `${commonStyle} bg-${twStyle.primaryColour}`;
 
   return (
     <>
