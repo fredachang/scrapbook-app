@@ -4,6 +4,8 @@ export const twStyle = {
   highlightColour: "blue-300",
   secondaryHighlightColour: "blue-100",
   dimColour: "slate-400",
+  textColour: "text-gray-900",
+  textColourLight: "text-gray-500",
   blockDimensions: "w-80 h-80",
   transitionSm: "ease-in duration-150",
   spacingXs: "1",
@@ -50,8 +52,18 @@ export const modalBgStyle = `bg-${twStyle.dimColour} w-screen h-screen fixed top
 
 export const breadcrumbStyle = `${twText.breadcrumbs} border border-${twStyle.primaryColour} hover:border-${twStyle.highlightColour} hover:rounded-3xl hover:border-dotted ${twStyle.transitionSm}`;
 
-//Auth
+//uploader
 
+export const uploaderStyle = `w-full h-full p-4 ${twText.paragraph} focus:outline-none`;
+export const buttonSharedStyle = `${twText.button} bg-${twStyle.primaryColour} hover:bg-${twStyle.secondaryHighlightColour} ${twStyle.transitionSm} flex justify-center items-center w-1/2`;
+export const imageButtonStyle = `${buttonSharedStyle} border-r border-${twStyle.highlightColour}`;
+export const imageButtonStyleDisabled = `${buttonSharedStyle} border-r border-b border-${twStyle.highlightColour}`;
+export const textButtonStyle = `${buttonSharedStyle}`;
+export const textButtonStyleDisabled = `${buttonSharedStyle} border-b border-${twStyle.highlightColour}`;
+
+export const uploadSubmitButton = `${twText.button} bg-${twStyle.primaryColour} hover:bg-${twStyle.secondaryHighlightColour} ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center  border-t border-${twStyle.highlightColour}`;
+
+//Auth
 export const formStyle =
   "flex flex-col justify-between items-center w-full h-4/5 mt-5";
 export const formEntry = "flex justify-between pb-3";

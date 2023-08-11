@@ -14,7 +14,7 @@ import {
 import { useUpdateChannel } from "../hooks/channels/useUpdateChannel";
 import { Uploader } from "../components/Uploader";
 
-import { buttonStyleFull, twStyle } from "../tailwind";
+import { buttonStyleHalf, twStyle } from "../tailwind";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { ChannelSettingModal } from "../components/ChannelSettingsModal";
 import { PageHeader } from "../components/PageHeader";
@@ -155,16 +155,16 @@ export const ChannelExpanded = () => {
           count={connectionsCount}
         />
 
-        <div>
+        <div className={`flex mb-${twStyle.spacingLg}`}>
           <GenericButton
             buttonText="Update Channel"
-            buttonStyle={buttonStyleFull}
+            buttonStyle={`${buttonStyleHalf} mr-${twStyle.spacingSm}`}
             buttonType="button"
             handleOnClick={handleShowChannelSettings}
           />
           <GenericButton
             buttonText="Delete Channel"
-            buttonStyle={buttonStyleFull}
+            buttonStyle={buttonStyleHalf}
             buttonType="button"
             handleOnClick={handleShowConfirmDelete}
           />

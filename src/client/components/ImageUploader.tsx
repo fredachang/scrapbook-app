@@ -3,7 +3,12 @@ import { useCreateBlock } from "../hooks/blocks/useCreateBlock";
 import { useCreateBlockByUpload } from "../hooks/blocks/useCreateBlockByUpload";
 import { splitStringByComma } from "../utils";
 import { useNavigate } from "react-router-dom";
-import { buttonStyleFull, twStyle, twText } from "../tailwind";
+import {
+  buttonStyleFull,
+  twStyle,
+  uploadSubmitButton,
+  uploaderStyle,
+} from "../tailwind";
 import { GenericButton } from "./GenericButton";
 
 interface Props {
@@ -98,7 +103,7 @@ export const ImageUploader = (props: Props) => {
       >
         <div className="w-full h-full flex flex-col absolute">
           <input
-            className={`w-full h-full ${twText.paragraph}`}
+            className={uploaderStyle}
             type="text"
             placeholder="Drag & Drop or paste path"
             onChange={handleImagePath}
@@ -107,7 +112,7 @@ export const ImageUploader = (props: Props) => {
 
           <GenericButton
             buttonText="Add Path"
-            buttonStyle={buttonStyleFull}
+            buttonStyle={uploadSubmitButton}
             buttonType="submit"
           />
         </div>

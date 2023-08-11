@@ -3,7 +3,14 @@ import { useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { ImageUploader } from "./ImageUploader";
 import { TextUploader } from "./TextUploader";
-import { buttonStyleHalf, twStyle } from "../tailwind";
+import {
+  imageButtonStyle,
+  imageButtonStyleDisabled,
+  textButtonStyle,
+  textButtonStyleDisabled,
+  twStyle,
+} from "../tailwind";
+import { GenericButton } from "./GenericButton";
 
 interface Props {
   channelId: string;
@@ -56,12 +63,27 @@ export const Uploader = (props: Props) => {
         className={`flex flex-col border border-${twStyle.highlightColour} ${twStyle.blockDimensions} mr-${twStyle.spacingLg}`}
       >
         <div className={`flex h-${twStyle.sizeSm} justify-between`}>
-          <button onClick={handleImageMode} className={buttonStyleHalf}>
-            <p>Image</p>
-          </button>
-          <button onClick={handleTextMode} className={buttonStyleHalf}>
-            <p>Text</p>
-          </button>
+          <GenericButton
+            buttonText="Image"
+            buttonStyle={
+              inputMode === mode.image
+                ? imageButtonStyle
+                : imageButtonStyleDisabled
+            }
+            buttonType="button"
+            handleOnClick={handleImageMode}
+          />
+
+          <GenericButton
+            buttonText="Text"
+            buttonStyle={
+              inputMode === mode.text
+                ? textButtonStyle
+                : textButtonStyleDisabled
+            }
+            buttonType="button"
+            handleOnClick={handleTextMode}
+          />
         </div>
 
         <div className="w-full h-full">

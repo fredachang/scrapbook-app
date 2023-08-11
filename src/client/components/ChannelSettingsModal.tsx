@@ -5,6 +5,7 @@ import {
   modalBgStyle,
   modalContainerStyle,
   modalOuterContainerStyle,
+  twStyle,
   twText,
 } from "../tailwind";
 import { GenericButton } from "./GenericButton";
@@ -50,7 +51,7 @@ export const ChannelSettingModal = (props: Props) => {
                 <p className={twText.paragraph}>New Title</p>
               </label>
               <input
-                className={`${defaultInputStyle} ${twText.paragraph}`}
+                className={`${defaultInputStyle} ${twText.paragraph} ${twStyle.textColourLight}`}
                 type="text"
                 id="title"
                 value={newChannelName}
