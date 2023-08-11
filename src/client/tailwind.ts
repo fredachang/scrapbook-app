@@ -41,9 +41,11 @@ export const buttonStyleFullNoBorder = `w-full ${twText.button} border border-${
 
 export const defaultInputStyle = `w-full h-${twStyle.sizeSm} focus:outline-none`;
 
-export const modalOuterContainerStyle = `w-full h-full flex fixed top-0 justify-center items-center z-20`;
+export const modalOuterContainerStyle = `w-full h-full flex fixed top-0 justify-center items-center z-30`;
+
 export const modalContainerStyle = `p-4 w-96 h-2/5 bg-${twStyle.primaryColour} flex flex-col justify-center items-center border border-${twStyle.highlightColour}`;
-export const modalBgStyle = `bg-${twStyle.dimColour} w-full h-full fixed top-0 z-10 opacity-50`;
+
+export const modalBgStyle = `bg-${twStyle.dimColour} w-screen h-screen fixed top-0 left-0 z-20 opacity-50`;
 
 export const breadcrumbStyle = `${twText.breadcrumbs} border border-${twStyle.primaryColour} hover:border-${twStyle.highlightColour} hover:rounded-3xl hover:border-dotted ${twStyle.transitionSm}`;
 

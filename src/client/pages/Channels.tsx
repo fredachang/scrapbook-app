@@ -8,6 +8,7 @@ import { PageHeader } from "../components/PageHeader";
 import { Heading } from "../components/Heading";
 import { useScrollDetection } from "../hooks/useScrollDetection";
 import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
+import { twStyle } from "../tailwind";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
@@ -48,32 +49,52 @@ export const Channels = () => {
 
   return (
     <>
-      <PageHeader
-        isScrolled={isScrolled}
-        thirdLink={true}
-        thirdLinkText="Channels"
-        thirdLinkPath=""
-        fourthlink={false}
-        fourthLinkPath=""
-        fourthLinkText=""
-        handleShowCreateChannelModal={handleShowModal}
-        inputValue={input}
-        handleInput={handleInput}
-        handleClear={handleClear}
-      />
+      <div
+        className={
+          showModal
+            ? `fixed w-97% pr-${twStyle.spacing3Xl} h-screen overflow-y-hidden`
+            : ""
+        }
+      >
+        <PageHeader
+          isScrolled={isScrolled}
+          thirdLink={true}
+          thirdLinkText="Channels"
+          thirdLinkPath=""
+          fourthlink={false}
+          fourthLinkPath=""
+          fourthLinkText=""
+          handleShowCreateChannelModal={handleShowModal}
+          inputValue={input}
+          handleInput={handleInput}
+          handleClear={handleClear}
+        />
 
-      <Heading
-        thirdLink={true}
-        thirdLinkText="Channels"
-        thirdLinkPath=""
-        fourthlink={false}
-        fourthLinkText=""
-        fourthLinkPath=""
-        count={channelsCount}
-      />
+        <Heading
+          thirdLink={true}
+          thirdLinkText="Channels"
+          thirdLinkPath=""
+          fourthlink={false}
+          fourthLinkText=""
+          fourthLinkPath=""
+          count={channelsCount}
+        />
 
-      {isLoading && <p>Loading...</p>}
-      {isError && <p>Error occurred while fetching data.</p>}
+        {isLoading && <p>Loading...</p>}
+        {isError && <p>Error occurred while fetching data.</p>}
+
+        <ul>
+          {filteredChannels?.map((channel, idx) => (
+            <div key={`${channel.id}-${idx}`}>
+              <Channel
+                id={channel.id}
+                channelTitle={channel.title}
+                isPrivate={channel.isPrivate}
+              />
+            </div>
+          ))}
+        </ul>
+      </div>
 
       {showModal && (
         <NewChannelModal
@@ -85,18 +106,6 @@ export const Channels = () => {
           handleShowModal={handleShowModal}
         />
       )}
-
-      <ul>
-        {filteredChannels?.map((channel, idx) => (
-          <div key={`${channel.id}-${idx}`}>
-            <Channel
-              id={channel.id}
-              channelTitle={channel.title}
-              isPrivate={channel.isPrivate}
-            />
-          </div>
-        ))}
-      </ul>
     </>
   );
 };

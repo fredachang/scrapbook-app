@@ -70,7 +70,7 @@ export const PageHeader = (props: Props) => {
               <Logo
                 logoText=""
                 logoTextStyle={twText.logoSmall}
-                logoImgStyle="w-12 mt-1"
+                logoImgStyle="w-9 mt-1"
               />
             </Link>
 

@@ -2,6 +2,7 @@ import { ChangeEvent } from "react";
 import {
   buttonStyleFull,
   defaultInputStyle,
+  modalBgStyle,
   modalContainerStyle,
   modalOuterContainerStyle,
 } from "../tailwind";
@@ -73,6 +74,7 @@ export const NewChannelModal = (props: Props) => {
           </form>
         </div>
       </div>
+      <div className={modalBgStyle}></div>
     </>
   );
 };

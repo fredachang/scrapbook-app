@@ -7,6 +7,7 @@ import { useScrollDetection } from "../hooks/useScrollDetection";
 import { Heading } from "../components/Heading";
 import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
 import { NewChannelModal } from "../components/NewChannelModal";
+import { twStyle } from "../tailwind";
 
 export const Blocks = () => {
   const { data: blocks, isLoading, isError } = useGetUserBlocks();
@@ -28,48 +29,57 @@ export const Blocks = () => {
 
   return (
     <>
-      <PageHeader
-        thirdLink={true}
-        thirdLinkText="Blocks"
-        thirdLinkPath=""
-        fourthlink={false}
-        fourthLinkText=""
-        fourthLinkPath=""
-        isScrolled={isScrolled}
-        handleShowCreateChannelModal={handleShowModal}
-      />
+      <div
+        className={
+          showModal
+            ? `fixed w-97% pr-${twStyle.spacing3Xl} h-screen overflow-y-hidden`
+            : ""
+        }
+      >
+        <PageHeader
+          thirdLink={true}
+          thirdLinkText="Blocks"
+          thirdLinkPath=""
+          fourthlink={false}
+          fourthLinkText=""
+          fourthLinkPath=""
+          isScrolled={isScrolled}
+          handleShowCreateChannelModal={handleShowModal}
+        />
 
-      <Heading
-        thirdLink={true}
-        thirdLinkText="Blocks"
-        thirdLinkPath=""
-        fourthlink={false}
-        fourthLinkText=""
-        fourthLinkPath=""
-        count={blockCount}
-      />
-      {isLoading && <p>Loading...</p>}
-      {isError && <p>Error occurred while fetching data.</p>}
+        <Heading
+          thirdLink={true}
+          thirdLinkText="Blocks"
+          thirdLinkPath=""
+          fourthlink={false}
+          fourthLinkText=""
+          fourthLinkPath=""
+          count={blockCount}
+        />
+        {isLoading && <p>Loading...</p>}
+        {isError && <p>Error occurred while fetching data.</p>}
 
-      {blocks && (
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerParentContainer}
-          className="flex flex-wrap"
-        >
-          {blocks.map((block) => (
-            <motion.div key={block.id} variants={fadeXY}>
-              <Block2
-                blockId={block.id}
-                imagePath={block.imagePath ? block.imagePath : ""}
-                imageData={block.imageData ? block.imageData : ""}
-                text={block.text}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-      )}
+        {blocks && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={staggerParentContainer}
+            className="flex flex-wrap"
+          >
+            {blocks.map((block) => (
+              <motion.div key={block.id} variants={fadeXY}>
+                <Block2
+                  blockId={block.id}
+                  imagePath={block.imagePath ? block.imagePath : ""}
+                  imageData={block.imageData ? block.imageData : ""}
+                  text={block.text}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </div>
+
       {showModal && (
         <NewChannelModal
           handleTitle={handleTitle}

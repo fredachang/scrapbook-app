@@ -45,7 +45,7 @@ export const Heading = (props: Props) => {
               <Logo
                 logoText="Scrapbook"
                 logoTextStyle={twText.logoLarge}
-                logoImgStyle={`w-20 mr-${twStyle.spacingSm} mt-1.5`}
+                logoImgStyle={`w-14 mr-${twStyle.spacingSm} mt-1.5`}
               />
             </Link>
 

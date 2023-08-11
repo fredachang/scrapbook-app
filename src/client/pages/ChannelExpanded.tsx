@@ -122,97 +122,106 @@ export const ChannelExpanded = () => {
 
   return (
     <>
-      <PageHeader
-        isScrolled={isScrolled}
-        thirdLink={true}
-        thirdLinkText="Channels"
-        thirdLinkPath={`/channels/${userName}`}
-        fourthlink={true}
-        fourthLinkText={channelTitleCheck}
-        fourthLinkPath=""
-        handleShowCreateChannelModal={handleShowModal}
-      />
-
-      <Heading
-        thirdLink={true}
-        thirdLinkText="Channels"
-        thirdLinkPath={`/channels/${userName}`}
-        fourthlink={true}
-        fourthLinkText={channelTitleCheck}
-        fourthLinkPath=""
-        count={connectionsCount}
-      />
-
-      <div>
-        <GenericButton
-          buttonText="Update Channel"
-          buttonStyle={buttonStyleFull}
-          buttonType="button"
-          handleOnClick={handleShowChannelSettings}
+      <div
+        className={
+          showModal
+            ? `fixed w-97% pr-${twStyle.spacing3Xl} h-screen overflow-y-hidden`
+            : ""
+        }
+      >
+        <PageHeader
+          isScrolled={isScrolled}
+          thirdLink={true}
+          thirdLinkText="Channels"
+          thirdLinkPath={`/channels/${userName}`}
+          fourthlink={true}
+          fourthLinkText={channelTitleCheck}
+          fourthLinkPath=""
+          handleShowCreateChannelModal={handleShowModal}
         />
-        <GenericButton
-          buttonText="Delete Channel"
-          buttonStyle={buttonStyleFull}
-          buttonType="button"
-          handleOnClick={handleShowConfirmDelete}
-        />
-      </div>
 
-      {showConfirmDelete && (
-        <ConfirmModal
-          text="confirm delete?"
-          handleNo={handleHideConfirmDelete}
-          handleYes={handleDeleteChannel}
+        <Heading
+          thirdLink={true}
+          thirdLinkText="Channels"
+          thirdLinkPath={`/channels/${userName}`}
+          fourthlink={true}
+          fourthLinkText={channelTitleCheck}
+          fourthLinkPath=""
+          count={connectionsCount}
         />
-      )}
-      {showChannelSettings && (
-        <ChannelSettingModal
-          handleHideChannelSettings={handleHideChannelSettings}
-          newChannelName={newChannelName}
-          privateSetting={privateSetting}
-          handleInput={handleInput}
-          handlePrivateSetting={handlePrivateSetting}
-          handleUpdateChannelSettings={handleUpdateChannelSettings}
-        />
-      )}
 
-      <div className="flex">
-        {isLoading && <p>Loading...</p>}
-        {isError && <p>Error occurred while fetching data.</p>}
+        <div>
+          <GenericButton
+            buttonText="Update Channel"
+            buttonStyle={buttonStyleFull}
+            buttonType="button"
+            handleOnClick={handleShowChannelSettings}
+          />
+          <GenericButton
+            buttonText="Delete Channel"
+            buttonStyle={buttonStyleFull}
+            buttonType="button"
+            handleOnClick={handleShowConfirmDelete}
+          />
+        </div>
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerParentContainer}
-          className="flex flex-wrap"
-        >
-          <div>
-            <Uploader
-              channelId={IdCheck}
-              channelTitle={channelTitleCheck}
-              isPrivate={isPrivateCheck}
-            />
-          </div>
-          {connectionsByChannel?.map((connection) => {
-            return (
-              <motion.div
-                key={connection?.blockId}
-                variants={fadeXY}
-                className={`mb-${twStyle.spacingMd}`}
-              >
-                <Block
-                  blockId={connection?.blockId}
-                  channelId={IdCheck}
-                  isPrivate={isPrivateCheck}
-                  channelTitle={channelTitleCheck}
-                  imagePath={connection.imagePath}
-                  imageData={connection.imageData}
-                  text={connection.text}
-                />
-              </motion.div>
-            );
-          })}
-        </motion.div>
+        {showConfirmDelete && (
+          <ConfirmModal
+            text="confirm delete?"
+            handleNo={handleHideConfirmDelete}
+            handleYes={handleDeleteChannel}
+          />
+        )}
+        {showChannelSettings && (
+          <ChannelSettingModal
+            handleHideChannelSettings={handleHideChannelSettings}
+            newChannelName={newChannelName}
+            privateSetting={privateSetting}
+            handleInput={handleInput}
+            handlePrivateSetting={handlePrivateSetting}
+            handleUpdateChannelSettings={handleUpdateChannelSettings}
+          />
+        )}
+
+        <div className="flex">
+          {isLoading && <p>Loading...</p>}
+          {isError && <p>Error occurred while fetching data.</p>}
+
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={staggerParentContainer}
+            className="flex flex-wrap"
+          >
+            <div>
+              <Uploader
+                channelId={IdCheck}
+                channelTitle={channelTitleCheck}
+                isPrivate={isPrivateCheck}
+              />
+            </div>
+            {connectionsByChannel?.map((connection) => {
+              return (
+                <motion.div
+                  key={connection?.blockId}
+                  variants={fadeXY}
+                  className={`mb-${twStyle.spacingMd}`}
+                >
+                  <Block
+                    blockId={connection?.blockId}
+                    channelId={IdCheck}
+                    isPrivate={isPrivateCheck}
+                    channelTitle={channelTitleCheck}
+                    imagePath={connection.imagePath}
+                    imageData={connection.imageData}
+                    text={connection.text}
+                  />
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+
         {showModal && (
           <NewChannelModal
             handleTitle={handleTitle}
