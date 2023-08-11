@@ -13,6 +13,7 @@ export const twStyle = {
   spacingXl: "10",
   spacing2Xl: "14",
   spacing3Xl: "16",
+  sizeXs: "4",
   sizeSm: "6",
   sizeMd: "10",
   sizeLg: "14",
@@ -39,7 +40,7 @@ export const buttonStyleFull = `${twText.button} bg-${twStyle.primaryColour} hov
 
 export const buttonStyleFullNoBorder = `w-full ${twText.button} border border-${twStyle.primaryColour} hover:border-${twStyle.highlightColour} hover:rounded-3xl hover:border-dotted ${twStyle.transitionSm}`;
 
-export const defaultInputStyle = `w-full h-${twStyle.sizeSm} focus:outline-none`;
+export const defaultInputStyle = `w-2/3 h-${twStyle.sizeSm} focus:outline-none ${twText.paragraph} focus:drop-shadow-center`;
 
 export const modalOuterContainerStyle = `w-full h-full flex fixed top-0 justify-center items-center z-30`;
 
@@ -54,5 +55,5 @@ export const breadcrumbStyle = `${twText.breadcrumbs} border border-${twStyle.pr
 export const formStyle =
   "flex flex-col justify-between items-center w-full h-4/5 mt-5";
 export const formEntry = "flex justify-between pb-3";
-export const labelStyle = "w-2/5";
-export const logInModalStyle = `p-4 w-1/4 h-1/2 bg-${twStyle.primaryColour} flex flex-col items-center`;
+export const labelStyle = "w-1/3";
+export const logInModalStyle = `p-4 w-96 h-2/5 bg-${twStyle.primaryColour} flex flex-col items-center`;

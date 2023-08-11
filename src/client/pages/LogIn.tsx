@@ -16,6 +16,8 @@ import {
 
 import { GenericButton } from "../components/GenericButton";
 import { AuthHeader } from "../components/AuthHeader";
+import { motion } from "framer-motion";
+import { durationSettings, easeSettings, fade } from "../motion";
 
 export const Login = () => {
   const { login } = useAuthContext();
@@ -58,7 +60,13 @@ export const Login = () => {
         <div className={logInModalStyle}>
           <AuthHeader />
 
-          <form onSubmit={handleSubmit} className={formStyle}>
+          <motion.form
+            initial="hidden"
+            animate="visible"
+            variants={fade(durationSettings.slow, easeSettings.easeInOut)}
+            onSubmit={handleSubmit}
+            className={formStyle}
+          >
             <div className="w-full">
               <div className={formEntry}>
                 <label className={labelStyle} htmlFor="email">
@@ -93,7 +101,7 @@ export const Login = () => {
               buttonStyle={buttonStyleFull}
               buttonType="submit"
             />
-          </form>
+          </motion.form>
 
           <div className={`mt-${twStyle.spacingSm}`}>
             <GenericButton

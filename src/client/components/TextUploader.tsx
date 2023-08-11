@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreateBlockWithText } from "../hooks/blocks/useCreateBlockWithText";
-import { twStyle } from "../tailwind";
+import { twStyle, twText } from "../tailwind";
 
 interface Props {
   channelId: string;
@@ -39,7 +39,7 @@ export const TextUploader = (props: Props) => {
       <form className={commonFormStyle} onSubmit={handleTextSubmit}>
         <div className="w-full h-full flex flex-col absolute">
           <input
-            className="w-full h-full"
+            className={`w-full h-full ${twText.paragraph}`}
             type="text"
             placeholder="Start Typing..."
             onChange={handleText}

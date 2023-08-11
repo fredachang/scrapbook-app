@@ -1,3 +1,17 @@
+export const easeSettings = {
+  linear: "linear",
+  easeIn: "easeIn",
+  easeOut: "easeOut",
+  easeInOut: "easeInOut",
+};
+
+export const durationSettings = {
+  superFast: 0.1,
+  fast: 0.3,
+  medium: 0.5,
+  slow: 0.8,
+};
+
 export const staggerParentContainer = {
   hidden: { opacity: 0 },
   visible: {
@@ -9,22 +23,18 @@ export const staggerParentContainer = {
   },
 };
 
-export const fadeXY = {
+export const fade = (duration: number, ease: string) => ({
   hidden: {
     opacity: 0,
-    // x: -50,
-    // y: -50,
   },
   visible: {
-    // x: 0,
-    // y: 0,
     opacity: 1,
     transition: {
-      duration: 0.5,
-      ease: "easeInOut",
+      duration: duration,
+      ease: ease,
     },
   },
-};
+});
 
 export const fadeUp = {
   hidden: {

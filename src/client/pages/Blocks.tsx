@@ -1,7 +1,12 @@
 import { motion } from "framer-motion";
 import { Block2 } from "../components/Block2";
 import { useGetUserBlocks } from "../hooks/blocks/useGetUserBlocks";
-import { fadeXY, staggerParentContainer } from "../motion";
+import {
+  durationSettings,
+  easeSettings,
+  fade,
+  staggerParentContainer,
+} from "../motion";
 import { PageHeader } from "../components/PageHeader";
 import { useScrollDetection } from "../hooks/useScrollDetection";
 import { Heading } from "../components/Heading";
@@ -67,7 +72,10 @@ export const Blocks = () => {
             className="flex flex-wrap"
           >
             {blocks.map((block) => (
-              <motion.div key={block.id} variants={fadeXY}>
+              <motion.div
+                key={block.id}
+                variants={fade(durationSettings.fast, easeSettings.easeIn)}
+              >
                 <Block2
                   blockId={block.id}
                   imagePath={block.imagePath ? block.imagePath : ""}

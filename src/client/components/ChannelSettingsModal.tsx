@@ -5,8 +5,10 @@ import {
   modalBgStyle,
   modalContainerStyle,
   modalOuterContainerStyle,
+  twText,
 } from "../tailwind";
 import { GenericButton } from "./GenericButton";
+import { Checkbox } from "./Checkbox";
 
 interface Props {
   handleHideChannelSettings: () => void;
@@ -44,11 +46,11 @@ export const ChannelSettingModal = (props: Props) => {
         >
           <form onSubmit={handleUpdateChannelSettings} className={formStyle}>
             <div className={formEntry}>
-              <label className="w-20">
-                <p>New Title</p>
+              <label className="">
+                <p className={twText.paragraph}>New Title</p>
               </label>
               <input
-                className={defaultInputStyle}
+                className={`${defaultInputStyle} ${twText.paragraph}`}
                 type="text"
                 id="title"
                 value={newChannelName}
@@ -56,18 +58,10 @@ export const ChannelSettingModal = (props: Props) => {
               />
             </div>
 
-            <div className={formEntry}>
-              <label className="text-xl" htmlFor="isPrivate">
-                <p>Private</p>
-              </label>
-              <input
-                type="checkbox"
-                id="isPrivate"
-                checked={privateSetting}
-                onChange={handlePrivateSetting}
-                className="w-full"
-              />
-            </div>
+            <Checkbox
+              checked={privateSetting}
+              handleOnChange={handlePrivateSetting}
+            />
 
             <GenericButton
               buttonType="submit"

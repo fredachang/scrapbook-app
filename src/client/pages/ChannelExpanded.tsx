@@ -5,7 +5,12 @@ import { useGetConnections } from "../hooks/connections/useGetConnections";
 import { useDeleteChannel } from "../hooks/channels/useDeleteChannel";
 import { ChangeEvent, useState } from "react";
 import { motion } from "framer-motion";
-import { fadeXY, staggerParentContainer } from "../motion";
+import {
+  durationSettings,
+  easeSettings,
+  fade,
+  staggerParentContainer,
+} from "../motion";
 import { useUpdateChannel } from "../hooks/channels/useUpdateChannel";
 import { Uploader } from "../components/Uploader";
 
@@ -204,7 +209,7 @@ export const ChannelExpanded = () => {
               return (
                 <motion.div
                   key={connection?.blockId}
-                  variants={fadeXY}
+                  variants={fade(durationSettings.fast, easeSettings.easeIn)}
                   className={`mb-${twStyle.spacingMd}`}
                 >
                   <Block

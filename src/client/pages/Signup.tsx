@@ -15,6 +15,8 @@ import {
 } from "../tailwind";
 import { AuthHeader } from "../components/AuthHeader";
 import { GenericButton } from "../components/GenericButton";
+import { motion } from "framer-motion";
+import { durationSettings, easeSettings, fade } from "../motion";
 
 export const SignUp = () => {
   const { signup } = useAuthContext();
@@ -49,7 +51,13 @@ export const SignUp = () => {
         <div className={logInModalStyle}>
           <AuthHeader />
 
-          <form onSubmit={handleSubmit} className={formStyle}>
+          <motion.form
+            initial="hidden"
+            animate="visible"
+            variants={fade(durationSettings.slow, easeSettings.easeInOut)}
+            onSubmit={handleSubmit}
+            className={formStyle}
+          >
             <div className="w-full">
               <div className={formEntry}>
                 <label className={labelStyle} htmlFor="firstName">
@@ -110,7 +118,7 @@ export const SignUp = () => {
               buttonStyle={buttonStyleFull}
               buttonType="submit"
             />
-          </form>
+          </motion.form>
 
           <div className={`mt-${twStyle.spacingSm}`}>
             <GenericButton

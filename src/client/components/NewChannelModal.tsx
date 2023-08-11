@@ -2,11 +2,14 @@ import { ChangeEvent } from "react";
 import {
   buttonStyleFull,
   defaultInputStyle,
+  labelStyle,
   modalBgStyle,
   modalContainerStyle,
   modalOuterContainerStyle,
+  twText,
 } from "../tailwind";
 import { GenericButton } from "./GenericButton";
+import { Checkbox } from "./Checkbox";
 
 interface Props {
   handleTitle: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -41,11 +44,11 @@ export const NewChannelModal = (props: Props) => {
         >
           <form onSubmit={handleSubmit} className={formStyle}>
             <div className={formEntry}>
-              <label className="text-xl" htmlFor="email">
-                <p>Title</p>
+              <label className={`${labelStyle}`} htmlFor="email">
+                <p className={twText.paragraph}>Title</p>
               </label>
               <input
-                className={defaultInputStyle}
+                className={`${defaultInputStyle} ${twText.paragraph}`}
                 type="text"
                 id="title"
                 value={title}
@@ -54,17 +57,7 @@ export const NewChannelModal = (props: Props) => {
               />
             </div>
 
-            <div className={formEntry}>
-              <label className="text-xl" htmlFor="isPrivate">
-                <p>Private</p>
-              </label>
-              <input
-                type="checkbox"
-                id="isPrivate"
-                checked={isPrivate}
-                onChange={handleIsPrivate}
-              />
-            </div>
+            <Checkbox checked={isPrivate} handleOnChange={handleIsPrivate} />
 
             <GenericButton
               buttonType="submit"

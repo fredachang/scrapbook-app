@@ -3,7 +3,12 @@ import { useAuthContext } from "../context/AuthContext";
 import { useGetConnections } from "../hooks/connections/useGetConnections";
 
 import { motion } from "framer-motion";
-import { fadeXY, staggerParentContainer } from "../motion";
+import {
+  durationSettings,
+  easeSettings,
+  fade,
+  staggerParentContainer,
+} from "../motion";
 import { TitleBlock } from "./TitleBlock";
 import { twStyle } from "../tailwind";
 
@@ -54,7 +59,10 @@ export const Channel = (props: Props) => {
           >
             {connectionsByChannel?.map((connection) => {
               return (
-                <motion.div key={connection?.blockId} variants={fadeXY}>
+                <motion.div
+                  key={connection?.blockId}
+                  variants={fade(durationSettings.fast, easeSettings.easeIn)}
+                >
                   <Block
                     blockId={connection?.blockId}
                     isPrivate={isPrivate}

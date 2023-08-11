@@ -13,7 +13,12 @@ import {
 import { GenericButton } from "./GenericButton";
 import { useGetBlockChannels } from "../hooks/blocks/useGetBlockChannels";
 import { motion } from "framer-motion";
-import { fadeXY, staggerParentContainer } from "../motion";
+import {
+  durationSettings,
+  easeSettings,
+  fade,
+  staggerParentContainer,
+} from "../motion";
 
 interface Props {
   blockId: string;
@@ -108,7 +113,7 @@ export const ConnectionModal = (props: Props) => {
           >
             {filteredChannels.map((channel) => (
               <motion.div
-                variants={fadeXY}
+                variants={fade(durationSettings.fast, easeSettings.easeIn)}
                 key={channel.id}
                 className={`
                ${
