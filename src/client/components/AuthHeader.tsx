@@ -10,7 +10,7 @@ export const AuthHeader = () => {
           <Logo
             logoText="Scrapbook"
             logoTextStyle={twText.logoSmall}
-            logoImgStyle={`w-16 mt-1`}
+            logoImgStyle={`w-10 mt-1`}
           />
         </div>
 
