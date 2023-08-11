@@ -1,6 +1,8 @@
+import { motion } from "framer-motion";
 import { BlockForFeed } from "../../common/types";
 import { twStyle, twText } from "../tailwind";
 import { Block2 } from "./Block2";
+import { durationSettings, easeSettings, fade } from "../motion";
 
 interface Props {
   created: string;
@@ -19,7 +21,12 @@ export const SocialPost = (props: Props) => {
 
   return (
     <>
-      <div className={`flex justify-between`}>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fade(durationSettings.medium, easeSettings.easeInOut)}
+        className={`flex justify-between`}
+      >
         <h4 className={`w-1/4`}>
           <div
             className={`w-full${twText.heading} border-b border-${twStyle.highlightColour} mr-${twStyle.spacing3Xl}`}
@@ -59,7 +66,7 @@ export const SocialPost = (props: Props) => {
               })}
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

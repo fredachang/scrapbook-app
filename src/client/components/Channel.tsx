@@ -11,6 +11,7 @@ import {
 } from "../motion";
 import { TitleBlock } from "./TitleBlock";
 import { twStyle } from "../tailwind";
+import { Uploader } from "./Uploader";
 
 interface Props {
   id: string;
@@ -49,6 +50,14 @@ export const Channel = (props: Props) => {
             connectionsCount={connectionsCount}
           />
         </div>
+
+        {connectionsCount === 0 && (
+          <Uploader
+            channelId={id}
+            channelTitle={channelTitle}
+            isPrivate={isPrivate}
+          />
+        )}
 
         <div className="flex items-center overflow-x-scroll">
           <motion.div

@@ -5,7 +5,12 @@ import { useGetConnectionId } from "../hooks/blocks/useGetConnectionId";
 import { BlockExpanded } from "./BlockExpanded";
 import { useAuthContext } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { blockContainerStyle, buttonStyleHalf, twStyle } from "../tailwind";
+import {
+  blockContainerStyle,
+  buttonStyleHalf,
+  twStyle,
+  twText,
+} from "../tailwind";
 import { useDeleteConnection } from "../hooks/connections/useDeleteConnection";
 
 interface Props {
@@ -149,7 +154,7 @@ export const Block = (props: Props) => {
             <div
               className={`w-full h-full  border border-dotted border-${twStyle.highlightColour} py-${twStyle.spacingLg} px-${twStyle.spacingMd}`}
             >
-              <p>{text}</p>
+              <p className={twText.paragraph}>{text}</p>
             </div>
           ) : (
             <img

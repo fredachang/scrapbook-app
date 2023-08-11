@@ -2,7 +2,12 @@ import { useState } from "react";
 import { GenericButton } from "./GenericButton";
 import { ConnectionModal } from "./ConnectionModal";
 import { BlockExpanded } from "./BlockExpanded";
-import { blockContainerStyle, buttonStyleFull, twStyle } from "../tailwind";
+import {
+  blockContainerStyle,
+  buttonStyleFull,
+  twStyle,
+  twText,
+} from "../tailwind";
 
 interface Props {
   blockId: string;
@@ -101,7 +106,7 @@ export const Block2 = (props: Props) => {
               <div
                 className={`w-full h-full border border-dotted border-${twStyle.highlightColour} py-${twStyle.spacingLg} px-${twStyle.spacingMd}`}
               >
-                {text}
+                <p className={twText.paragraph}>{text}</p>
               </div>
             ) : (
               <img
