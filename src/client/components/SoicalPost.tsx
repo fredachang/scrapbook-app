@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { BlockForFeed } from "../../common/types";
-import { twStyle, twText } from "../tailwind";
+import { blockContainerStyle, twStyle, twText } from "../tailwind";
 import { Block2 } from "./Block2";
 import { durationSettings, easeSettings, fade } from "../motion";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   created: string;
@@ -15,9 +16,15 @@ interface Props {
 }
 
 export const SocialPost = (props: Props) => {
-  const { created, firstName, lastName, channelTitle, blocks } = props;
-
+  const { created, firstName, lastName, channelTitle, blocks, userId } = props;
   const blocksCount = blocks.length;
+  const navigate = useNavigate();
+
+  const userName = `${firstName}-${lastName}`;
+
+  const handleClickOtherUser = () => {
+    navigate(`/${userName}/${userId}/blocks`, { replace: true });
+  };
 
   return (
     <>
@@ -35,13 +42,19 @@ export const SocialPost = (props: Props) => {
           </div>
         </h4>
 
-        <div className={`w-3/4 ml-${twStyle.spacingXl}`}>
+        <div className={`w-3/4`}>
           <div
             className={`flex border-b border-${twStyle.highlightColour} mb-${twStyle.spacingMd}`}
           >
             <div className={twText.heading}>
-              <span className={twText.headingBold}>{firstName || ""} </span>
-              <span className={twText.headingBold}>{lastName || ""} </span>
+              <div
+                onClick={handleClickOtherUser}
+                className={`inline cursor-pointer ${twText.headingBold}`}
+              >
+                {" "}
+                {`${firstName} ${lastName} `}
+              </div>
+
               <span>connected </span>
               <span className={twText.headingBold}>{blocksCount} </span>
               <span className={twText.headingBold}>images </span>
@@ -60,6 +73,7 @@ export const SocialPost = (props: Props) => {
                       imagePath={block.imagePath}
                       imageData={block.imageData}
                       text={block.text}
+                      blockContainerStyle={`${blockContainerStyle} mb-${twStyle.spacingLg}`}
                     />
                   </div>
                 );

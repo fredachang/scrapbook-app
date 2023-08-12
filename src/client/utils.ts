@@ -25,3 +25,7 @@ export const splitStringByComma = (string: string) => {
   const extractedString = splitString[1];
   return extractedString;
 };
+
+export const replaceHyphensWithSpace = (inputString: string) => {
+  return inputString.replace(/-/g, " ");
+};

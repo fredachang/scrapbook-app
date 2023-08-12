@@ -1,27 +1,38 @@
+import { NewChannelModal } from "../components/NewChannelModal";
+import { PageHeader } from "../components/PageHeader";
+import { Heading } from "../components/Heading";
+import { useScrollDetection } from "../hooks/useScrollDetection";
+import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
+import { blockContainerStyle, twStyle } from "../tailwind";
+import { useParams } from "react-router-dom";
+import { useGetOtherUserBlocks } from "../hooks/feed/useGetOtherUserBlocks";
 import { motion } from "framer-motion";
-import { Block2 } from "../components/Block2";
-import { useGetUserBlocks } from "../hooks/blocks/useGetUserBlocks";
 import {
   durationSettings,
   easeSettings,
   fade,
   staggerParentContainer,
 } from "../motion";
-import { PageHeader } from "../components/PageHeader";
-import { useScrollDetection } from "../hooks/useScrollDetection";
-import { Heading } from "../components/Heading";
-import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
-import { NewChannelModal } from "../components/NewChannelModal";
-import { blockContainerStyle, twStyle } from "../tailwind";
-import { useAuthContext } from "../context/AuthContext";
+import { Block2 } from "../components/Block2";
 import { replaceHyphensWithSpace } from "../utils";
 
-export const Blocks = () => {
-  const { data: blocks, isLoading, isError } = useGetUserBlocks();
+export const OtherUserProfile = () => {
+  const { username, userId } = useParams();
 
-  const { profile } = useAuthContext();
-  const username = `${profile?.firstName}-${profile?.lastName}`;
-  const modifiedUsername = replaceHyphensWithSpace(username);
+  const usernameCheck = username ? username : "";
+
+  const modifiedUsername = replaceHyphensWithSpace(usernameCheck);
+
+  const userIdCheck = userId ? userId : "";
+  const {
+    data: blocks,
+    isLoading,
+    isError,
+  } = useGetOtherUserBlocks(userIdCheck);
+
+  const blocksCheck = blocks ? blocks : [];
+
+  const blocksCount = blocksCheck.length;
 
   const isScrolled = useScrollDetection();
   const {
@@ -34,10 +45,6 @@ export const Blocks = () => {
     handleSubmit,
   } = useCreateChannelModal();
 
-  const blockCheck = blocks ? blocks : [];
-
-  const blockCount = blockCheck.length;
-
   return (
     <>
       <div
@@ -49,31 +56,31 @@ export const Blocks = () => {
       >
         <PageHeader
           username={modifiedUsername}
-          usernamePath={`/${username}`}
+          usernamePath={`/${username}/${userId}/blocks`}
+          isScrolled={isScrolled}
           thirdLink={true}
-          thirdLinkText="Blocks"
+          thirdLinkText="Channels"
           thirdLinkPath=""
           fourthlink={false}
-          fourthLinkText=""
           fourthLinkPath=""
-          isScrolled={isScrolled}
+          fourthLinkText=""
           handleShowCreateChannelModal={handleShowModal}
         />
 
         <Heading
           username={modifiedUsername}
-          usernamePath={`/${username}`}
+          usernamePath={`/${username}/${userId}/blocks`}
           thirdLink={true}
           thirdLinkText="Blocks"
-          thirdLinkPath=""
+          thirdLinkPath={`/${username}/${userId}/blocks`}
           fourthlink={false}
           fourthLinkText=""
           fourthLinkPath=""
-          count={blockCount}
+          count={blocksCount}
         />
+
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error occurred while fetching data.</p>}
-
         {blocks && (
           <motion.div
             initial="hidden"

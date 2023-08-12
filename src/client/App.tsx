@@ -8,6 +8,8 @@ import { SignUp } from "./pages/Signup";
 import { Channels } from "./pages/Channels";
 import { ChannelExpanded } from "./pages/ChannelExpanded";
 import { twStyle } from "./tailwind";
+import { Profile } from "./pages/Profile";
+import { OtherUserProfile } from "./pages/OtherUserProfile";
 
 function App() {
   return (
@@ -27,10 +29,26 @@ function App() {
             }
           />
           <Route
+            path="/:username"
+            element={
+              <GuardedRoute>
+                <Profile />
+              </GuardedRoute>
+            }
+          />
+          <Route
             path="/blocks/:username"
             element={
               <GuardedRoute>
                 <Blocks />
+              </GuardedRoute>
+            }
+          />
+          <Route
+            path="/:username/:userId/blocks"
+            element={
+              <GuardedRoute>
+                <OtherUserProfile />
               </GuardedRoute>
             }
           />

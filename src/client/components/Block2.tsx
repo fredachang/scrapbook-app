@@ -2,22 +2,18 @@ import { useState } from "react";
 import { GenericButton } from "./GenericButton";
 import { ConnectionModal } from "./ConnectionModal";
 import { BlockExpanded } from "./BlockExpanded";
-import {
-  blockContainerStyle,
-  buttonStyleFull,
-  twStyle,
-  twText,
-} from "../tailwind";
+import { buttonStyleFull, twStyle, twText } from "../tailwind";
 
 interface Props {
   blockId: string;
   imagePath: string | null;
   imageData: string | null;
   text: string | null;
+  blockContainerStyle: string;
 }
 
 export const Block2 = (props: Props) => {
-  const { blockId, imagePath, imageData, text } = props;
+  const { blockId, imagePath, imageData, text, blockContainerStyle } = props;
   const [showConnectButton, setShowConnectButton] = useState(false);
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [expandBlock, setExpandBlock] = useState(false);
@@ -59,15 +55,6 @@ export const Block2 = (props: Props) => {
     setExpandBlock(false);
   };
 
-  // const handleNavigateToChannel = (
-  //   channelTitle: string,
-  //   channelId: string,
-  //   isPrivate: boolean
-  // ) => {
-  //   const targetUrl = `/channels/${userName}/${channelTitle}/${channelId}/${isPrivate}`;
-  //   navigate(targetUrl, { replace: true });
-  // };
-
   const connectModalContainer = "w-full h-full absolute z-20";
   const imageContainer = "w-full h-full flex flex-col items-center";
 
@@ -76,7 +63,7 @@ export const Block2 = (props: Props) => {
       <div className="flex flex-col">
         <div
           key={blockId}
-          className={`${blockContainerStyle} mb-${twStyle.spacingLg}`}
+          className={blockContainerStyle}
           onMouseEnter={handleOnMouseOver}
           onMouseLeave={handleOnMouseLeave}
         >
@@ -116,29 +103,8 @@ export const Block2 = (props: Props) => {
                 onClick={handleExpandBlock}
               />
             )}
-            {/* <p className="text-xs">BlockId: {shortenUUID(blockId)}</p> */}
           </div>
         </div>
-
-        {/* <div className="flex flex-col">
-          {blockChannels?.map((blockChannel) => {
-            return (
-              <button
-                className={buttonStyleFull}
-                key={blockChannel.id}
-                onClick={() =>
-                  handleNavigateToChannel(
-                    blockChannel.title,
-                    blockChannel.id,
-                    blockChannel.isPrivate
-                  )
-                }
-              >
-                <p>{blockChannel.title}</p>
-              </button>
-            );
-          })}
-        </div> */}
       </div>
 
       {expandBlock && (

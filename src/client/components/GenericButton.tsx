@@ -1,3 +1,6 @@
+import { motion } from "framer-motion";
+import { durationSettings, easeSettings, fade } from "../motion";
+
 type Button = "button" | "submit" | "reset" | undefined;
 
 interface Props {
@@ -11,9 +14,16 @@ export const GenericButton = (props: Props) => {
   const { buttonText, handleOnClick, buttonStyle, buttonType } = props;
   return (
     <>
-      <button type={buttonType} className={buttonStyle} onClick={handleOnClick}>
+      <motion.button
+        initial="hidden"
+        animate="visible"
+        variants={fade(durationSettings.fast, easeSettings.easeInOut)}
+        type={buttonType}
+        className={buttonStyle}
+        onClick={handleOnClick}
+      >
         <p>{buttonText}</p>
-      </button>
+      </motion.button>
     </>
   );
 };
