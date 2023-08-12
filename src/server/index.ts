@@ -113,11 +113,9 @@ const run = () => {
     }
   });
 
-  app.get("/user/feed", authMiddleware, async (req, res) => {
-    const { id } = req.user;
-
+  app.get("/user/feed", authMiddleware, async (_, res) => {
     try {
-      const socialConnections = await socialService.getSocialConnections(id);
+      const socialConnections = await socialService.getSocialConnections();
 
       const socialConnectionsByDay = socialConnections.map((connection) => ({
         ...connection,
