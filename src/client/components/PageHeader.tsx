@@ -5,7 +5,6 @@ import {
   twStyle,
   twText,
 } from "../tailwind";
-import { useAuthContext } from "../context/AuthContext";
 import { Logo } from "./Logo";
 import { motion } from "framer-motion";
 import { fadeUp } from "../motion";
@@ -18,6 +17,8 @@ interface Props {
   fourthlink: boolean;
   fourthLinkPath: string;
   fourthLinkText: string;
+  username: string;
+  usernamePath: string;
   handleShowCreateChannelModal?: () => void;
   inputValue?: string;
   handleInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -26,6 +27,8 @@ interface Props {
 
 export const PageHeader = (props: Props) => {
   const {
+    username,
+    usernamePath,
     thirdLink,
     thirdLinkPath,
     thirdLinkText,
@@ -39,12 +42,9 @@ export const PageHeader = (props: Props) => {
     handleClear,
   } = props;
 
-  const { profile } = useAuthContext();
-  const userName = `${profile?.firstName}-${profile?.lastName}`;
-
   const location = useLocation();
   const currentPath = location.pathname;
-  const channelsPath = `/channels/${userName}`;
+  const channelsPath = `/channels/${username}`;
 
   const containerHeight = isScrolled
     ? `h-${twStyle.sizeLg}`
@@ -76,8 +76,8 @@ export const PageHeader = (props: Props) => {
 
             <h1 className={slashStyle}>/</h1>
 
-            <Link to={`/`}>
-              <h1 className={breadcrumbStyle}>{userName}</h1>
+            <Link to={usernamePath}>
+              <h1 className={breadcrumbStyle}>{username}</h1>
             </Link>
 
             {thirdLink && (

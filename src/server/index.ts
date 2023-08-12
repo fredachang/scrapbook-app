@@ -132,6 +132,51 @@ const run = () => {
     }
   });
 
+  app.get("/:userId/channels", authMiddleware, async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      const otherUserChannels = await databaseService.getOtherChannelByUserId(
+        userId
+      );
+
+      return res.status(200).json(otherUserChannels);
+    } catch (err) {
+      return res.status(500).json({
+        error: "EXPRESS: Error retrieving other user's channels.",
+      });
+    }
+  });
+
+  app.get("/:userId/blocks", authMiddleware, async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      const otherUserBlocks = await userService.getUserBlocks(userId);
+
+      return res.status(200).json(otherUserBlocks);
+    } catch (err) {
+      return res.status(500).json({
+        error: "EXPRESS: Error retrieving other user's blocks.",
+      });
+    }
+  });
+
+  app.get("/:userId/connections", authMiddleware, async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      const otheruseConnections =
+        await databaseService.getConnectionsWithImagePath(userId);
+
+      return res.status(200).json(otheruseConnections);
+    } catch (err) {
+      return res.status(500).json({
+        error: "EXPRESS: Error retrieving other user's connections.",
+      });
+    }
+  });
+
   app.post("/channels/create", authMiddleware, async (req, res) => {
     const userId = req.user?.id;
     try {

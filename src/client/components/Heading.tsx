@@ -2,20 +2,23 @@ import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { breadcrumbStyle, twStyle, twText } from "../tailwind";
 import { DoubleUnderline } from "./DoubleUnderline";
-import { useAuthContext } from "../context/AuthContext";
 
 interface Props {
+  username: string;
+  usernamePath: string;
   thirdLink: boolean;
   thirdLinkText: string;
   thirdLinkPath: string;
   fourthlink: boolean;
   fourthLinkPath: string;
   fourthLinkText: string;
-  count: number;
+  count?: number;
 }
 
 export const Heading = (props: Props) => {
   const {
+    username,
+    usernamePath,
     thirdLink,
     thirdLinkText,
     thirdLinkPath,
@@ -24,9 +27,6 @@ export const Heading = (props: Props) => {
     fourthLinkText,
     count,
   } = props;
-
-  const { profile } = useAuthContext();
-  const userName = `${profile?.firstName}-${profile?.lastName}`;
 
   const outerContainer = `w-full h-44 flex flex-col justify-between mb-${twStyle.spacingLg}`;
 
@@ -52,8 +52,8 @@ export const Heading = (props: Props) => {
             <div className="flex">
               <h1 className={slashStyle}>/</h1>
 
-              <Link to={`/`}>
-                <h1 className={breadcrumbStyle}>{userName}</h1>
+              <Link to={usernamePath}>
+                <h1 className={breadcrumbStyle}>{username}</h1>
               </Link>
 
               <h1 className={slashStyle}>/</h1>

@@ -9,6 +9,8 @@ import { Heading } from "../components/Heading";
 import { useScrollDetection } from "../hooks/useScrollDetection";
 import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
 import { twStyle } from "../tailwind";
+import { useAuthContext } from "../context/AuthContext";
+import { replaceHyphensWithSpace } from "../utils";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
@@ -28,6 +30,10 @@ export const Channels = () => {
     handleIsPrivate,
     handleSubmit,
   } = useCreateChannelModal();
+
+  const { profile } = useAuthContext();
+  const userName = `${profile?.firstName}-${profile?.lastName}`;
+  const modifiedUsername = replaceHyphensWithSpace(userName);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
@@ -57,6 +63,8 @@ export const Channels = () => {
         }
       >
         <PageHeader
+          username={modifiedUsername}
+          usernamePath={`/${userName}`}
           isScrolled={isScrolled}
           thirdLink={true}
           thirdLinkText="Channels"
@@ -71,6 +79,8 @@ export const Channels = () => {
         />
 
         <Heading
+          username={modifiedUsername}
+          usernamePath={`/${userName}`}
           thirdLink={true}
           thirdLinkText="Channels"
           thirdLinkPath=""

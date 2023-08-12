@@ -2,7 +2,7 @@ import { useAuthContext } from "../context/AuthContext";
 import { NavTab } from "./NavTabSecond";
 
 export const Nav = () => {
-  const { isAuthenticated, logout, profile } = useAuthContext();
+  const { isAuthenticated, profile } = useAuthContext();
 
   const userName = `${profile?.firstName}-${profile?.lastName}`;
 
@@ -13,10 +13,10 @@ export const Nav = () => {
   return (
     <>
       <div className={`h-full flex flex-col justify-between`}>
-        <NavTab path="/" linkTitle={userName} />
+        <NavTab path="/" linkTitle="Feed" />
         <NavTab path={`/blocks/${userName}`} linkTitle="Blocks" />
         <NavTab path={`/channels/${userName}`} linkTitle="Channels" />
-        <NavTab path={`/login`} handleOnClick={logout} linkTitle="Log Out" />
+        <NavTab path={`/${userName}`} linkTitle={userName} />
       </div>
     </>
   );

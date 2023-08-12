@@ -12,5 +12,8 @@ export const queryKeys = {
   },
   social: {
     getFeed: ["feed"],
+    getOtherChannels: ["other-channels"],
+    getOtherConnections: ["other-connections"],
+    getOtherBlocks: ["other-blocks"],
   },
 };

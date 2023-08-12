@@ -478,6 +478,21 @@ export class DatabaseService {
     return userChannels;
   }
 
+  async getOtherChannelByUserId(userId: string): Promise<Channel[]> {
+    const { rows: channels } = await this.pool.query<DbChannel>(
+      "SELECT * FROM channels WHERE user_id = $1 AND is_private = false",
+      [userId]
+    );
+
+    if (channels.length === 0) {
+      return [];
+    }
+
+    const userChannels = mapChannels(channels);
+
+    return userChannels;
+  }
+
   async updateChannel(
     title: string,
     isPrivate: boolean,

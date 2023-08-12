@@ -23,6 +23,7 @@ import { Heading } from "../components/Heading";
 import { GenericButton } from "../components/GenericButton";
 import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
 import { NewChannelModal } from "../components/NewChannelModal";
+import { replaceHyphensWithSpace } from "../utils";
 
 export const ChannelExpanded = () => {
   const { id, channelTitle, isPrivate: privateCheck } = useParams();
@@ -51,6 +52,8 @@ export const ChannelExpanded = () => {
 
   const { profile } = useAuthContext();
   const userName = `${profile?.firstName}-${profile?.lastName}`;
+  const modifiedUsername = replaceHyphensWithSpace(userName);
+
   const updateChannelMutation = useUpdateChannel();
 
   const navigate = useNavigate();
@@ -135,6 +138,8 @@ export const ChannelExpanded = () => {
         }
       >
         <PageHeader
+          username={modifiedUsername}
+          usernamePath={`/${userName}`}
           isScrolled={isScrolled}
           thirdLink={true}
           thirdLinkText="Channels"
@@ -146,6 +151,8 @@ export const ChannelExpanded = () => {
         />
 
         <Heading
+          username={modifiedUsername}
+          usernamePath={`/${userName}`}
           thirdLink={true}
           thirdLinkText="Channels"
           thirdLinkPath={`/channels/${userName}`}
