@@ -140,6 +140,7 @@ export const ConnectionModal = (props: Props) => {
                     !alreadyInChannel(channel.id) &&
                       handleClickChannel(channel.id, channel.isPrivate);
                   }}
+                  className="w-full"
                   disabled={alreadyInChannel(channel.id)}
                 >
                   <p className="text-left">{channel.title}</p>

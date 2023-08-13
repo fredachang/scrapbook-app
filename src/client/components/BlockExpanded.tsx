@@ -8,11 +8,18 @@ interface Props {
   imageSrc: string;
   handleCloseBlock: () => void;
   blockId: string;
-  connectionId: string;
+  includeConnectionId?: boolean;
+  connectionId?: string;
 }
 
 export const BlockExpanded = (props: Props) => {
-  const { imageSrc, handleCloseBlock, blockId, connectionId } = props;
+  const {
+    imageSrc,
+    handleCloseBlock,
+    blockId,
+    includeConnectionId,
+    connectionId,
+  } = props;
 
   const [showConnectModal, setShowConnectModal] = useState(false);
 
@@ -45,7 +52,9 @@ export const BlockExpanded = (props: Props) => {
               <p className={`mr-${twStyle.spacingMd}`}>
                 Block ID:{shortenUUID(blockId)}
               </p>
-              <p>Connection ID:{shortenUUID(connectionId)}</p>
+              {includeConnectionId && (
+                <p>Connection ID:{shortenUUID(connectionId)}</p>
+              )}
             </div>
             <div className="w-full">
               <GenericButton

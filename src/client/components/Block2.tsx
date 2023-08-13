@@ -112,6 +112,7 @@ export const Block2 = (props: Props) => {
           imageSrc={imageSrc}
           handleCloseBlock={handleCloseBlock}
           blockId={blockId}
+          includeConnectionId={false}
         />
       )}
     </>

@@ -32,7 +32,7 @@ export const replaceHyphensWithSpace = (inputString: string) => {
   return inputString.replace(/-/g, " ");
 };
 
-export const convertTimestamp = (timestamp: string) => {
+export const convertTimestamp = (timestamp: string | Date) => {
   const date = new Date(timestamp);
   const formattedDate = format(date, "dd-MM-yyyy");
   return formattedDate;
