@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { ConnectionModal } from "./ConnectionModal";
 import { GenericButton } from "./GenericButton";
-import { buttonStyleFull, twStyle } from "../tailwind";
+import { buttonStyleFull, twStyle, twText } from "../tailwind";
+import { shortenUUID } from "../utils";
 
 interface Props {
   imageSrc: string;
   handleCloseBlock: () => void;
   blockId: string;
+  connectionId: string;
 }
 
 export const BlockExpanded = (props: Props) => {
-  const { imageSrc, handleCloseBlock, blockId } = props;
+  const { imageSrc, handleCloseBlock, blockId, connectionId } = props;
 
   const [showConnectModal, setShowConnectModal] = useState(false);
 
@@ -33,18 +35,26 @@ export const BlockExpanded = (props: Props) => {
           <img src={imageSrc} alt="block-image" className={imgStyleStatic} />
         </div>
 
-        {/* <p className="text-xs">BlockId: {shortenUUID(blockId)}</p> */}
-
         <div
           className={`flex flex-col relative justify-between w-1/3 mr-${twStyle.spacingLg}`}
         >
-          <div className="w-full">
-            <GenericButton
-              buttonText="Connect"
-              handleOnClick={handleClickConnect}
-              buttonStyle={`${buttonStyleFull} mb-${twStyle.spacingSm}`}
-              buttonType="button"
-            />
+          <div>
+            <div
+              className={`${twText.small} flex justify-end mb-${twStyle.spacingMd}`}
+            >
+              <p className={`mr-${twStyle.spacingMd}`}>
+                Block ID:{shortenUUID(blockId)}
+              </p>
+              <p>Connection ID:{shortenUUID(connectionId)}</p>
+            </div>
+            <div className="w-full">
+              <GenericButton
+                buttonText="Connect"
+                handleOnClick={handleClickConnect}
+                buttonStyle={`${buttonStyleFull} mb-${twStyle.spacingSm}`}
+                buttonType="button"
+              />
+            </div>
           </div>
 
           {showConnectModal && (

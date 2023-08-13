@@ -11,6 +11,7 @@ import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
 import { twStyle } from "../tailwind";
 import { useAuthContext } from "../context/AuthContext";
 import { replaceHyphensWithSpace } from "../utils";
+import { PlaceholderBlock } from "../components/PlaceholderBlock";
 
 export const Channels = () => {
   const { data: channels, isLoading, isError } = useGetChannels();
@@ -63,7 +64,7 @@ export const Channels = () => {
         }
       >
         <PageHeader
-          username={modifiedUsername}
+          username={userName}
           usernamePath={`/${userName}`}
           isScrolled={isScrolled}
           thirdLink={true}
@@ -89,6 +90,7 @@ export const Channels = () => {
           fourthLinkPath=""
           count={channelsCount}
         />
+        {channelsCount === 0 && <PlaceholderBlock />}
 
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error occurred while fetching data.</p>}

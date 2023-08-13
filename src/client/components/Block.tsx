@@ -164,9 +164,6 @@ export const Block = (props: Props) => {
               onClick={handleExpandBlock}
             />
           )}
-
-          {/* <p className="text-xs">ConnectionId: {shortenUUID(connectionId)}</p>
-          <p className="text-xs">BlockId: {shortenUUID(blockId)}</p> */}
         </div>
       </div>
 
@@ -175,6 +172,7 @@ export const Block = (props: Props) => {
           imageSrc={imageSrc}
           handleCloseBlock={handleCloseBlock}
           blockId={blockId}
+          connectionId={connectionIdCheck}
         />
       )}
     </>

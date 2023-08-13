@@ -15,6 +15,7 @@ import { NewChannelModal } from "../components/NewChannelModal";
 import { blockContainerStyle, twStyle } from "../tailwind";
 import { useAuthContext } from "../context/AuthContext";
 import { replaceHyphensWithSpace } from "../utils";
+import { PlaceholderBlock } from "../components/PlaceholderBlock";
 
 export const Blocks = () => {
   const { data: blocks, isLoading, isError } = useGetUserBlocks();
@@ -71,6 +72,8 @@ export const Blocks = () => {
           fourthLinkPath=""
           count={blockCount}
         />
+
+        {blockCount === 0 && <PlaceholderBlock />}
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error occurred while fetching data.</p>}
 

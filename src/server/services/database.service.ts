@@ -384,7 +384,7 @@ export class DatabaseService {
 
   async getBlocksByBlockIds(blockIds: string[]): Promise<Block[]> {
     const { rows: blocks } = await this.pool.query<DbBlock>(
-      "SELECT * FROM blocks WHERE id = ANY($1)",
+      "SELECT * FROM blocks WHERE id = ANY($1) ORDER BY created DESC",
       [blockIds]
     );
 
@@ -450,7 +450,7 @@ export class DatabaseService {
 
   async getChannelsByUserId(userId: string): Promise<Channel[]> {
     const { rows: channels } = await this.pool.query<DbChannel>(
-      "SELECT * FROM channels WHERE user_id = $1",
+      "SELECT * FROM channels WHERE user_id = $1 ORDER BY created DESC",
       [userId]
     );
 

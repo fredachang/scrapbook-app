@@ -1,13 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import {
-  breadcrumbStyle,
-  defaultInputStyle,
-  twStyle,
-  twText,
-} from "../tailwind";
+import { breadcrumbStyle, fullInputStyle, twStyle, twText } from "../tailwind";
 import { Logo } from "./Logo";
 import { motion } from "framer-motion";
 import { fadeUp } from "../motion";
+import { replaceHyphensWithSpace } from "../utils";
 
 interface Props {
   isScrolled: boolean;
@@ -77,7 +73,9 @@ export const PageHeader = (props: Props) => {
             <h1 className={slashStyle}>/</h1>
 
             <Link to={usernamePath}>
-              <h1 className={breadcrumbStyle}>{username}</h1>
+              <h1 className={breadcrumbStyle}>
+                {replaceHyphensWithSpace(username)}
+              </h1>
             </Link>
 
             {thirdLink && (
@@ -113,7 +111,7 @@ export const PageHeader = (props: Props) => {
               placeholder="Type to filter..."
               value={inputValue}
               onChange={handleInput}
-              className={defaultInputStyle}
+              className={fullInputStyle}
             />
             <button onClick={handleClear} className={`ml-${twStyle.spacingSm}`}>
               <p className={twText.heading}>Clear</p>

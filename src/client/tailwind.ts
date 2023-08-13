@@ -44,7 +44,8 @@ export const buttonStyleFullNoBorder = `w-full ${twText.button} border border-${
 
 export const defaultInputStyle = `w-2/3 h-${twStyle.sizeSm} focus:outline-none ${twText.paragraph} focus:drop-shadow-center`;
 
-export const modalOuterContainerStyle = `w-full h-full flex fixed top-0 justify-center items-center z-30`;
+export const fullInputStyle = `w-full h-${twStyle.sizeSm} focus:outline-none ${twText.paragraph} focus:drop-shadow-center`;
+export const modalOuterContainerStyle = `w-full h-full flex fixed top-0 left-0 justify-center items-center z-30`;
 
 export const modalContainerStyle = `p-4 w-96 h-2/5 bg-${twStyle.primaryColour} flex flex-col justify-center items-center border border-${twStyle.highlightColour}`;
 
