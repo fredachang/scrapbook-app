@@ -114,6 +114,7 @@ export const OtherUserProfile = () => {
           title={title}
           isPrivate={isPrivate}
           handleShowModal={handleShowModal}
+          buttonText="Create New Channel"
         />
       )}
     </>
