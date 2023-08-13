@@ -173,6 +173,7 @@ export const ConnectionModal = (props: Props) => {
           title={title}
           isPrivate={isPrivate}
           handleShowModal={handleShowModal}
+          buttonText="Add Block to New Channel"
         />
       )}
     </>

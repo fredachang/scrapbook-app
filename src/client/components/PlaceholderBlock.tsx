@@ -38,6 +38,7 @@ export const PlaceholderBlock = () => {
           title={title}
           isPrivate={isPrivate}
           handleShowModal={handleShowModal}
+          buttonText="Create New Channel"
         />
       )}
     </>

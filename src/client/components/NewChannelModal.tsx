@@ -18,6 +18,7 @@ interface Props {
   title: string;
   isPrivate: boolean;
   handleShowModal: () => void;
+  buttonText: string;
 }
 
 export const NewChannelModal = (props: Props) => {
@@ -28,6 +29,7 @@ export const NewChannelModal = (props: Props) => {
     title,
     isPrivate,
     handleShowModal,
+    buttonText,
   } = props;
 
   const formStyle =
@@ -61,7 +63,7 @@ export const NewChannelModal = (props: Props) => {
 
             <GenericButton
               buttonType="submit"
-              buttonText="Create New Channel"
+              buttonText={buttonText}
               buttonStyle={buttonStyleFull}
             />
           </form>

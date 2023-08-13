@@ -117,6 +117,7 @@ export const Channels = () => {
           title={title}
           isPrivate={isPrivate}
           handleShowModal={handleShowModal}
+          buttonText="Create New Channel"
         />
       )}
     </>

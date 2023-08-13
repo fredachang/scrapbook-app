@@ -93,6 +93,7 @@ export const Home = () => {
           title={title}
           isPrivate={isPrivate}
           handleShowModal={handleShowModal}
+          buttonText="Create New Channel"
         />
       )}
     </>
