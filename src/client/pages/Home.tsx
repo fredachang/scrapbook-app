@@ -62,6 +62,7 @@ export const Home = () => {
           fourthlink={false}
           fourthLinkText=""
           fourthLinkPath=""
+          includeCount={true}
           count={feedsCount}
         />
         {isLoading && <p>Loading...</p>}

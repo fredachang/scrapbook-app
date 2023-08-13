@@ -88,6 +88,7 @@ export const Channels = () => {
           fourthlink={false}
           fourthLinkText=""
           fourthLinkPath=""
+          includeCount={true}
           count={channelsCount}
         />
         {channelsCount === 0 && <PlaceholderBlock />}

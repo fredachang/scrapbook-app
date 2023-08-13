@@ -12,6 +12,7 @@ interface Props {
   fourthlink: boolean;
   fourthLinkPath: string;
   fourthLinkText: string;
+  includeCount?: boolean;
   count?: number;
 }
 
@@ -25,6 +26,7 @@ export const Heading = (props: Props) => {
     fourthlink,
     fourthLinkPath,
     fourthLinkText,
+    includeCount,
     count,
   } = props;
 
@@ -76,19 +78,21 @@ export const Heading = (props: Props) => {
             </div>
           </div>
 
-          <div className="flex">
-            <h4
-              className={`${twText.numberLg} text-${twStyle.highlightColour}`}
-            >
-              {"("}
-            </h4>
-            <h4 className={twText.numberLg}>{count}</h4>
-            <h4
-              className={`${twText.numberLg} text-${twStyle.highlightColour}`}
-            >
-              {")"}
-            </h4>
-          </div>
+          {includeCount && (
+            <div className="flex">
+              <h4
+                className={`${twText.numberLg} text-${twStyle.highlightColour}`}
+              >
+                {"("}
+              </h4>
+              <h4 className={twText.numberLg}>{count}</h4>
+              <h4
+                className={`${twText.numberLg} text-${twStyle.highlightColour}`}
+              >
+                {")"}
+              </h4>
+            </div>
+          )}
         </div>
 
         <DoubleUnderline height={twStyle.spacingSm} />

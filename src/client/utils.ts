@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const convertToBYTEA = (imageFile: File) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -28,4 +30,10 @@ export const splitStringByComma = (string: string) => {
 
 export const replaceHyphensWithSpace = (inputString: string) => {
   return inputString.replace(/-/g, " ");
+};
+
+export const convertTimestamp = (timestamp: string) => {
+  const date = new Date(timestamp);
+  const formattedDate = format(date, "dd-MM-yyyy");
+  return formattedDate;
 };

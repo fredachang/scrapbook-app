@@ -3,7 +3,7 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
-  created: Date;
+  created: string;
 }
 
 export interface Channel {

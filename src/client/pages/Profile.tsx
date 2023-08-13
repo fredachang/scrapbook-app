@@ -7,14 +7,18 @@ import { PageHeader } from "../components/PageHeader";
 import { useAuthContext } from "../context/AuthContext";
 import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
 import { useScrollDetection } from "../hooks/useScrollDetection";
-import { buttonStyleFull, twStyle } from "../tailwind";
-import { replaceHyphensWithSpace } from "../utils";
+import { buttonStyleFull, twStyle, twText } from "../tailwind";
+import { convertTimestamp, replaceHyphensWithSpace } from "../utils";
 
 export const Profile = () => {
   const { profile, logout } = useAuthContext();
   const [showConfirmLogOut, setShowConfirmLogOut] = useState(false);
   const userName = `${profile?.firstName}-${profile?.lastName}`;
   const modifiedUsername = replaceHyphensWithSpace(userName);
+
+  const dateCreated = profile?.created ? profile?.created : "";
+
+  const formattedDate = convertTimestamp(dateCreated);
 
   const isScrolled = useScrollDetection();
   const {
@@ -66,22 +70,25 @@ export const Profile = () => {
           fourthlink={false}
           fourthLinkText=""
           fourthLinkPath=""
+          includeCount={false}
         />
+
+        <div className={twText.paragraph}>Date Joined: {formattedDate}</div>
         <GenericButton
           buttonText="Log Out"
-          buttonStyle={buttonStyleFull}
+          buttonStyle={`${buttonStyleFull} mt-${twStyle.spacingLg}`}
           buttonType="button"
           handleOnClick={handleShowConfirmLogOut}
         />
-        {showConfirmLogOut && (
-          <ConfirmModal
-            text="Confirm log out?"
-            handleYes={logout}
-            handleNo={handleHideConfirmLogOut}
-          />
-        )}
       </div>
 
+      {showConfirmLogOut && (
+        <ConfirmModal
+          text="Confirm log out?"
+          handleYes={logout}
+          handleNo={handleHideConfirmLogOut}
+        />
+      )}
       {showModal && (
         <NewChannelModal
           handleTitle={handleTitle}

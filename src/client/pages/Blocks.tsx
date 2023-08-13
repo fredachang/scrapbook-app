@@ -70,6 +70,7 @@ export const Blocks = () => {
           fourthlink={false}
           fourthLinkText=""
           fourthLinkPath=""
+          includeCount={true}
           count={blockCount}
         />
 
