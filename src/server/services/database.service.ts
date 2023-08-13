@@ -384,7 +384,7 @@ export class DatabaseService {
 
   async getBlocksByBlockIds(blockIds: string[]): Promise<Block[]> {
     const { rows: blocks } = await this.pool.query<DbBlock>(
-      "SELECT * FROM blocks WHERE id = ANY($1)",
+      "SELECT * FROM blocks WHERE id = ANY($1) ORDER BY created DESC",
       [blockIds]
     );
 
