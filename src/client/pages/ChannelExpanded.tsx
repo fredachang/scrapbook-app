@@ -242,6 +242,7 @@ export const ChannelExpanded = () => {
             title={title}
             isPrivate={isPrivate}
             handleShowModal={handleShowModal}
+            buttonText="Create New Channel"
           />
         )}
       </div>
