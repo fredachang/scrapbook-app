@@ -227,6 +227,40 @@ const run = () => {
     }
   });
 
+  app.post("/createchannelandconnect", authMiddleware, async (req, res) => {
+    const userId = req.user?.id;
+    try {
+      const { title, isPrivate, blockId } = req.body;
+
+      const created = new Date();
+
+      const channel = await databaseService.createChannel({
+        title,
+        created,
+        isPrivate,
+        userId: userId,
+      });
+
+      await databaseService.createConnection({
+        blockId: blockId,
+        channelId: channel.id,
+        userId: userId,
+      });
+
+      res
+        .status(200)
+        .json("EXPRESS: channel and connection created successfully");
+    } catch (error) {
+      if (error instanceof Error) {
+        res
+          .status(400)
+          .json(
+            `EXPRESS: Error creating channel and connection, ${error.message}`
+          );
+      }
+    }
+  });
+
   app.post("/blocks/createtext", authMiddleware, async (req, res) => {
     const userId = req.user?.id;
     try {

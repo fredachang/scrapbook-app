@@ -6,7 +6,8 @@ import { useGetChannels } from "../hooks/channels/useGetChannels";
 import React from "react";
 import {
   buttonStyleFull,
-  defaultInputStyle,
+  buttonStyleFullNoBorder,
+  fullInputStyle,
   twStyle,
   twText,
 } from "../tailwind";
@@ -19,6 +20,8 @@ import {
   fade,
   staggerParentContainer,
 } from "../motion";
+import { NewChannelModal } from "./NewChannelModal";
+import { useCreateChannelModalWithBlock } from "../hooks/channels/useCreateChannelModalWithBlock";
 
 interface Props {
   blockId: string;
@@ -34,6 +37,15 @@ export const ConnectionModal = (props: Props) => {
 
   const createConnectionMutation = useCreateConnection(blockId);
   const { data: blockChannels } = useGetBlockChannels(blockId);
+  const {
+    showModal,
+    handleShowModal,
+    title,
+    handleTitle,
+    isPrivate,
+    handleIsPrivate,
+    handleSubmit,
+  } = useCreateChannelModalWithBlock(blockId, handleCloseConnect);
 
   const blockChannelIds = blockChannels?.map((channel) => channel.id);
 
@@ -102,7 +114,7 @@ export const ConnectionModal = (props: Props) => {
             placeholder="Type to filter..."
             value={input}
             onChange={handleFilterList}
-            className={`${defaultInputStyle} px-${twStyle.spacingSm} mb-${twStyle.spacingSm} `}
+            className={`${fullInputStyle} px-${twStyle.spacingSm} mb-${twStyle.spacingSm} `}
           />
           <motion.div
             className={`px-${twStyle.spacingSm}`}
@@ -138,12 +150,30 @@ export const ConnectionModal = (props: Props) => {
         </div>
 
         <GenericButton
+          buttonStyle={`${buttonStyleFullNoBorder}`}
+          buttonText="New Channel +"
+          buttonType="button"
+          handleOnClick={handleShowModal}
+        />
+
+        <GenericButton
           buttonStyle={buttonStyleFull}
           buttonText="Close"
           handleOnClick={handleCloseConnect}
           buttonType="button"
         />
       </div>
+
+      {showModal && (
+        <NewChannelModal
+          handleTitle={handleTitle}
+          handleIsPrivate={handleIsPrivate}
+          handleSubmit={handleSubmit}
+          title={title}
+          isPrivate={isPrivate}
+          handleShowModal={handleShowModal}
+        />
+      )}
     </>
   );
 };

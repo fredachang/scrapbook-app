@@ -450,7 +450,7 @@ export class DatabaseService {
 
   async getChannelsByUserId(userId: string): Promise<Channel[]> {
     const { rows: channels } = await this.pool.query<DbChannel>(
-      "SELECT * FROM channels WHERE user_id = $1",
+      "SELECT * FROM channels WHERE user_id = $1 ORDER BY created DESC",
       [userId]
     );
 
