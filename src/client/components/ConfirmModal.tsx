@@ -21,7 +21,7 @@ export const ConfirmModal = (props: Props) => {
     <>
       <div className={modalOuterContainerStyle} onClick={handleNo}>
         <div className={modalContainerStyle}>
-          <h1 className={`${twText.heading} mb-${twStyle.spacingMd}`}>
+          <h1 className={`${twText.subheading} mb-${twStyle.spacingMd}`}>
             {text}
           </h1>
 

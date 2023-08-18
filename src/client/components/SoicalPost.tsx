@@ -32,21 +32,17 @@ export const SocialPost = (props: Props) => {
         initial="hidden"
         animate="visible"
         variants={fade(durationSettings.medium, easeSettings.easeInOut)}
-        className={`flex justify-between`}
+        className={`flex justify-between border-t border-black border-t-2 rounded-md pt-6 mb-2`}
       >
         <h4 className={`w-1/4`}>
-          <div
-            className={`w-full${twText.heading} border-b border-${twStyle.highlightColour} mr-${twStyle.spacing3Xl}`}
-          >
+          <div className={`w-full${twText.paragraph} mr-${twStyle.spacing3Xl}`}>
             {created}
           </div>
         </h4>
 
         <div className={`w-3/4`}>
-          <div
-            className={`flex border-b border-${twStyle.highlightColour} mb-${twStyle.spacingMd}`}
-          >
-            <div className={twText.heading}>
+          <div className={`flex mb-${twStyle.spacingMd}`}>
+            <div className={twText.paragraph}>
               <div
                 onClick={handleClickOtherUser}
                 className={`inline cursor-pointer ${twText.headingBold}`}

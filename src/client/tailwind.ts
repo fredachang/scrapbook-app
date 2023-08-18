@@ -3,7 +3,7 @@ export const twStyle = {
   secondaryColour: "neutral-100",
   highlightColour: "black",
   secondaryHighlightColour: "blue-100",
-  dimColour: "slate-400",
+  dimColour: "zinc-400",
   textColour: "text-gray-900",
   textColourLight: "text-gray-500",
   blockDimensions: "w-80 h-80",
@@ -27,18 +27,19 @@ export const twText = {
   breadcrumbs: "font-regular text-4xl",
   headingBold: "font-bold text-xl",
   heading: "font-regular text-4xl",
-  paragraph: "font-regular text-base",
+  subheading: "font-regular text-2xl",
+  paragraph: "font-regular text-lg",
+  small: "font-regular text-xs",
   buttonLg: "font-regular text-2xl",
   button: "font-regular text-base",
-  small: "font-regular text-xs",
   numberLg: "font-serif text-6xl",
 };
 
 export const blockContainerStyle = `${twStyle.blockDimensions} mr-${twStyle.spacingLg} flex flex-col relative overflow-y-hidden`;
 
-export const buttonStyleHalf = `${twText.button} bg-${twStyle.primaryColour} hover:bg-${twStyle.secondaryHighlightColour} ${twStyle.transitionSm} flex justify-center items-center w-1/2 border border-${twStyle.highlightColour}`;
+export const buttonStyleHalf = `${twText.button} bg-${twStyle.primaryColour} hover:bg-black hover:text-white ${twStyle.transitionSm} flex justify-center items-center w-1/2 border border-${twStyle.highlightColour}`;
 
-export const buttonStyleFull = `${twText.button} bg-${twStyle.primaryColour} hover:bg-${twStyle.secondaryHighlightColour} ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center  border border-${twStyle.highlightColour}`;
+export const buttonStyleFull = `${twText.button} bg-${twStyle.primaryColour} hover:bg-black hover:text-white ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center  border border-${twStyle.highlightColour}`;
 
 export const buttonStyleFullNoBorder = `w-full ${twText.button} border border-${twStyle.primaryColour} hover:border-${twStyle.highlightColour} hover:rounded-3xl hover:border-dotted ${twStyle.transitionSm}`;
 
@@ -47,7 +48,7 @@ export const defaultInputStyle = `w-2/3 h-${twStyle.sizeSm} focus:outline-none $
 export const fullInputStyle = `w-full bg-transparent h-${twStyle.sizeMd} border-b border-black focus:outline-none ${twText.paragraph}`;
 export const modalOuterContainerStyle = `w-full h-full flex fixed top-0 left-0 justify-center items-center z-30`;
 
-export const modalContainerStyle = `p-4 w-96 h-2/5 bg-${twStyle.primaryColour} flex flex-col justify-center items-center border border-${twStyle.highlightColour}`;
+export const modalContainerStyle = `p-4 w-96 h-2/5 bg-${twStyle.primaryColour} flex flex-col justify-center items-center rounded-xl`;
 
 export const modalBgStyle = `bg-${twStyle.dimColour} w-screen h-screen fixed top-0 left-0 z-20 opacity-50`;
 
@@ -56,13 +57,13 @@ export const breadcrumbStyle = `${twText.breadcrumbs}`;
 //uploader
 
 export const uploaderStyle = `w-full h-full p-4 ${twText.paragraph} focus:outline-none`;
-export const buttonSharedStyle = `${twText.button} bg-${twStyle.primaryColour} hover:bg-${twStyle.secondaryHighlightColour} ${twStyle.transitionSm} flex justify-center items-center w-1/2`;
+export const buttonSharedStyle = `${twText.button} bg-${twStyle.primaryColour} hover:bg-black hover:text-white ${twStyle.transitionSm} flex justify-center items-center w-1/2`;
 export const imageButtonStyle = `${buttonSharedStyle} border-r border-${twStyle.highlightColour}`;
 export const imageButtonStyleDisabled = `${buttonSharedStyle} border-r border-b border-${twStyle.highlightColour}`;
 export const textButtonStyle = `${buttonSharedStyle}`;
 export const textButtonStyleDisabled = `${buttonSharedStyle} border-b border-${twStyle.highlightColour}`;
 
-export const uploadSubmitButton = `${twText.button} bg-${twStyle.primaryColour} hover:bg-${twStyle.secondaryHighlightColour} ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center  border-t border-${twStyle.highlightColour}`;
+export const uploadSubmitButton = `${twText.button} bg-${twStyle.primaryColour} hover:bg-black hover:text-white ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center  border-t border-${twStyle.highlightColour}`;
 
 //Auth
 export const formStyle =

@@ -24,11 +24,11 @@
   font-family: "Reckless-Light";
   font-size: 1.2rem; /* 18px */
   line-height: 1.75rem; /* 28px */
-  height: 24.5%;
+  height: 24.8%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-radius: 0 1rem 1rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
   align-items: center;
   writing-mode: vertical-rl;
   transform: rotate(360deg);
@@ -38,17 +38,14 @@
   font-family: "Reckless-Light";
   font-size: 1.2rem; /* 18px */
   line-height: 1.75rem; /* 28px */
-  height: 24.5%;
+  height: 24.8%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-top: 2px solid black;
-  border-right: 2px solid black;
-  border-bottom: 2px solid black;
-  border-radius: 0 1rem 1rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  border: 1px solid black;
   align-items: center;
   writing-mode: vertical-rl;
-
   transform: rotate(360deg);
   border-left: none;
 }

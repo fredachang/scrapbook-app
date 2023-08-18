@@ -116,12 +116,11 @@ export const PageHeader = (props: Props) => {
           className={`flex justify-end items-center w-80 px-${twStyle.spacingSm}`}
           onClick={handleShowCreateChannelModal}
         >
-          {currentPath !== channelsPath && (
-            <p className={`${twText.heading} mr-${twStyle.spacingSm}`}>
-              New Channel
-            </p>
-          )}
-          <p className="font-regular text-6xl">+</p>
+          <p className={`${twText.buttonLg} mr-${twStyle.spacingSm}`}>
+            New Channel
+          </p>
+
+          <p className="font-regular text-5xl">+</p>
         </button>
       </div>
     </>

@@ -33,7 +33,7 @@ export const NavTab = (props: Props) => {
             : "verticalText"
         }
       >
-        <h2 className="h-full text-center"> {linkTitle}</h2>
+        <h2 className="h-full text-center text-xl"> {linkTitle}</h2>
       </NavLink>
     </>
   );

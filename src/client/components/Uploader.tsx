@@ -60,7 +60,7 @@ export const Uploader = (props: Props) => {
   return (
     <>
       <div
-        className={`flex flex-col border border-${twStyle.highlightColour} ${twStyle.blockDimensions} mr-${twStyle.spacingLg}`}
+        className={`flex flex-col border border-${twStyle.highlightColour} rounded-md ${twStyle.blockDimensions} mr-${twStyle.spacingLg}`}
       >
         <div className={`flex h-${twStyle.sizeSm} justify-between`}>
           <GenericButton
