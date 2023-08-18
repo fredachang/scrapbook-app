@@ -25,7 +25,7 @@ export const twStyle = {
 
 export const twText = {
   logoSmall: "font-bold text-3xl",
-  breadcrumbs: "font-regular text-4xl",
+  breadcrumbs: "font-regular text-3xl",
   headingBold: "font-bold text-xl",
   heading: "font-regular text-4xl",
   subheading: "font-regular text-2xl",
@@ -45,9 +45,9 @@ export const buttonStyleFull = `${twText.button} bg-${twStyle.secondaryColour} r
 
 export const buttonStyleFullNoBorder = `w-full ${twText.button} border border-${twStyle.primaryColour} hover:border-${twStyle.highlightColour} hover:rounded-3xl hover:border-dotted ${twStyle.transitionSm}`;
 
-export const defaultInputStyle = `w-2/3 h-${twStyle.sizeSm} focus:outline-none ${twText.paragraph} focus:drop-shadow-center`;
+export const defaultInputStyle = `w-2/3 h-${twStyle.sizeSm} bg-transparent border-b border-${twStyle.textColour} focus:outline-none ${twText.paragraph} focus:drop-shadow-center`;
 
-export const fullInputStyle = `w-full bg-transparent h-${twStyle.sizeMd} border-b border-black focus:outline-none ${twText.paragraph}`;
+export const fullInputStyle = `w-full bg-transparent h-${twStyle.sizeMd} border-b border-${twStyle.textColour} focus:outline-none ${twText.paragraph}`;
 export const modalOuterContainerStyle = `w-full h-full flex fixed top-0 left-0 justify-center items-center z-30`;
 
 export const modalContainerStyle = `p-4 w-96 h-2/5 bg-${twStyle.primaryColour} flex flex-col justify-center items-center rounded-xl`;
