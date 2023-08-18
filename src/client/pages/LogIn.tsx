@@ -2,13 +2,13 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import {
+  authModalStyle,
   buttonStyleFull,
   buttonStyleFullNoBorder,
   defaultInputStyle,
   formEntry,
   formStyle,
   labelStyle,
-  logInModalStyle,
   modalOuterContainerStyle,
   twStyle,
   twText,
@@ -57,7 +57,7 @@ export const Login = () => {
   return (
     <>
       <div className={modalOuterContainerStyle}>
-        <div className={logInModalStyle}>
+        <div className={authModalStyle}>
           <AuthHeader />
 
           <motion.form

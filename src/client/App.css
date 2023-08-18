@@ -1,51 +1,54 @@
 @font-face {
-  font-family: "GT-Pressura-Bold";
-  src: url("/GT-Pressura/GT-Pressura-Bold-Trial.woff2") format("woff2");
+  font-family: "NeueMontreal-Medium";
+  src: url("/NeueMontreal/PPNeueMontreal-Medium.otf") format("opentype");
 }
 
 @font-face {
-  font-family: "GT-Pressura-Medium";
-  src: url("/GT-Pressura/GT-Pressura-Medium-Trial.woff2") format("woff2");
+  font-family: "NeueMontreal-Book";
+  src: url("/NeueMontreal/PPNeueMontreal-Book.otf") format("opentype");
 }
 
 @font-face {
-  font-family: "GT-Pressura-Light";
-  src: url("/GT-Pressura/GT-Pressura-Light-Trial.woff2") format("woff2");
+  font-family: "NeueMontreal-Thin";
+  src: url("/NeueMontreal/PPNeueMontreal-Thin.otf") format("opentype");
 }
 
 @font-face {
-  font-family: "GT-Pressura-Mono";
-  src: url("/GT-Pressura/GT-Pressura-Mono-Light-Trial.woff2") format("woff2");
+  font-family: "Reckless-Light";
+  src: url("/Reckless/RecklessTRIAL-Light.woff2") format("woff2");
 }
 
 .verticalText {
-  background-color: #f5f5f5;
-  font-family: "GT-Pressura-Light";
-  font-size: 1.125rem; /* 18px */
+  background-color: black;
+  color: white;
+  font-family: "Reckless-Light";
+  font-size: 1.2rem; /* 18px */
   line-height: 1.75rem; /* 28px */
-  height: 25%;
+  height: 24.5%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
+  border-radius: 0 1rem 1rem 0;
   align-items: center;
   writing-mode: vertical-rl;
-  border: 1px dotted #1f2937;
-  border-top: none;
   transform: rotate(360deg);
 }
 
 .verticalTextActive {
-  font-family: "GT-Pressura-Medium";
-  font-size: 1.125rem; /* 18px */
+  font-family: "Reckless-Light";
+  font-size: 1.2rem; /* 18px */
   line-height: 1.75rem; /* 28px */
-  height: 25%;
+  height: 24.5%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
+  border-top: 2px solid black;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  border-radius: 0 1rem 1rem 0;
   align-items: center;
   writing-mode: vertical-rl;
-  border: 1px dotted #1f2937;
-  border-top: none;
+
   transform: rotate(360deg);
   border-left: none;
 }

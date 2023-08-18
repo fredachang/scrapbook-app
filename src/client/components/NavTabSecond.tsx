@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { twStyle } from "../tailwind";
 
 interface Props {
   path: string;
@@ -10,27 +8,23 @@ interface Props {
 
 export const NavTab = (props: Props) => {
   const { path, linkTitle, handleOnClick } = props;
-  const [hover, setHover] = useState(false);
+  // const [hover, setHover] = useState(false);
 
-  const handleMouseEnter = () => {
-    setHover(true);
-  };
+  // const handleMouseEnter = () => {
+  //   setHover(true);
+  // };
 
-  const handleMouseLeave = () => {
-    setHover(false);
-  };
-
-  const highlightStripStyle = `bg-${twStyle.primaryColour} ${
-    hover && `bg-${twStyle.highlightColour}`
-  } w-1.5 h-full`;
+  // const handleMouseLeave = () => {
+  //   setHover(false);
+  // };
 
   return (
     <>
       <NavLink
         onClick={handleOnClick}
         to={path}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
         className={({ isActive, isPending }) =>
           isPending
             ? "pending"
@@ -39,7 +33,6 @@ export const NavTab = (props: Props) => {
             : "verticalText"
         }
       >
-        <div className={highlightStripStyle}></div>
         <h2 className="h-full text-center"> {linkTitle}</h2>
       </NavLink>
     </>
