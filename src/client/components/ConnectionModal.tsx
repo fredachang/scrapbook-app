@@ -133,7 +133,9 @@ export const ConnectionModal = (props: Props) => {
                  `text-${twStyle.dimColour} hover:bg-${twStyle.primaryColour}`
                }
                 hover:bg-${twStyle.secondaryColour}
-                ${twText.paragraph} mb-${twStyle.spacingSm}`}
+                ${twText.paragraph} mb-${twStyle.spacingSm} ${
+                  twStyle.textColour
+                }`}
               >
                 <button
                   onClick={() => {

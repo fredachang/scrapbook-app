@@ -32,7 +32,7 @@ export const SocialPost = (props: Props) => {
         initial="hidden"
         animate="visible"
         variants={fade(durationSettings.medium, easeSettings.easeInOut)}
-        className={`flex justify-between rounded-md pt-6 mb-4`}
+        className={`flex justify-between rounded-md pt-6 mb-4 ${twStyle.textColour}`}
       >
         <h4 className={`w-2/6`}>
           <div

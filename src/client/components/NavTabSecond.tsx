@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { twStyle } from "../tailwind";
 
 interface Props {
   path: string;
@@ -33,8 +34,9 @@ export const NavTab = (props: Props) => {
             : "verticalText"
         }
       >
-        <h2 className="font-regular h-full text-center text-xl">
-          {" "}
+        <h2
+          className={`font-regular h-full text-center text-xl ${twStyle.textColour}`}
+        >
           {linkTitle}
         </h2>
       </NavLink>

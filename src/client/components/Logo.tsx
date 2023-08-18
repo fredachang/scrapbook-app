@@ -6,7 +6,7 @@ export const Logo = (props: Props) => {
   const { logoStyle } = props;
   return (
     <>
-      <img className={logoStyle} src="/Logo.png" />
+      <img className={logoStyle} src="/Logo-gray.png" />
     </>
   );
 };

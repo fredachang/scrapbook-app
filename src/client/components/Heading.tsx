@@ -31,7 +31,7 @@ export const Heading = (props: Props) => {
 
   const outerContainer = `w-full h-44 flex flex-col justify-between my-${twStyle.spacingLg} mb-16`;
 
-  const slashStyle = `${twText.breadcrumbs} mx-${twStyle.spacingSm}`;
+  const slashStyle = `${twText.breadcrumbs} mx-${twStyle.spacingSm} ${twStyle.textColour}`;
 
   return (
     <>
@@ -44,14 +44,18 @@ export const Heading = (props: Props) => {
           <h1 className={slashStyle}>/</h1>
 
           <Link to={usernamePath}>
-            <h1 className={breadcrumbStyle}>{username}</h1>
+            <h1 className={`${breadcrumbStyle} ${twStyle.textColour}`}>
+              {username}
+            </h1>
           </Link>
 
           <h1 className={slashStyle}>/</h1>
 
           {thirdLink && (
             <Link to={thirdLinkPath}>
-              <h1 className={breadcrumbStyle}>{thirdLinkText}</h1>
+              <h1 className={`${breadcrumbStyle} ${twStyle.textColour}`}>
+                {thirdLinkText}
+              </h1>
             </Link>
           )}
 
@@ -60,12 +64,16 @@ export const Heading = (props: Props) => {
               <h1 className={slashStyle}>/</h1>
 
               <Link to={fourthLinkPath}>
-                <h1 className={breadcrumbStyle}>{fourthLinkText}</h1>
+                <h1 className={`${breadcrumbStyle} ${twStyle.textColour}`}>
+                  {fourthLinkText}
+                </h1>
               </Link>
             </div>
           )}
           {includeCount && (
-            <h4 className={`font-serif text-3xl ml-3`}>{`( ${count} )`}</h4>
+            <h4
+              className={`font-serif text-3xl ml-3 ${twStyle.textColour}`}
+            >{`( ${count} )`}</h4>
           )}
         </div>
       </div>

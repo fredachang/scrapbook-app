@@ -20,11 +20,11 @@ export const TitleBlock = (props: Props) => {
           className={`px-${twStyle.spacingSm} absolute w-full h-full flex flex-col items-center justify-center`}
         >
           <h3
-            className={`${twText.heading} text-center leading-5 mb-${twStyle.spacingMd}`}
+            className={`${twText.subheading} text-center leading-8 mb-${twStyle.spacingMd}`}
           >
             {channelTitle}
           </h3>
-          <p className={`${twText.small} mb-${twStyle.spacingSm}`}>
+          <p className={`${twText.small} mb-${twStyle.spacingXs}`}>
             {isPrivate ? "Private Channel" : "Public Channel"}
           </p>
           <p className={twText.small}>{connectionsCount} blocks</p>

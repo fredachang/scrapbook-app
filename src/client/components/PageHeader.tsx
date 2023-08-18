@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import { breadcrumbStyle, fullInputStyle, twStyle, twText } from "../tailwind";
-import { Logo } from "./Logo";
 import { motion } from "framer-motion";
 import { fadeUp } from "../motion";
 import { replaceHyphensWithSpace } from "../utils";
@@ -47,7 +46,7 @@ export const PageHeader = (props: Props) => {
     currentPath === channelsPath ? `w-2/3` : `w-full`
   } `;
 
-  const slashStyle = `${twText.breadcrumbs} mx-${twStyle.spacingSm}`;
+  const slashStyle = `${twText.breadcrumbs} ${twStyle.textColour} mx-${twStyle.spacingSm}`;
 
   return (
     <>
@@ -60,13 +59,13 @@ export const PageHeader = (props: Props) => {
             className={isScrolled ? logoContainer : "hidden"}
           >
             <Link to={`/`}>
-              <Logo logoStyle="w-64" />
+              <img src="/spiral-gray.png" className="w-10 -rotate-90" />
             </Link>
 
             <h1 className={slashStyle}>/</h1>
 
             <Link to={usernamePath}>
-              <h1 className={breadcrumbStyle}>
+              <h1 className={`${breadcrumbStyle} ${twStyle.textColour}`}>
                 {replaceHyphensWithSpace(username)}
               </h1>
             </Link>
@@ -76,7 +75,9 @@ export const PageHeader = (props: Props) => {
                 <h1 className={slashStyle}>/</h1>
 
                 <Link to={thirdLinkPath}>
-                  <h1 className={breadcrumbStyle}>{thirdLinkText}</h1>
+                  <h1 className={`${breadcrumbStyle} ${twStyle.textColour}`}>
+                    {thirdLinkText}
+                  </h1>
                 </Link>
               </div>
             )}
@@ -116,11 +117,13 @@ export const PageHeader = (props: Props) => {
           className={`flex justify-end items-center w-80 px-${twStyle.spacingSm}`}
           onClick={handleShowCreateChannelModal}
         >
-          <p className={`${twText.buttonLg} mr-${twStyle.spacingSm}`}>
+          <p
+            className={`${twText.buttonLg} ${twStyle.textColour} mr-${twStyle.spacingSm}`}
+          >
             New Channel
           </p>
 
-          <p className="font-regular text-5xl">+</p>
+          <p className={`font-regular text-5xl ${twStyle.textColour}`}>+</p>
         </button>
       </div>
     </>
