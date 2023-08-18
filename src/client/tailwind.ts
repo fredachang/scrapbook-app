@@ -1,6 +1,7 @@
 export const twStyle = {
   primaryColour: "neutral-50",
   secondaryColour: "neutral-100",
+  thirdColour: "neutral-200",
   highlightColour: "black",
   secondaryHighlightColour: "blue-100",
   dimColour: "zinc-400",
@@ -28,6 +29,7 @@ export const twText = {
   headingBold: "font-bold text-xl",
   heading: "font-regular text-4xl",
   subheading: "font-regular text-2xl",
+  subheadingBold: "font-bold text-2xl",
   paragraph: "font-regular text-lg",
   small: "font-regular text-xs",
   buttonLg: "font-regular text-2xl",
@@ -37,9 +39,9 @@ export const twText = {
 
 export const blockContainerStyle = `${twStyle.blockDimensions} mr-${twStyle.spacingLg} flex flex-col relative overflow-y-hidden`;
 
-export const buttonStyleHalf = `${twText.button} bg-${twStyle.primaryColour} hover:bg-black hover:text-white ${twStyle.transitionSm} flex justify-center items-center w-1/2 border border-${twStyle.highlightColour}`;
+export const buttonStyleHalf = `${twText.button} bg-${twStyle.secondaryColour} rounded hover:bg-${twStyle.thirdColour} ${twStyle.transitionSm} flex justify-center items-center w-1/2`;
 
-export const buttonStyleFull = `${twText.button} bg-${twStyle.primaryColour} hover:bg-black hover:text-white ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center  border border-${twStyle.highlightColour}`;
+export const buttonStyleFull = `${twText.button} bg-${twStyle.secondaryColour} rounded hover:bg-${twStyle.thirdColour} ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center`;
 
 export const buttonStyleFullNoBorder = `w-full ${twText.button} border border-${twStyle.primaryColour} hover:border-${twStyle.highlightColour} hover:rounded-3xl hover:border-dotted ${twStyle.transitionSm}`;
 
@@ -56,14 +58,10 @@ export const breadcrumbStyle = `${twText.breadcrumbs}`;
 
 //uploader
 
-export const uploaderStyle = `w-full h-full p-4 ${twText.paragraph} focus:outline-none`;
-export const buttonSharedStyle = `${twText.button} bg-${twStyle.primaryColour} hover:bg-black hover:text-white ${twStyle.transitionSm} flex justify-center items-center w-1/2`;
-export const imageButtonStyle = `${buttonSharedStyle} border-r border-${twStyle.highlightColour}`;
-export const imageButtonStyleDisabled = `${buttonSharedStyle} border-r border-b border-${twStyle.highlightColour}`;
-export const textButtonStyle = `${buttonSharedStyle}`;
-export const textButtonStyleDisabled = `${buttonSharedStyle} border-b border-${twStyle.highlightColour}`;
+export const uploaderStyle = `w-full h-full bg-neutral-100 p-4 ${twText.paragraph} hover:border hover:border-${twStyle.thirdColour} hover:box-border focus:outline-none`;
+export const buttonSharedStyle = `${twText.button} bg-${twStyle.secondaryColour} rounded hover:bg-${twStyle.thirdColour} ${twStyle.transitionSm} flex justify-center items-center w-1/2`;
 
-export const uploadSubmitButton = `${twText.button} bg-${twStyle.primaryColour} hover:bg-black hover:text-white ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center  border-t border-${twStyle.highlightColour}`;
+export const uploadSubmitButton = `${twText.button} bg-${twStyle.secondaryColour} rounded hover:bg-${twStyle.thirdColour} ${twStyle.transitionSm} duration-150 w-full flex justify-center items-center`;
 
 //Auth
 export const formStyle =

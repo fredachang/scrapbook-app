@@ -37,7 +37,7 @@ export const Heading = (props: Props) => {
     <>
       <div className={outerContainer}>
         <Link to={`/`}>
-          <Logo logoStyle="w-2/5" />
+          <Logo logoStyle="w-1/3" />
         </Link>
 
         <div className="flex">

@@ -19,8 +19,7 @@
 }
 
 .verticalText {
-  background-color: black;
-  color: white;
+  background-color: #e4e4e7;
   font-family: "Reckless-Light";
   font-size: 1.2rem; /* 18px */
   line-height: 1.75rem; /* 28px */
@@ -43,7 +42,7 @@
   flex-direction: column;
   justify-content: center;
   border-radius: 0 0.5rem 0.5rem 0;
-  border: 1px solid black;
+  border: 2px solid #e4e4e7;
   align-items: center;
   writing-mode: vertical-rl;
   transform: rotate(360deg);

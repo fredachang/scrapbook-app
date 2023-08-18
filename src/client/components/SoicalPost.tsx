@@ -32,30 +32,32 @@ export const SocialPost = (props: Props) => {
         initial="hidden"
         animate="visible"
         variants={fade(durationSettings.medium, easeSettings.easeInOut)}
-        className={`flex justify-between border-t border-black border-t-2 rounded-md pt-6 mb-2`}
+        className={`flex justify-between rounded-md pt-6 mb-4`}
       >
-        <h4 className={`w-1/4`}>
-          <div className={`w-full${twText.paragraph} mr-${twStyle.spacing3Xl}`}>
+        <h4 className={`w-2/6`}>
+          <div
+            className={`w-full${twText.subheading} mr-${twStyle.spacing3Xl}`}
+          >
             {created}
           </div>
         </h4>
 
-        <div className={`w-3/4`}>
+        <div className={`w-4/6`}>
           <div className={`flex mb-${twStyle.spacingMd}`}>
-            <div className={twText.paragraph}>
+            <div className={twText.subheading}>
               <div
                 onClick={handleClickOtherUser}
-                className={`inline cursor-pointer ${twText.headingBold}`}
+                className={`inline cursor-pointer ${twText.subheadingBold}`}
               >
                 {" "}
                 {`${firstName} ${lastName} `}
               </div>
 
               <span>connected </span>
-              <span className={twText.headingBold}>{blocksCount} </span>
-              <span className={twText.headingBold}>images </span>
+              <span className={twText.subheadingBold}>{blocksCount} </span>
+              <span className={twText.subheadingBold}>images </span>
               <span>to </span>
-              <span className={twText.headingBold}>{channelTitle} </span>
+              <span className={twText.subheadingBold}>{channelTitle} </span>
             </div>
           </div>
 

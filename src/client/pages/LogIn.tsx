@@ -103,7 +103,7 @@ export const Login = () => {
             />
           </motion.form>
 
-          <div className={`mt-${twStyle.spacingSm}`}>
+          <div className={`w-full mt-${twStyle.spacingSm}`}>
             <GenericButton
               buttonText="Register"
               buttonStyle={buttonStyleFullNoBorder}
