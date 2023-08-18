@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { breadcrumbStyle, twStyle, twText } from "../tailwind";
-import { DoubleUnderline } from "./DoubleUnderline";
 
 interface Props {
   username: string;
@@ -44,11 +43,7 @@ export const Heading = (props: Props) => {
         <div className={innerContainer}>
           <div className={logoContainer}>
             <Link to={`/`}>
-              <Logo
-                logoText="Scrapbook"
-                logoTextStyle={twText.logoLarge}
-                logoImgStyle={`w-14 mr-${twStyle.spacingSm} mt-1.5`}
-              />
+              <Logo logoStyle="w-3/5" />
             </Link>
 
             <div className="flex">
@@ -95,7 +90,7 @@ export const Heading = (props: Props) => {
           )}
         </div>
 
-        <DoubleUnderline height={twStyle.spacingSm} />
+        {/* <DoubleUnderline height={twStyle.spacingSm} /> */}
       </div>
     </>
   );

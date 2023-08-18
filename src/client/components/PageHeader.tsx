@@ -42,10 +42,7 @@ export const PageHeader = (props: Props) => {
   const currentPath = location.pathname;
   const channelsPath = `/channels/${username}`;
 
-  const containerHeight = isScrolled
-    ? `h-${twStyle.sizeLg}`
-    : `h-${twStyle.sizeMd}`;
-  const overallContainer = `bg-${twStyle.primaryColour} flex justify-between items-start w-97% ${containerHeight} fixed left-0 top-0 z-20 pt-${twStyle.spacingSm} px-${twStyle.spacingLg}`;
+  const overallContainer = `bg-gradient-to-b from-${twStyle.primaryColour} to-transparent flex justify-between items-center w-97% h-${twStyle.sizeXl} fixed left-0 top-0 z-20 pt-${twStyle.spacingSm} px-${twStyle.spacingLg}`;
   const logoContainer = `flex items-center ${
     currentPath === channelsPath ? `w-2/3` : `w-full`
   } `;
@@ -63,11 +60,7 @@ export const PageHeader = (props: Props) => {
             className={isScrolled ? logoContainer : "hidden"}
           >
             <Link to={`/`}>
-              <Logo
-                logoText=""
-                logoTextStyle={twText.logoSmall}
-                logoImgStyle="w-9 mt-1"
-              />
+              <Logo logoStyle="w-64" />
             </Link>
 
             <h1 className={slashStyle}>/</h1>
@@ -114,17 +107,21 @@ export const PageHeader = (props: Props) => {
               className={fullInputStyle}
             />
             <button onClick={handleClear} className={`ml-${twStyle.spacingSm}`}>
-              <p className={twText.heading}>Clear</p>
+              <p className={twText.buttonLg}>Clear</p>
             </button>
           </div>
         )}
 
         <button
-          className={`${twText.heading} ${breadcrumbStyle} flex justify-end w-44 px-${twStyle.spacingSm}`}
+          className={`flex justify-end items-center w-80 px-${twStyle.spacingSm}`}
           onClick={handleShowCreateChannelModal}
         >
-          <p className={`mr-${twStyle.spacingSm}`}>New Channel</p>
-          <p>+</p>
+          {currentPath !== channelsPath && (
+            <p className={`${twText.heading} mr-${twStyle.spacingSm}`}>
+              New Channel
+            </p>
+          )}
+          <p className="font-regular text-6xl">+</p>
         </button>
       </div>
     </>
