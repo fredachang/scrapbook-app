@@ -5,7 +5,7 @@ Scrapbook is a text and image visual moodboarding web app inspired by Are.na (ht
 As this is only a practice project, several limitations are noted: 
 - Image data is stored direclty in the database as base64 string, which can create load and scalability issues. For a real application with a lot of users, the ideal approach as adopted by Are.na is to store image data externally through Amazon CloudFront etc.
 -  Are.na offers a chrome extension which allows users to add images directly from other sites instead of having to download it first or copy its path. This is out of scope for this project but would be an ideal for a more seamless experience.
--  Feed is organised chronologically rather than through a more complex algorithm as the focus is on the full-stack set up rather than a full social platform experience. 
+-  Feed is organised chronologically rather than through a more complex algorithm as the focus is on the full-stack set up rather than a full social platform experience. There is no functionality to follow other users; instead everyone will be able to see and access all blocks in public channels. 
 
 Please note the live site is hosted on a free instance and can take a couple of minutes to spin up during first load. 
 
