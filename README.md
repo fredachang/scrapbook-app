@@ -9,8 +9,7 @@ As this is only a practice project, several limitations are noted:
 
 Please note the live site is hosted on a free instance and can take a couple of minutes to spin up during first load. 
 
+Check out the [Live Site](https://freda-arena-clone.onrender.com/login)!
 
 https://github.com/fredachang/scrapbook-app/assets/128881398/23be3438-fbb2-4b96-b245-cc95d3ecdda4
-
-Live site: https://freda-arena-clone.onrender.com/login
 
