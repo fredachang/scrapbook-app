@@ -1,5 +1,5 @@
 import { useCreateChannelModal } from "../hooks/channels/useCreateChannelModal";
-import { breadcrumbStyle, twStyle, twText } from "../tailwind";
+import { twStyle, twText } from "../tailwind";
 import { GenericButton } from "./GenericButton";
 import { NewChannelModal } from "./NewChannelModal";
 
@@ -19,12 +19,14 @@ export const PlaceholderBlock = () => {
       <div
         className={`relative flex flex-col justify-center items-center ${twStyle.blockDimensions} border border-${twStyle.highlightColour} mr-${twStyle.spacingLg}`}
       >
-        <p className={`${twText.heading} mb-${twStyle.spacingMd}`}>
+        <p
+          className={`text-center ${twText.subheading} mb-${twStyle.spacingMd}`}
+        >
           Start By Creating a New Channel
         </p>
         <GenericButton
           buttonText="New Channel +"
-          buttonStyle={`${twText.heading} ${breadcrumbStyle}`}
+          buttonStyle={`${twText.subheading}`}
           buttonType="button"
           handleOnClick={handleShowModal}
         />

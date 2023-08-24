@@ -26,7 +26,6 @@ export const authMiddleware = (
 
   const token = authorization.split(" ")[1];
 
-  // TODO: come back and extend express's request type to know about the User
   jwt.verify(token, process.env.AUTH_SECRET!, (err, jwtPayload) => {
     if (err) {
       return res.status(403).json("Unauthorized");
