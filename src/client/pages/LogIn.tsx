@@ -49,8 +49,10 @@ export const Login = () => {
         setMessage("Logged in successfully");
         navigate("/", { replace: true });
       })
-      .catch(() => {
-        setMessage("Invalid username or login");
+      .catch((e) => {
+        if (e instanceof Error) {
+          setMessage(e.message);
+        }
       });
   };
 
@@ -96,6 +98,17 @@ export const Login = () => {
               </div>
             </div>
 
+            {message && (
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fade(durationSettings.fast, easeSettings.easeInOut)}
+                className="text-center font-regular text-sm text-red-600"
+              >
+                {message}
+              </motion.div>
+            )}
+
             <GenericButton
               buttonText="Log In"
               buttonStyle={buttonStyleFull}
@@ -111,8 +124,6 @@ export const Login = () => {
               handleOnClick={() => navigate("/register")}
             />
           </div>
-
-          {message && <div>{message}</div>}
         </div>
       </div>
     </>

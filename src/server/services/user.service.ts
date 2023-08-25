@@ -35,16 +35,12 @@ export class UserService {
   }
 
   async verifyUserCredentials(email: string, password: string): Promise<User> {
-    const userExists = await this.databaseService.emailExists(email);
-
-    if (!userExists) {
-      throw new Error("USER SERVICE: User already exists");
-    }
-
     const dbUser = await this.databaseService.getUserByEmail(email);
 
     if (!dbUser) {
-      throw new Error("USER SERVICE: User not found");
+      throw new Error(
+        "Invalid Email. Please check spelling or register as a new user."
+      );
     }
 
     const salt = dbUser.salt;
@@ -52,11 +48,10 @@ export class UserService {
 
     const isValidPassword = verifyPassword(password, salt, hashedUserPassword);
 
-    if (isValidPassword) {
-      return mapUser(dbUser);
+    if (!isValidPassword) {
+      throw new Error("Invalid password. Please check spelling.");
     }
-
-    throw new Error("USER SERVICE: Invalid user credentials");
+    return mapUser(dbUser);
   }
 
   async getUserBlocks(userId: string): Promise<Block[] | []> {
