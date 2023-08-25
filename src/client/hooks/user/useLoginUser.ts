@@ -9,16 +9,29 @@ interface Variables {
 type JWT = string;
 
 const login = async (variables: Variables): Promise<JWT> => {
-  const data = await fetch(`${apiUrl}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(variables),
-  });
-  const res = await data.json();
+  try {
+    const data = await fetch(`${apiUrl}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(variables),
+    });
 
-  return res;
+    const res = await data.json();
+
+    if (!data.ok) {
+      throw new Error(res);
+    }
+
+    return res;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+
+    throw new Error("Unknown error");
+  }
 };
 
 export const useLoginUser = () => {

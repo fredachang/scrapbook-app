@@ -400,9 +400,9 @@ const run = () => {
       return res.status(200).json(jwt);
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(400);
+        return res.status(401).json(error.message);
       }
-      return res.status(400);
+      return res.status(401);
     }
   });
 
