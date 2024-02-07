@@ -1,0 +1,13 @@
+name: Test periodic job
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  example_job:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Log test message
+        run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
